@@ -2,6 +2,14 @@ package com.kbm.instagram.controller;
 
 import org.springframework.web.bind.annotation.*;
 
-public interface TestController {
-    public String getMsg();
+@RestController
+@RequestMapping("/test")
+@CrossOrigin(origins = { "*" }, maxAge = 6000)
+public class TestController implements TestController {
+
+    @GetMapping("/getMsg")
+    @ResponseBody
+    public String getMsg() {
+        return "test success!!";
+    }
 }

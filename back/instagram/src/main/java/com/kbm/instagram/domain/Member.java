@@ -13,7 +13,7 @@ public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // string auto 되는지 찾아보기
     private long id;
-    private long memberId;
+    private String memberId;
     private String name;
     private String eamil;
     private String password;

@@ -1,8 +1,23 @@
 package com.kbm.instagram.controller;
 
 import com.kbm.instagram.dto.MemberDto;
+import com.kbm.instagram.service.MemberService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
-public interface MemberController {
+@RestController
+@RequestMapping("/member")
+@CrossOrigin(origins = { "*" }, maxAge = 6000)
+@RequiredArgsConstructor
+public class MemberController {
 
-    public MemberDto getMemberInfo(long id);
+    @Autowired
+    private final MemberService memberService;
+
+    @GetMapping("/{id}")
+    @ResponseBody
+    public MemberDto getMemberInfo(@PathVariable("id") long id) {
+        return memberService.getMemberInfo(id);
+    }
 }
