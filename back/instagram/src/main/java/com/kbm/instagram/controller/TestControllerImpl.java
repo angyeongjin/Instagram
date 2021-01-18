@@ -1,4 +1,4 @@
-package com.kbm.instagram.controllerImpl;
+package com.kbm.instagram.controller;
 
 import com.kbm.instagram.controller.TestController;
 import org.springframework.web.bind.annotation.*;
