@@ -11,8 +11,9 @@ import javax.persistence.Id;
 @Getter
 public class Member {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // string auto 되는지 찾아보기
+    private long id;
+    private long memberId;
     private String name;
     private String eamil;
     private String password;
@@ -21,8 +22,9 @@ public class Member {
     protected Member() {}
 
     @Builder
-    public Member(Long id, String name, String eamil, String password, String profileUrl) {
+    public Member(long id, String memberId, String name, String eamil, String password, String profileUrl) {
         this.id = id;
+        this.memberId = memberId;
         this.name = name;
         this.eamil = eamil;
         this.password = password;

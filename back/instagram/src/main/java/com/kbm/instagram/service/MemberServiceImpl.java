@@ -1,4 +1,4 @@
-package com.kbm.instagram.serviceImpl;
+package com.kbm.instagram.service;
 
 import com.kbm.instagram.domain.Member;
 import com.kbm.instagram.dto.MemberDto;

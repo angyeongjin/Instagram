@@ -14,6 +14,5 @@ public class SignUpMemberDto {
     private Long id;
     private String name;
     private String eamil;
-    private String profileUrl;
     private MultipartFile profileFile;
 }
