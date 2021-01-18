@@ -1,9 +1,8 @@
 import request from "@/utils/request";
 
-export const login = data => {
-  // return request({
-  //     url: 'api주소',
-  //     method: 'post',
-  //     data,
-  // });
+export const login = () => {
+  return request({
+    url: "test/getMsg",
+    method: "get"
+  });
 };

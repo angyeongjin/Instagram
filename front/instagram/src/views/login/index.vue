@@ -4,7 +4,6 @@
       <div style="font-size:40px; margin-bottom:20px">
         Instagram
       </div>
-
       <div class="input-with-label">
         <input
           id="email"
@@ -42,9 +41,8 @@
       </div>
       <button
         class="btn btn--back btn--login"
-        :disabled="!isSubmit"
-        :class="{ disabled: !isSubmit }"
         @click="login"
+        :class="{ disabled: !isSubmit }"
       >
         로그인
       </button>
@@ -130,30 +128,17 @@ export default {
     //   });
     //   this.isSubmit = isSubmit;
     // },
-    //     login() {
-    //       if (this.isSubmit) {
-    //         this.isSubmit = false;
-    //         this.$store
-    //           .dispatch("student/login", {
-    //             email: this.email,
-    //             password: this.password,
-    //             type: this.type
-    //           })
-    //           .then(res => {
-    //             //메인으로 넘김
-    //             if (this.type === "학원회원") {
-    //               this.$router.push({ path: "/academy-management" });
-    //             } else {
-    //               this.$router.push({ path: "/student-main" });
-    //             }
-    //             this.isSubmit = true;
-    //           })
-    //           .catch(err => {
-    //             alert("아이디 비밀번호를 확인해주세요");
-    //             this.isSubmit = true;
-    //           });
-    //       }
-    //     }
+    login() {
+      this.$store
+        .dispatch("member/login")
+        .then(res => {
+          console.log(res.data);
+          //this.$router.push({ path: "/about" });
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
   }
 };
 </script>

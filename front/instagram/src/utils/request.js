@@ -1,10 +1,10 @@
 import Axios from "axios";
-
-import store from "@/store";
+// import store from "@/store";
 // import { getToken } from "@/utils/auth";
 
 // axios 객체 생성
 const service = Axios.create({
+  baseURL: "http://instaclone.kro.kr:8080/"
   // baseURL: "http://192.168.43.132:8080/" //url = base url + request url
   //timeout: 5000, // request timeout
 });
