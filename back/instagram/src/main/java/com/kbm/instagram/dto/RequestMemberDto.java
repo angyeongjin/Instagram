@@ -10,7 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 @AllArgsConstructor
 @Getter
 @Setter
-public class SignUpMemberDto {
+public class RequestMemberDto {
     private Long id;
     private String name;
     private String eamil;

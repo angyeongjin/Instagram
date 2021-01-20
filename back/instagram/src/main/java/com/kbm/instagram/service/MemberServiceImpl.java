@@ -2,16 +2,17 @@ package com.kbm.instagram.service;
 
 import com.kbm.instagram.domain.Member;
 import com.kbm.instagram.dto.MemberDto;
+import com.kbm.instagram.dto.RequestMemberDto;
 import com.kbm.instagram.repository.MemberRepository;
-import com.kbm.instagram.service.MemberService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+
 @Service
+@RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
 
-    @Autowired
-    public MemberRepository memberRepository;
+    public final MemberRepository memberRepository;
 
     @Override
     public MemberDto getMemberInfo(long id) {
@@ -23,4 +24,36 @@ public class MemberServiceImpl implements MemberService {
         memberDto.setProfileUrl(member.getProfileUrl());
         return memberDto;
     }
+
+    @Override
+    public MemberDto create(RequestMemberDto signUpMemberDto) {
+        Member member = new Member();
+        // 프로필 업로드 코드 작성할 것
+        member = memberRepository.save(member);
+        MemberDto memberDto = new MemberDto();
+        memberDto.setId(member.getId());
+        memberDto.setEamil(member.getEamil());
+        memberDto.setName(member.getEamil());
+        memberDto.setProfileUrl(member.getProfileUrl());
+        return memberDto;
+    }
+
+    @Override
+    public MemberDto update(RequestMemberDto signUpMemberDto) {
+        Member member = new Member();
+        // 프로필 업로드 코드 작성할 것
+        member = memberRepository.save(member);
+        MemberDto memberDto = new MemberDto();
+        memberDto.setId(member.getId());
+        memberDto.setEamil(member.getEamil());
+        memberDto.setName(member.getEamil());
+        memberDto.setProfileUrl(member.getProfileUrl());
+        return memberDto;
+    }
+
+    @Override
+    public void delete(long id) {
+        memberRepository.deleteById(id);
+    }
+
 }

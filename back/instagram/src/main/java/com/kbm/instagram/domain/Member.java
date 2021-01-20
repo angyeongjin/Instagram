@@ -9,25 +9,15 @@ import javax.persistence.Id;
 
 @Entity
 @Getter
+@NoArgsConstructor
 public class Member {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // string auto 되는지 찾아보기
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private String memberId;
+    private String memberId; // 인스타그램의 사용자이름과 같음
     private String name;
     private String eamil;
     private String password;
     private String profileUrl;
 
-    protected Member() {}
-
-    @Builder
-    public Member(long id, String memberId, String name, String eamil, String password, String profileUrl) {
-        this.id = id;
-        this.memberId = memberId;
-        this.name = name;
-        this.eamil = eamil;
-        this.password = password;
-        this.profileUrl = profileUrl;
-    }
 }
