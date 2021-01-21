@@ -6,4 +6,7 @@ export default {
   name: "app"
 };
 </script>
+<<<<<<< HEAD
 <style></style>
+=======
+>>>>>>> develop/front
