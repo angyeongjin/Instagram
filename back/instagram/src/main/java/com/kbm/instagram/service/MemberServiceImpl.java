@@ -30,11 +30,11 @@ public class MemberServiceImpl implements MemberService {
         Member member = new Member();
         // 프로필 업로드 코드 작성할 것
         member = memberRepository.save(member);
-        MemberDto memberDto = new MemberDto();
-        memberDto.setId(member.getId());
-        memberDto.setEamil(member.getEamil());
-        memberDto.setName(member.getEamil());
-        memberDto.setProfileUrl(member.getProfileUrl());
+        MemberDto memberDto = MemberDto.builder()
+                .id(member.getId())
+                .email(member.getEamil())
+                .name(member.getName())
+                .profileUrl(member.getProfileUrl()).build();
         return memberDto;
     }
 
@@ -43,11 +43,11 @@ public class MemberServiceImpl implements MemberService {
         Member member = new Member();
         // 프로필 업로드 코드 작성할 것
         member = memberRepository.save(member);
-        MemberDto memberDto = new MemberDto();
-        memberDto.setId(member.getId());
-        memberDto.setEamil(member.getEamil());
-        memberDto.setName(member.getEamil());
-        memberDto.setProfileUrl(member.getProfileUrl());
+        MemberDto memberDto = MemberDto.builder()
+                .id(member.getId())
+                .email(member.getEamil())
+                .name(member.getName())
+                .profileUrl(member.getProfileUrl()).build();
         return memberDto;
     }
 
