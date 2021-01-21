@@ -46,9 +46,11 @@
       >
         로그인
       </button>
-
-      <div class="sns-login">
-        <div class="text" />
+      <div id="google-signin-btn"></div>
+      <div class="google-login">
+        <button class="google-btn">
+          <span style="color:#385185">Google로 로그인</span>
+        </button>
       </div>
       <div class="add-option">
         <div class="text">
@@ -71,14 +73,12 @@
     </div>
   </div>
 </template>
-
 <script>
 import "../../assets/css/style.scss";
 import "../../assets/css/user.scss";
 export default {
   data: () => {
     return {
-      type: "일반회원",
       value: false,
       email: "",
       password: "",
@@ -86,9 +86,13 @@ export default {
         email: false,
         passowrd: false
       },
-      isSubmit: false,
-      component: this
+      isSubmit: false
     };
+  },
+  mounted() {
+    gapi.signin2.render("google-signin-btn", {
+      onsuccess: this.onSignIn
+    });
   },
   //   created() {
   //     this.component = this;
@@ -128,6 +132,9 @@ export default {
     //   });
     //   this.isSubmit = isSubmit;
     // },
+    onSignIn(googleUser) {
+      console.log(googleUser);
+    },
     login() {
       this.$store
         .dispatch("member/login")
@@ -143,4 +150,25 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+#app {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2d4053;
+}
+.google-login {
+  color: rgba(var(--d69, 0, 149, 246), 1);
+  margin: 20px;
+}
+.google-btn {
+  box-sizing: border-box;
+  cursor: pointer;
+  font-weight: 600;
+  text-align: center;
+}
+#google-signin-btn {
+  text-align: center;
+  margin: 20px;
+}
+</style>
