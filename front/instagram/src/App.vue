@@ -1,11 +1,6 @@
 <template>
-  <template v-if="login">
-    <router-view />
-  </template>
-  <template v-else>
-    <insta-header />
-    <router-view name="main" />
-  </template>
+  <insta-header v-if="login" />
+  <router-view />
 </template>
 <script>
 import InstaHeader from "@/components/Header.vue";
@@ -14,7 +9,7 @@ export default {
   components: { InstaHeader },
   data() {
     return {
-      login: false
+      login: true
     };
   }
 };
