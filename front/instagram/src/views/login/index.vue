@@ -42,16 +42,14 @@
       <button
         class="btn btn--back btn--login"
         @click="login"
+        :disabled="!isSubmit"
         :class="{ disabled: !isSubmit }"
       >
         로그인
       </button>
-      <div id="google-signin-btn"></div>
-      <div class="google-login">
-        <button class="google-btn">
-          <span style="color:#385185">Google로 로그인</span>
-        </button>
-      </div>
+      <button class="google-btn">
+        <div id="google-signin-btn"></div>
+      </button>
       <div class="add-option">
         <div class="text">
           <p>혹시</p>
@@ -59,13 +57,13 @@
         </div>
         <div class="wrap">
           <p>비밀번호를 잊으셨나요?</p>
-          <button class="btn--text">
+          <button class="btn--text" @click="searchPassword()">
             비밀번호 찾기
           </button>
         </div>
         <div class="wrap">
           <p>아직 회원이 아니신가요?</p>
-          <button class="btn--text">
+          <button class="btn--text" @click="join()">
             가입하기
           </button>
         </div>
@@ -74,14 +72,17 @@
   </div>
 </template>
 <script>
+import { gapi } from "gapi-script";
+import PV from "password-validator";
+import * as EmailValidator from "email-validator";
 import "../../assets/css/style.scss";
 import "../../assets/css/user.scss";
 export default {
   data: () => {
     return {
-      value: false,
       email: "",
       password: "",
+      passwordSchema: new PV(),
       error: {
         email: false,
         passowrd: false
@@ -94,44 +95,42 @@ export default {
       onsuccess: this.onSignIn
     });
   },
-  //   created() {
-  //     this.component = this;
-
-  //     this.passwordSchema
-  //       .is()
-  //       .min(8)
-  //       .is()
-  //       .max(100)
-  //       .has()
-  //       .digits()
-  //       .has()
-  //       .letters();
-  //   },
-  //   watch: {
-  //     password: function(v) {
-  //       this.checkForm();
-  //     },
-  //     email: function(v) {
-  //       this.checkForm();
-  //     }
-  //   },
+  created() {
+    this.passwordSchema
+      .is()
+      .min(8)
+      .is()
+      .max(100)
+      .has()
+      .digits()
+      .has()
+      .letters();
+  },
+  watch: {
+    password: function() {
+      this.checkForm();
+    },
+    email: function() {
+      this.checkForm();
+    }
+  },
   methods: {
-    // checkForm() {
-    //   if (this.email.length >= 0 && !EmailValidator.validate(this.email))
-    //     this.error.email = "이메일 형식이 아닙니다.";
-    //   else this.error.email = false;
-    //   if (
-    //     this.password.length >= 0 &&
-    //     !this.passwordSchema.validate(this.password)
-    //   )
-    //     this.error.password = "영문,숫자 포함 8 자리이상이어야 합니다.";
-    //   else this.error.password = false;
-    //   let isSubmit = true;
-    //   Object.values(this.error).map(v => {
-    //     if (v) isSubmit = false;
-    //   });
-    //   this.isSubmit = isSubmit;
-    // },
+    checkForm() {
+      if (this.email.length >= 0 && !EmailValidator.validate(this.email))
+        this.error.email = "이메일 형식이 아닙니다.";
+      else this.error.email = false;
+      if (
+        this.password.length >= 0 &&
+        !this.passwordSchema.validate(this.password)
+      )
+        this.error.password = "영문,숫자 포함 8 자리이상이어야 합니다.";
+      else this.error.password = false;
+      let isSubmit = true;
+      Object.values(this.error).map(v => {
+        if (v) isSubmit = false;
+      });
+      this.isSubmit = isSubmit;
+    },
     onSignIn(googleUser) {
       console.log(googleUser);
     },
@@ -145,6 +144,12 @@ export default {
         .catch(err => {
           console.log(err);
         });
+    },
+    searchPassword() {
+      alert("아직 미정");
+    },
+    join() {
+      alert("아직 미정");
     }
   }
 };
@@ -157,17 +162,10 @@ export default {
   text-align: center;
   color: #2d4053;
 }
-.google-login {
-  color: rgba(var(--d69, 0, 149, 246), 1);
-  margin: 20px;
-}
 .google-btn {
   box-sizing: border-box;
   cursor: pointer;
   font-weight: 600;
-  text-align: center;
-}
-#google-signin-btn {
   text-align: center;
   margin: 20px;
 }
