@@ -1,6 +1,14 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Home from "../views/Home.vue";
 
+// 인증 없이 다른 페이지 못넘어가게
+// const requireAuth = () => (to, from, next) => {
+//   if (store.state.token) {
+//     return next();
+//   }
+//   next("/");
+// };
+
 const routes = [
   {
     path: "/",
@@ -11,6 +19,7 @@ const routes = [
     path: "/main",
     name: "Main",
     component: () => import("@/views/main")
+    // beforeEnter: requireAuth()
   },
   {
     path: "/home",
