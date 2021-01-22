@@ -5,12 +5,10 @@ const routes = [
   {
     path: "/",
     name: "login",
-    component: () => import("@/views/login")
-  },
-  {
-    path: "/main",
-    name: "Main",
-    component: () => import("@/views/main")
+    components: {
+      default: () => import("@/views/login"),
+      main: () => import("@/views/main")
+    }
   },
   {
     path: "/home",
