@@ -1,10 +1,9 @@
 <template>
   <div id="wrap">
-    <header />
     <div id="container" role="main">
       <section id="main-left">
         <ul class="list feed__list">
-          <feed-item />
+          <feed-item v-for="feed in feeds" :key="feed.id" v-bind="feed" />
         </ul>
       </section>
       <aside id="main-right">
@@ -16,16 +15,23 @@
 </template>
 
 <script>
-import Header from "@/components/Header.vue";
-import FeedItem from "@/components/FeedItem.vue";
+import FeedItem from "@/components/main/FeedItem.vue";
 import ProfileBox from "@/components/ProfileBox.vue";
 
 export default {
   name: "Main",
-  components: {
-    Header,
-    FeedItem,
-    ProfileBox
+  components: { FeedItem, ProfileBox },
+  setup() {
+    let feeds = [
+      { id: 1, feedContent: "dfsdf" },
+      { id: 2, feedContent: "wwwwwww" }
+    ];
+    // const getFeeds = async () => {
+    //   feeds = await getFeeds(props.user);
+    // };
+    return {
+      feeds
+    };
   }
 };
 </script>
