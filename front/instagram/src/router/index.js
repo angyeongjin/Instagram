@@ -19,7 +19,6 @@ const routes = [
     path: "/main",
     name: "Main",
     component: () => import("@/views/main")
-    // beforeEnter: requireAuth()
   },
   {
     path: "/home",
