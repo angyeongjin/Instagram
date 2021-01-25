@@ -165,8 +165,6 @@ export default {
 .google-btn {
   box-sizing: border-box;
   cursor: pointer;
-  font-weight: 600;
-  text-align: center;
   margin: 20px;
 }
 </style>
