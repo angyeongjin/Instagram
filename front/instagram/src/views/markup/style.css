@@ -16,6 +16,10 @@
 	cursor: pointer;
 }
 
+.btn-off {
+	opacity: .3;
+}
+
 .font-blod {
 	font-weight: 600;
 }
