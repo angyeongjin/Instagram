@@ -9,7 +9,7 @@ export default {
   components: { InstaHeader },
   data() {
     return {
-      login: true
+      login: false
     };
   }
 };
