@@ -90,6 +90,7 @@ export default {
       isSubmit: false
     };
   },
+
   mounted() {
     gapi.signin2.render("google-signin-btn", {
       onsuccess: this.onSignIn
@@ -132,14 +133,22 @@ export default {
       this.isSubmit = isSubmit;
     },
     onSignIn(googleUser) {
-      console.log(googleUser);
+      this.$store
+        .dispatch("member/googlelogin", googleUser)
+        .then(res => {
+          console.log(res);
+          this.$router.push({ path: "/main" });
+        })
+        .catch(err => {
+          console.log(err);
+        });
     },
     login() {
       this.$store
         .dispatch("member/login")
         .then(res => {
-          console.log(res.data);
-          //this.$router.push({ path: "/about" });
+          console.log(res);
+          this.$router.push({ path: "/main" });
         })
         .catch(err => {
           console.log(err);
@@ -156,7 +165,7 @@ export default {
 </script>
 
 <style>
-#app {
+#login {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;

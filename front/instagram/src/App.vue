@@ -1,5 +1,5 @@
 <template>
-  <insta-header v-if="login" />
+  <insta-header v-if="this.$store.getters.token" />
   <router-view />
 </template>
 <script>

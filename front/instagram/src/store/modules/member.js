@@ -1,4 +1,4 @@
-import { getToken } from "@/utils/auth";
+import { getToken, setToken } from "@/utils/auth";
 import { login } from "@/api/member";
 
 const state = {
@@ -28,12 +28,16 @@ const mutations = {
 };
 
 const actions = {
-  login() {
+  googlelogin({ commit }, data) {
+    setToken(data.uc.id_token);
+    commit("SET_TOKEN", data.uc.id_token);
+  },
+  login({ commit }) {
     return new Promise((resolve, reject) => {
       login()
         .then(res => {
-          // commit("SET_TOKEN", res.data);
-          // setToken(res.data);
+          commit("SET_TOKEN", res.data.uc.id_token);
+          setToken(res.data.uc.id_token);
           resolve(res);
         })
         .catch(err => {
