@@ -1,5 +1,5 @@
 <template>
-  <header role="banner">
+  <header>
     <div id="header-wrap">
       <a href="#"
         ><h1>

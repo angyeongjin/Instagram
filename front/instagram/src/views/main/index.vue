@@ -1,17 +1,14 @@
 <template>
-  <div id="wrap">
-    <div id="container" role="main">
-      <section id="main-left">
-        <ul class="list feed__list">
-          <feed-item v-for="feed in feeds" :key="feed.id" v-bind="feed" />
-        </ul>
-      </section>
-      <aside id="main-right">
-        <profile-box />
-      </aside>
-    </div>
-    <footer role="contentinfo"></footer>
+  <div id="container" role="main">
+    <section id="main-left">
+      <h2 class="none">feed list</h2>
+      <feed-item v-for="feed in feeds" :key="feed.id" v-bind="feed" />
+    </section>
+    <aside id="main-right">
+      <profile-box />
+    </aside>
   </div>
+  <footer role="contentinfo"></footer>
 </template>
 
 <script>
