@@ -1,6 +1,6 @@
 <template>
   <div id="wrap">
-    <insta-header v-if="login" />
+    <insta-header v-if="this.$store.getters.token" />
     <router-view />
   </div>
 </template>
@@ -10,9 +10,7 @@ export default {
   name: "app",
   components: { InstaHeader },
   data() {
-    return {
-      login: true
-    };
+    return {};
   }
 };
 </script>

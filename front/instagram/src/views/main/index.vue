@@ -12,10 +12,18 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import FeedItem from "@/components/main/FeedItem.vue";
 import ProfileBox from "@/components/ProfileBox.vue";
 
 export default {
+  computed: {
+    ...mapGetters(["token"])
+  },
+  mounted() {
+    // console.log(this.$store.getters.token);
+    // console.log(this.token);
+  },
   name: "Main",
   components: { FeedItem, ProfileBox },
   setup() {
