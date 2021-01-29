@@ -78,6 +78,7 @@ import * as EmailValidator from "email-validator";
 import "../../assets/css/style.scss";
 import "../../assets/css/user.scss";
 export default {
+  gapi,
   data: () => {
     return {
       email: "",
@@ -143,17 +144,17 @@ export default {
           console.log(err);
         });
     },
-    login() {
-      this.$store
-        .dispatch("member/login")
-        .then(res => {
-          console.log(res);
-          this.$router.push({ path: "/main" });
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    },
+    // login() {
+    //   this.$store
+    //     .dispatch("member/login")
+    //     .then(res => {
+    //       console.log(res);
+    //       this.$router.push({ path: "/main" });
+    //     })
+    //     .catch(err => {
+    //       console.log(err);
+    //     });
+    // },
     searchPassword() {
       alert("아직 미정");
     },
