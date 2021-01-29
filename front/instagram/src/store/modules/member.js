@@ -1,5 +1,5 @@
-import { getToken } from "@/utils/auth";
-import { login } from "@/api/member";
+import { getToken, setToken, removeToken } from "@/utils/auth";
+import { login, googlelogin, headerTest } from "@/api/member";
 
 const state = {
   token: getToken(),
@@ -28,12 +28,43 @@ const mutations = {
 };
 
 const actions = {
-  login() {
+  logout({ commit }) {
+    removeToken();
+    commit("SET_TOKEN", "");
+    return "logout";
+  },
+  headerTest() {
+    return new Promise((resolve, reject) => {
+      headerTest()
+        .then(res => {
+          resolve(res);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  },
+  googlelogin({ commit }, data) {
+    return new Promise((resoleve, reject) => {
+      googlelogin({
+        idToken: data.Bc.id_token
+      })
+        .then(res => {
+          setToken(data.Bc.id_token);
+          commit("SET_TOKEN", data.Bc.id_token);
+          resoleve(res);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  },
+  login({ commit }) {
     return new Promise((resolve, reject) => {
       login()
         .then(res => {
-          // commit("SET_TOKEN", res.data);
-          // setToken(res.data);
+          commit("SET_TOKEN", res.data.uc.id_token);
+          setToken(res.data.uc.id_token);
           resolve(res);
         })
         .catch(err => {
