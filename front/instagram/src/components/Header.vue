@@ -12,6 +12,7 @@
       <nav id="gnb">
         <a href="#" class="gnb__menu"
           ><svg
+            @click="logout()"
             aria-label="홈"
             class="_8-yf5 "
             fill="#262626"
@@ -38,7 +39,7 @@
             ></path></svg
           ><span class="none">alert popup</span>
         </button>
-        <span class="instagram_profile22 gnb__menu" @click="logout()"
+        <span class="instagram_profile22 gnb__menu" @click="goProfile()"
           ><img
             src="http://placehold.it/22x22"
             height="22"
@@ -56,6 +57,9 @@ import { gapi } from "gapi-script";
 
 export default {
   methods: {
+    goProfile() {
+      this.$router.push({ path: "/profile" });
+    },
     logout() {
       if (!gapi.auth2) {
         gapi.load("auth2", function() {
