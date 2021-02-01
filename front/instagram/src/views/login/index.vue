@@ -78,6 +78,7 @@ import * as EmailValidator from "email-validator";
 import "../../assets/css/style.scss";
 import "../../assets/css/user.scss";
 export default {
+  gapi,
   data: () => {
     return {
       email: "",
@@ -90,6 +91,7 @@ export default {
       isSubmit: false
     };
   },
+
   mounted() {
     gapi.signin2.render("google-signin-btn", {
       onsuccess: this.onSignIn
@@ -132,19 +134,27 @@ export default {
       this.isSubmit = isSubmit;
     },
     onSignIn(googleUser) {
-      console.log(googleUser);
-    },
-    login() {
       this.$store
-        .dispatch("member/login")
+        .dispatch("member/googlelogin", googleUser.getAuthResponse().id_token)
         .then(res => {
-          console.log(res.data);
-          //this.$router.push({ path: "/about" });
+          console.log(res);
+          this.$router.push({ path: "/main" });
         })
         .catch(err => {
           console.log(err);
         });
     },
+    // login() {
+    //   this.$store
+    //     .dispatch("member/login")
+    //     .then(res => {
+    //       console.log(res);
+    //       this.$router.push({ path: "/main" });
+    //     })
+    //     .catch(err => {
+    //       console.log(err);
+    //     });
+    // },
     searchPassword() {
       alert("아직 미정");
     },
@@ -156,7 +166,7 @@ export default {
 </script>
 
 <style>
-#app {
+#login {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -165,8 +175,6 @@ export default {
 .google-btn {
   box-sizing: border-box;
   cursor: pointer;
-  font-weight: 600;
-  text-align: center;
   margin: 20px;
 }
 </style>

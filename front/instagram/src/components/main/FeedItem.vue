@@ -1,5 +1,5 @@
 <template>
-  <article class="feed__item">
+  <div class="feed__item">
     <div class="feed-header">
       <span class="instagram_profile32 feed-header_profile"
         ><img
@@ -60,9 +60,12 @@
     <feed-contents />
     <div class="feed-comments">
       <feed-comment />
+      <span style="font-size: 10px;letter-spacing: .2px;color: #8e8e8e;"
+        >2일전</span
+      >
     </div>
     <add-feed-comment />
-  </article>
+  </div>
 </template>
 
 <script>

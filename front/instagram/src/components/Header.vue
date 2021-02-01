@@ -1,5 +1,5 @@
 <template>
-  <header role="banner">
+  <header>
     <div id="header-wrap">
       <a href="#"
         ><h1>
@@ -12,6 +12,7 @@
       <nav id="gnb">
         <a href="#" class="gnb__menu"
           ><svg
+            @click="logout()"
             aria-label="홈"
             class="_8-yf5 "
             fill="#262626"
@@ -24,7 +25,7 @@
             ></path></svg
           ><span class="none">go to instagram</span></a
         >
-        <button type="button" class="no__btn gnb__menu">
+        <button type="button" class="no__btn gnb__menu" @click="test()">
           <svg
             aria-label="활동 피드"
             class="_8-yf5 "
@@ -38,7 +39,7 @@
             ></path></svg
           ><span class="none">alert popup</span>
         </button>
-        <span class="instagram_profile22 gnb__menu"
+        <span class="instagram_profile22 gnb__menu" @click="goProfile()"
           ><img
             src="http://placehold.it/22x22"
             height="22"
@@ -52,5 +53,43 @@
 </template>
 
 <script>
-export default {};
+import { gapi } from "gapi-script";
+
+export default {
+  methods: {
+    goProfile() {
+      this.$router.push({ path: "/profile" });
+    },
+    logout() {
+      if (!gapi.auth2) {
+        gapi.load("auth2", function() {
+          gapi.auth2.init();
+        });
+      }
+      var auth2 = gapi.auth2.getAuthInstance();
+      auth2.signOut().then(this.removeToken());
+    },
+    removeToken() {
+      this.$store
+        .dispatch("member/logout")
+        .then(res => {
+          console.log(res);
+          this.$router.push({ path: "/" });
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    test() {
+      this.$store
+        .dispatch("member/headerTest")
+        .then(res => {
+          console.log(res);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
+  }
+};
 </script>
