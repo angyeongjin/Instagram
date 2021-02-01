@@ -1,13 +1,14 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Home from "../views/Home.vue";
+import store from "@/store";
 
 // 인증 없이 다른 페이지 못넘어가게
-// const requireAuth = () => (to, from, next) => {
-//   if (this.$store.state.token) {
-//     return next();
-//   }
-//   next("/");
-// };
+const requireAuth = () => (to, from, next) => {
+  if (store.getters.token) {
+    return next();
+  }
+  next("/");
+};
 
 const routes = [
   {
@@ -18,8 +19,14 @@ const routes = [
   {
     path: "/main",
     name: "Main",
-    component: () => import("@/views/main")
-    // beforeEnter: requireAuth()
+    component: () => import("@/views/main"),
+    beforeEnter: requireAuth()
+  },
+  {
+    path: "/profile",
+    name: "Profile",
+    component: () => import("@/views/profile"),
+    beforeEnter: requireAuth()
   },
   {
     path: "/home",

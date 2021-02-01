@@ -47,11 +47,11 @@ const actions = {
   googlelogin({ commit }, data) {
     return new Promise((resoleve, reject) => {
       googlelogin({
-        idToken: data.Bc.id_token
+        idToken: data
       })
         .then(res => {
-          setToken(data.Bc.id_token);
-          commit("SET_TOKEN", data.Bc.id_token);
+          setToken(data);
+          commit("SET_TOKEN", data);
           resoleve(res);
         })
         .catch(err => {

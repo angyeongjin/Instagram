@@ -135,7 +135,7 @@ export default {
     },
     onSignIn(googleUser) {
       this.$store
-        .dispatch("member/googlelogin", googleUser)
+        .dispatch("member/googlelogin", googleUser.getAuthResponse().id_token)
         .then(res => {
           console.log(res);
           this.$router.push({ path: "/main" });
@@ -166,7 +166,7 @@ export default {
 </script>
 
 <style>
-#app {
+#login {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
