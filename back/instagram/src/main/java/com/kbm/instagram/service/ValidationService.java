@@ -21,7 +21,7 @@ public class ValidationService {
     private static final JsonFactory jsonFactory = new GsonFactory();
     private static final String CLIENT_ID = "520178822813-fgb8q6be29qoin9l9hcrc182kpfqukvi.apps.googleusercontent.com";
 
-    public MemberDto validationByIdToken(String idTokenString) throws GeneralSecurityException, IOException {
+    public MemberDto validationByIdToken(String idTokenString) throws GeneralSecurityException, IOException, IllegalArgumentException {
         GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(transport, jsonFactory)
                 // Specify the CLIENT_ID of the app that accesses the backend:
                 .setAudience(Collections.singletonList(CLIENT_ID))
@@ -33,6 +33,7 @@ public class ValidationService {
 
         // (Receive idTokenString by HTTPS POST)
         GoogleIdToken idToken = verifier.verify(idTokenString);
+
         if (idToken != null) {
             Payload payload = idToken.getPayload();
 
@@ -44,20 +45,21 @@ public class ValidationService {
             String email = payload.getEmail();
             boolean emailVerified = Boolean.valueOf(payload.getEmailVerified());
             String name = (String) payload.get("name");
-            String pictureUrl = (String) payload.get("picture");
+            String picture = (String) payload.get("picture");
             String locale = (String) payload.get("locale");
             String familyName = (String) payload.get("family_name");
             String givenName = (String) payload.get("given_name");
 
-            System.out.println(email + "," + name + "," + pictureUrl + "," + locale + "," + familyName + "," + givenName);
+            System.out.println(email + "," + name + "," + picture + "," + locale + "," + familyName + "," + givenName);
 
             // Use or store profile information
             memberDto = MemberDto.builder()
                     .email(email)
                     .name(name)
-                    .profileUrl(pictureUrl).build();
+                    .picture(picture).build();
+        } else {
+            // 유효성 체크 실패
         }
-
         return memberDto;
     }
 

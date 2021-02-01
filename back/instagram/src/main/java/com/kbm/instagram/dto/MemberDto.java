@@ -13,5 +13,5 @@ public class MemberDto {
     private String memberId;
     private String name;
     private String email;
-    private String profileUrl;
+    private String picture;
 }

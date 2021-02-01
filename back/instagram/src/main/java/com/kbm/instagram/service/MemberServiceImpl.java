@@ -5,7 +5,12 @@ import com.kbm.instagram.dto.MemberDto;
 import com.kbm.instagram.dto.RequestMemberDto;
 import com.kbm.instagram.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 
 @Service
@@ -16,49 +21,50 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public MemberDto getMemberInfo(long id) {
-        Member member = memberRepository.findById(id).get();
-        MemberDto memberDto = MemberDto.builder()
-                .id(member.getId())
-                .email(member.getEamil())
-                .name(member.getName())
-                .profileUrl(member.getProfileUrl()).build();
+        Optional<Member> member = memberRepository.findById(id);
+        MemberDto memberDto = null;
+        if (member != null) {
+            memberDto = MemberDto.builder()
+                    .id(member.get().getId())
+                    .email(member.get().getEmail())
+                    .name(member.get().getName())
+                    .picture(member.get().getPicture()).build();
+        }
         return memberDto;
     }
 
     @Override
-    public MemberDto getMemberInfoByEmail(String email) {
+    public MemberDto getMemberInfoByEmail(String email) throws NoSuchElementException {
         Member member = memberRepository.findByEmail(email).get();
         MemberDto memberDto = MemberDto.builder()
                 .id(member.getId())
-                .email(member.getEamil())
+                .email(member.getEmail())
                 .name(member.getName())
-                .profileUrl(member.getProfileUrl()).build();
+                .picture(member.getPicture()).build();
         return memberDto;
     }
 
     @Override
-    public MemberDto create(RequestMemberDto signUpMemberDto) {
+    public MemberDto signUp(RequestMemberDto signUpMemberDto) {
         Member member = new Member();
         // 프로필 업로드 코드 작성할 것
         member = memberRepository.save(member);
         MemberDto memberDto = MemberDto.builder()
                 .id(member.getId())
-                .email(member.getEamil())
+                .email(member.getEmail())
                 .name(member.getName())
-                .profileUrl(member.getProfileUrl()).build();
+                .picture(member.getPicture()).build();
         return memberDto;
     }
 
     @Override
-    public MemberDto googleCreate(MemberDto googleMmberDto) {
-        Member member = new Member();
+    public MemberDto googleSignUp(MemberDto googleMmberDto) {
+        Member member = Member.builder()
+                .email(googleMmberDto.getEmail())
+                .name(googleMmberDto.getName())
+                .picture(googleMmberDto.getPicture()).build();
         member = memberRepository.save(member);
-        MemberDto memberDto = MemberDto.builder()
-                .id(member.getId())
-                .email(member.getEamil())
-                .name(member.getName())
-                .profileUrl(member.getProfileUrl()).build();
-        return memberDto;
+        return googleMmberDto;
     }
 
     @Override
@@ -68,15 +74,28 @@ public class MemberServiceImpl implements MemberService {
         member = memberRepository.save(member);
         MemberDto memberDto = MemberDto.builder()
                 .id(member.getId())
-                .email(member.getEamil())
+                .email(member.getEmail())
                 .name(member.getName())
-                .profileUrl(member.getProfileUrl()).build();
+                .picture(member.getPicture()).build();
         return memberDto;
     }
 
     @Override
     public void delete(long id) {
         memberRepository.deleteById(id);
+    }
+
+    @Override
+    public MemberDto getAuthMember() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Member authMember = (Member) authentication.getPrincipal();
+        Member member = memberRepository.findByEmail(authMember.getEmail()).get();
+        MemberDto memberDto = MemberDto.builder()
+                .id(member.getId())
+                .email(member.getEmail())
+                .name(member.getName())
+                .picture(member.getPicture()).build();
+        return memberDto;
     }
 
 }

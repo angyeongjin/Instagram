@@ -13,6 +13,6 @@ import org.springframework.web.multipart.MultipartFile;
 public class RequestMemberDto {
     private Long id;
     private String name;
-    private String eamil;
-    private MultipartFile profileFile;
+    private String email;
+    private MultipartFile pictureFile;
 }

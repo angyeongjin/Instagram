@@ -7,11 +7,13 @@ import com.kbm.instagram.dto.RequestMemberDto;
 import com.kbm.instagram.service.MemberService;
 import com.kbm.instagram.service.ValidationService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/member")
@@ -22,11 +24,10 @@ public class MemberController {
     private final MemberService memberService;
     private final ValidationService validationService;
 
-    @GetMapping("/{id}")
+    @GetMapping
     @ResponseBody
-    public MemberDto getMemberInfo(@PathVariable("id") long id) {
-        MemberDto memberDto = null;
-        memberDto = memberService.getMemberInfo(id);
+    public MemberDto getMemberInfo() {
+        MemberDto memberDto = memberService.getAuthMember();
         return memberDto;
     }
 
@@ -45,22 +46,27 @@ public class MemberController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping
+    @PostMapping("/google")
     @ResponseBody
-    public MemberDto getMemberByIdToken(@RequestBody GoogleTokenDto googleTokenDto) {
+    public ResponseEntity<?> getMemberByIdToken(@RequestBody GoogleTokenDto googleTokenDto) {
         MemberDto memberDto = null;
+        MemberDto googleMemberDto = null;
+        System.out.println(googleTokenDto.getIdToken());
         try {
-            MemberDto googleMemberDto = validationService.validationByIdToken(googleTokenDto.getIdTokenString());
+            googleMemberDto = validationService.validationByIdToken(googleTokenDto.getIdToken());
             memberDto = memberService.getMemberInfoByEmail(googleMemberDto.getEmail());
-            if (memberDto == null) {
-                memberService.googleSignUp(googleMemberDto);
-            }
-            // 로그인
         } catch (GeneralSecurityException e) {
-
+            System.out.println("!23213");
         } catch (IOException e) {
-
+            System.out.println("1ee123");
+        } catch (NoSuchElementException e) {
+            System.out.println("Not registered as a member.. signUp member");
+            memberService.googleSignUp(googleMemberDto);
+            return ResponseEntity.ok().build();
+        } catch (IllegalArgumentException e) {
+            System.out.println("token is not vailed");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
-        return memberDto;
+        return ResponseEntity.ok().build();
     }
 }

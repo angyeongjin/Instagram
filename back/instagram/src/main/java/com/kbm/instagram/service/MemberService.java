@@ -11,4 +11,5 @@ public interface MemberService {
     public MemberDto googleSignUp(MemberDto memberDto);
     public MemberDto update(RequestMemberDto signUpMemberDto);
     public void delete(long id);
+    public MemberDto getAuthMember();
 }
