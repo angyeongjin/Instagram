@@ -4,15 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.web.multipart.MultipartFile;
+
+import java.io.Serializable;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-public class RequestMemberDto {
-    private Long id;
-    private String name;
-    private String email;
-    private MultipartFile pictureFile;
+public class GoogleTokenDto {
+
+    private String idToken;
 }
