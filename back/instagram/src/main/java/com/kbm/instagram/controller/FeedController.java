@@ -7,26 +7,27 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/feed")
 public class FeedController {
 
     private final FeedService feedService;
 
-    @PostMapping("/feed")
+    @PostMapping
     Feed newFeed(@RequestBody Feed feed) {
         return feedService.create(feed);
     }
 
-    @GetMapping("/feed/{id}")
+    @GetMapping("/{id}")
     Feed one(@PathVariable Long id) {
         return feedService.findByFeedId(id);
     }
 
-    @PutMapping("/feed/{id}")
-    Feed updateFeed(@RequestBody Feed newFeed, @PathVariable Long id) {
-        return feedService.update(newFeed, id);
+    @PutMapping
+    Feed updateFeed(@RequestBody Feed newFeed) {
+        return feedService.update(newFeed);
     }
 
-    @DeleteMapping("feed/{id}")
+    @DeleteMapping("/{id}")
     void deleteFeed(@PathVariable Long id) {
         feedService.deleteByFeedId(id);
     }

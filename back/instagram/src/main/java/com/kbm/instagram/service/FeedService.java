@@ -9,6 +9,6 @@ public interface FeedService {
 
     Feed create(Feed feed);
     Feed findByFeedId(Long id);
-    Feed update(Feed newFeed, Long id);
+    Feed update(Feed newFeed);
     void deleteByFeedId(Long id);
 }

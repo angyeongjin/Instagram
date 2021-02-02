@@ -27,13 +27,13 @@ public class FeedServiceImpl implements FeedService {
     }
 
     @Override
-    public Feed update(Feed newFeed, Long id) {
-        return feedRepository.findById(id)
+    public Feed update(Feed newFeed) {
+        return feedRepository.findById(newFeed.getId())
                 .map(feed -> {
                     feed.setContent(newFeed.getContent());
                     return feedRepository.save(feed);
                 })
-                .orElseThrow(() -> new FeedNotFoundException(id));
+                .orElseThrow(() -> new FeedNotFoundException(newFeed.getId()));
     }
 
     @Override
