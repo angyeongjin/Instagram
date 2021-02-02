@@ -10,7 +10,8 @@ import org.springframework.web.multipart.MultipartFile;
 @Builder
 public class MemberDto {
     private Long id;
+    private String memberId;
     private String name;
     private String email;
-    private String profileUrl;
+    private String picture;
 }
