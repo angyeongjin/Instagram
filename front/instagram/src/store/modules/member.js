@@ -24,13 +24,18 @@ const mutations = {
   },
   SET_PROFILEFILE: (state, profileFile) => {
     state.profileFile = profileFile;
+  },
+  LOGOUT: state => {
+    state.token = null;
+    localStorage.removeItem("token");
+    location.reload();
   }
 };
 
 const actions = {
   logout({ commit }) {
     removeToken();
-    commit("SET_TOKEN", "");
+    commit("LOGOUT");
     return "logout";
   },
   headerTest() {
