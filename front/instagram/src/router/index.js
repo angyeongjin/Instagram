@@ -1,5 +1,9 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Home from "../views/Home.vue";
+import Login from "@/views/login";
+import Main from "@/views/main";
+import Test from "@/views/test";
+import Profile from "../views/profile";
 import store from "@/store";
 
 // 인증 없이 다른 페이지 못넘어가게
@@ -14,29 +18,23 @@ const routes = [
   {
     path: "/",
     name: "login",
-    component: () => import("@/views/login")
+    component: Login
   },
   {
     path: "/main",
     name: "Main",
-    component: () => import("@/views/main"),
+    component: Main,
     beforeEnter: requireAuth()
   },
   {
     path: "/profile",
     name: "Profile",
-    component: () => import("@/views/profile"),
-    beforeEnter: requireAuth()
-  },
-  {
-    path: "/profile",
-    name: "Profile",
-    component: () => import("@/views/profile")
+    component: Profile
   },
   {
     path: "/test",
     name: "Test",
-    component: () => import("@/views/test")
+    component: Test
   },
   {
     path: "/home",

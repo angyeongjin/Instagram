@@ -16,11 +16,14 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 export default {
   data: () => ({
-    imageFiles: []
+    imageFiles: [],
+    content: "content"
   }),
   methods: {
+    ...mapActions("feed", ["getMainFeeds", "addProfileFeed"]),
     selectImage(e) {
       const files = e.target.files;
       for (var i = 0; i < files.length; i++) {
@@ -38,18 +41,21 @@ export default {
         URL.revokeObjectURL(files[i]);
       }
       e.target.value = null;
-      console.log("imageFiles", this.imageFiles);
+      // console.log("imageFiles", this.imageFiles);
     },
     uploadImage() {
       const formData = new FormData();
       const files = this.imageFiles;
 
       for (var i = 0; i < files.length; i++) {
-        formData.append("image", files[i].info);
+        formData.append("images", files[i].info);
       }
 
-      console.log(formData);
-      console.log("formData", formData.getAll("image"));
+      // console.log("formData", formData.getAll("images"));
+
+      formData.append("contents", this.content);
+      this.addProfileFeed(formData);
+      this.imageFiles = [];
     },
     deleteImage(idx) {
       if (confirm("삭제하시겠습니까?")) {
