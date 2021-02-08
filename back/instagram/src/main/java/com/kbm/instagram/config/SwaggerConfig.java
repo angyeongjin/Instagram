@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import com.google.common.base.Predicate;
 import springfox.documentation.builders.ApiInfoBuilder;
+import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
@@ -18,16 +19,9 @@ public class SwaggerConfig {
     @Bean
     public Docket postsApi() {
         return new Docket(DocumentationType.SWAGGER_2).groupName("public-api")
-                .apiInfo(apiInfo()).select().paths(postPaths()).build();
+                .apiInfo(apiInfo()).select().paths(PathSelectors.any()).build();
     }
-    private Predicate<String> postPaths() {
-        return or(
-                regex("/member/posts.*"), regex("/member.*"),
-                regex("/feed/posts.*"), regex("/feed.*"),
-                regex("/follow/posts.*"), regex("/feed.*"),
-                regex("/test/posts.*"), regex("/feed.*")
-        );
-    }
+
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder().title("instagram-clone")
                 .description("instagram-clone")

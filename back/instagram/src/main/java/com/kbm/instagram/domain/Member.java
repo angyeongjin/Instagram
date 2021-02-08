@@ -19,6 +19,7 @@ public class Member extends BaseEntity implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    @Column(unique=true)
     private String memberId; // 인스타그램의 사용자이름과 같음
     private String name;
     private String email;

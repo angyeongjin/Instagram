@@ -1,14 +1,16 @@
 package com.kbm.instagram.service;
 
 import com.kbm.instagram.domain.Feed;
+import com.kbm.instagram.dto.FeedDto;
+import com.kbm.instagram.dto.RequestFeedDto;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface FeedService {
 
-    Feed create(Feed feed);
-    Feed findByFeedId(Long id);
-    Feed update(Feed newFeed);
+    FeedDto create(FeedDto feedDto);
+    FeedDto findByFeedId(Long id);
+    List<FeedDto> findByMemberId(String memberId);
+    FeedDto update(RequestFeedDto feedDto);
     void deleteByFeedId(Long id);
 }
