@@ -35,7 +35,7 @@ public class CommentController {
         commentDto.setWriter(memberDto);
         commentService.create(commentDto);
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body(commentDto);
     }
 
 //    @PutMapping
