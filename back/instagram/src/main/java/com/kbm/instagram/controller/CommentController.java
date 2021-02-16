@@ -35,6 +35,8 @@ public class CommentController {
         commentDto.setWriter(memberDto);
         commentService.create(commentDto);
 
+        System.out.println(commentDto);
+
         return ResponseEntity.ok().body(commentDto);
     }
 
