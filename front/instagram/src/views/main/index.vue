@@ -4,7 +4,12 @@
     <div id="container" role="main">
       <section id="main-left">
         <h2 class="none">feed list</h2>
-        <feed-item v-for="feed in feeds" :key="feed.id" v-bind="feed" />
+        <feed-item
+          v-for="(feed, index) in mainFeeds"
+          :key="feed.id"
+          :feed="feed"
+          :idx="index"
+        />
       </section>
       <aside id="main-right">
         <profile-box />
@@ -15,13 +20,17 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapState, mapActions } from "vuex";
 import FeedItem from "@/components/main/FeedItem.vue";
-import ProfileBox from "@/components/ProfileBox.vue";
+import ProfileBox from "@/components/main/ProfileBox.vue";
 import InstaHeader from "@/components/Header.vue";
 export default {
   computed: {
-    ...mapGetters(["token"])
+    ...mapGetters(["token"]),
+    ...mapState("feed", ["mainFeeds"])
+  },
+  created() {
+    this.getMainFeeds();
   },
   mounted() {
     // console.log(this.$store.getters.token);
@@ -29,17 +38,8 @@ export default {
   },
   name: "Main",
   components: { FeedItem, ProfileBox, InstaHeader },
-  setup() {
-    let feeds = [
-      { id: 1, feedContent: "dfsdf" },
-      { id: 2, feedContent: "wwwwwww" }
-    ];
-    // const getFeeds = async () => {
-    //   feeds = await getFeeds(props.user);
-    // };
-    return {
-      feeds
-    };
+  methods: {
+    ...mapActions("feed", ["getMainFeeds"])
   }
 };
 </script>
