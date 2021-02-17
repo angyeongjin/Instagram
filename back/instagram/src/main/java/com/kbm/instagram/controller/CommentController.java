@@ -50,7 +50,7 @@ public class CommentController {
         return ResponseEntity.ok().body(commentDto);
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     @ApiOperation(value="댓글 삭제", notes = "댓글을 삭제하고 있습니다.")
     public ResponseEntity<?> deleteComment(@PathVariable Long id){
         commentService.delete(id);

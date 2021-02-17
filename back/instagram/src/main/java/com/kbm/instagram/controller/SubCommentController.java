@@ -25,7 +25,7 @@ public class SubCommentController {
         return "subCommentTest";
     }
 
-    @PostMapping
+    @PostMapping("/{id}")
     @ResponseBody
     @ApiOperation(value = "대댓글 입력" , notes = "대댓글을 입력하고 있습니다.")
     public SubCommentDto insertSubComment(@PathVariable Long id, @RequestBody SubCommentDto subCommentDto){
@@ -44,7 +44,7 @@ public class SubCommentController {
         return subCommentDto;
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     @ResponseBody
     @ApiOperation(value = "대댓글 삭제", notes = "대댓글을 삭제하고 있습니다.")
     public ResponseEntity<?> deleteSubComment(@PathVariable Long id){
