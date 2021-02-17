@@ -61,8 +61,9 @@ public class FeedController {
 
     @GetMapping("/main")
     @ApiOperation(value = "팔로우한 사람의 모든 피드 보기 (메인피드)", notes = "내가 팔로우한 사람의 피드를 조회합니다.")
-    List<FeedDto> getFollowerFeed(@PathVariable String memberId) {
-        return feedService.findByMemberId(memberId);
+    List<FeedDto> getFollowerFeed() {
+        MemberDto memberDto = memberService.getAuthMember();
+        return feedService.findByMemberId(memberDto.getMemberId());
     }
 
     @PutMapping
