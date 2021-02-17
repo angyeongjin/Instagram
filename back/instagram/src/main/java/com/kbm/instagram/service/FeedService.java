@@ -11,6 +11,7 @@ public interface FeedService {
     FeedDto create(FeedDto feedDto);
     FeedDto findByFeedId(Long id);
     List<FeedDto> findByMemberId(String memberId);
+    List<FeedDto> findFollowFeedByMemberId(String memberId);
     FeedDto update(RequestFeedDto feedDto);
     void deleteByFeedId(Long id);
 }

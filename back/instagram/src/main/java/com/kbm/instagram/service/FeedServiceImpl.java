@@ -7,18 +7,22 @@ import com.kbm.instagram.dto.MemberDto;
 import com.kbm.instagram.dto.RequestFeedDto;
 import com.kbm.instagram.exception.FeedNotFoundException;
 import com.kbm.instagram.repository.FeedRepository;
+import com.kbm.instagram.repository.FollowRepository;
+import com.kbm.instagram.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class FeedServiceImpl implements FeedService {
 
     private final FeedRepository feedRepository;
+    private final MemberRepository memberRepository;
+    private final FollowRepository followRepository;
 
     @Override
     public FeedDto create(FeedDto feedDto) {
@@ -46,10 +50,45 @@ public class FeedServiceImpl implements FeedService {
     @Override
     public List<FeedDto> findByMemberId(String memberId) {
         List<Feed> feedList = feedRepository.findByMemberId(memberId);
-        List<FeedDto> feedDtoList= new ArrayList<>();
+        List<FeedDto> feedDtoList = new ArrayList<>();
+        Optional<Member> memberOptional = memberRepository.findByMemberId(memberId);
+        if (memberOptional != null) {
+            Member member = memberOptional.get();
+            MemberDto memberDto = MemberDto.builder()
+                    .id(member.getId())
+                    .memberId(member.getMemberId())
+                    .email(member.getEmail())
+                    .name(member.getName())
+                    .picture(member.getPicture()).build();
+            for (Feed feed : feedList) {
+                feedDtoList.add(FeedDto.builder()
+                        .id(feed.getId())
+                        .writer(memberDto)
+                        .images(feed.getImages())
+                        .contents(feed.getContents()).build());
+            }
+        }
+        return feedDtoList;
+    }
+
+    @Override
+    public List<FeedDto> findFollowFeedByMemberId(String memberId) {
+        List<Member> followers = followRepository.findFollower(memberId);
+        Optional<Member> memberOptional = memberRepository.findByMemberId(memberId);
+        if (memberOptional != null) followers.add(memberOptional.get());
+
+        List<Feed> feedList = feedRepository.findByMultiMemberId(followers);
+        List<FeedDto> feedDtoList = new ArrayList<>();
         for (Feed feed : feedList) {
             feedDtoList.add(FeedDto.builder()
                     .id(feed.getId())
+                    .writer(MemberDto.builder()
+                            .id(feed.getWriter().getId())
+                            .memberId(feed.getWriter().getMemberId())
+                            .email(feed.getWriter().getEmail())
+                            .name(feed.getWriter().getName())
+                            .picture(feed.getWriter().getPicture()).build())
+                    .images(feed.getImages())
                     .contents(feed.getContents()).build());
         }
         return feedDtoList;
