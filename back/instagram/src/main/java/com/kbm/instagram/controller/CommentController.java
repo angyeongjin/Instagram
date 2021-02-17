@@ -40,14 +40,21 @@ public class CommentController {
         return ResponseEntity.ok().body(commentDto);
     }
 
-//    @PutMapping
-//    @ResponseBody
-//    @ApiOperation(value="댓글 수정",notes = "댓글을 수정하고 있습니다.")
-//    public ResponseEntity<?> updateComment(@RequestBody CommentDto commentDto){
-//        MemberDto memberDto = memberService.getAuthMember();
-//
-//
-//        return ResponseEntity.ok().build();
-//    }
+    @PutMapping
+    @ResponseBody
+    @ApiOperation(value="댓글 수정", notes = "댓글을 수정하고 있습니다.")
+    public ResponseEntity<?> updateComment(@RequestBody CommentDto commentDto){
+        MemberDto memberDto = memberService.getAuthMember();
+        commentDto.setWriter(memberDto);
+        commentService.update(commentDto);
+        return ResponseEntity.ok().body(commentDto);
+    }
+
+    @DeleteMapping
+    @ApiOperation(value="댓글 삭제", notes = "댓글을 삭제하고 있습니다.")
+    public ResponseEntity<?> deleteComment(@PathVariable Long id){
+        commentService.delete(id);
+        return ResponseEntity.ok().build();
+    }
 
 }
