@@ -1,8 +1,8 @@
 import request from "@/utils/request";
 
-export const getMain = id =>
+export const getMain = () =>
   request({
-    url: `feed/${id}`,
+    url: `feed/main`,
     method: "get"
   });
 
@@ -15,4 +15,16 @@ export const insert = data =>
     headers: {
       "Content-Type": "multipart/form-data"
     }
+  });
+
+export const getProfile = memberId =>
+  request({
+    url: `feed/member/${memberId}`,
+    method: "get"
+  });
+
+export const delFeed = feedId =>
+  request({
+    url: `feed/${feedId}`,
+    method: "delete"
   });
