@@ -50,8 +50,8 @@ public class FollowController {
     @ApiOperation(value = "내가 팔로우한 사람 조회 (팔로잉 조회)", notes = "내가 팔로우한 사람을 조회합니다.")
     public List<Member> following() {
         MemberDto memberDto = memberService.getAuthMember();
-        List<Member> followings = followService.findFollowing(memberDto);
-        return followings;
+        List<Member> followingList = followService.findFollowing(memberDto);
+        return followingList;
     }
 
     @GetMapping("/follower")
@@ -59,8 +59,8 @@ public class FollowController {
     @ApiOperation(value = "나를 팔로우한 사람 조회 (팔로워 조회)", notes = "나를 팔로우한 사람을 조회합니다.")
     public List<Member> follower(@RequestBody RequestFollowDto requestFollowDto) {
         MemberDto memberDto = memberService.getAuthMember();
-        List<Member> followers = followService.findFollower(memberDto);
-        return followers;
+        List<Member> followerList = followService.findFollower(memberDto);
+        return followerList;
     }
 
 }
