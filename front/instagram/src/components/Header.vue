@@ -6,6 +6,7 @@
           <img
             src="https://www.instagram.com/static/images/web/mobile_nav_type_logo.png/735145cfe0a4.png"
             alt="Instagram"
+            @click="goMain()"
           /><span class="none">Instagram</span>
         </h1></a
       >
@@ -54,19 +55,16 @@
 
 <script>
 import { gapi } from "gapi-script";
-
 export default {
+  created() {
+    gapi.load("auth2", () => gapi.auth2.init());
+  },
   methods: {
     goProfile() {
-      this.$router.push({ path: "/profile" });
+      this.$router.push(`/mjprojectid`);
     },
-    logout() {
-      if (!gapi.auth2) {
-        gapi.load("auth2", function() {
-          gapi.auth2.init();
-        });
-      }
-      var auth2 = gapi.auth2.getAuthInstance();
+    async logout() {
+      var auth2 = await gapi.auth2.getAuthInstance();
       auth2.signOut().then(this.removeToken());
     },
     removeToken() {
@@ -74,7 +72,6 @@ export default {
         .dispatch("member/logout")
         .then(res => {
           console.log(res);
-          this.$router.push({ path: "/" });
         })
         .catch(err => {
           console.log(err);
@@ -89,6 +86,9 @@ export default {
         .catch(err => {
           console.log(err);
         });
+    },
+    goMain() {
+      this.$router.push("/main");
     }
   }
 };

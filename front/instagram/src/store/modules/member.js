@@ -24,19 +24,13 @@ const mutations = {
   },
   SET_PROFILEFILE: (state, profileFile) => {
     state.profileFile = profileFile;
-  },
-  LOGOUT: state => {
-    state.token = null;
-    localStorage.removeItem("token");
-    location.reload();
   }
 };
 
 const actions = {
-  logout({ commit }) {
+  logout() {
     removeToken();
-    commit("LOGOUT");
-    return "logout";
+    location.reload();
   },
   headerTest() {
     return new Promise((resolve, reject) => {
