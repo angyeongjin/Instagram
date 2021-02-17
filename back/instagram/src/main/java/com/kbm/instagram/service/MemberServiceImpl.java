@@ -9,6 +9,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -45,6 +47,20 @@ public class MemberServiceImpl implements MemberService {
                     .picture(member.get().getPicture()).build();
         }
         return memberDto;
+    }
+
+    @Override
+    public List<MemberDto> getMemberListByMemberId(String memberId) {
+        List<Member> members = memberRepository.findListByMemberId(memberId);
+        List<MemberDto> memberDtoList = new ArrayList<>();
+        for (Member member : members) {
+            memberDtoList.add(MemberDto.builder()
+                    .id(member.getId())
+                    .email(member.getEmail())
+                    .name(member.getName())
+                    .picture(member.getPicture()).build());
+        }
+        return memberDtoList;
     }
 
     @Override

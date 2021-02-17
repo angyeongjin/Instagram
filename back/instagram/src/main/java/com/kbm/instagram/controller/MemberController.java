@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @RestController
@@ -38,6 +39,14 @@ public class MemberController {
     public MemberDto updateMember(@RequestBody RequestMemberDto requestMemberDto) {
         MemberDto memberDto = memberService.update(requestMemberDto);
         return memberDto;
+    }
+
+    @GetMapping("/search/{memberId}")
+    @ResponseBody
+    @ApiOperation(value = "회원 아이디로 회원 검색", notes = "앞글자부터 일치하는 회원 아이디로 회원 정보를 검색합니다")
+    public List<MemberDto> searchMemberList(@PathVariable String memberId) {
+        List<MemberDto> memberDtoList = memberService.getMemberListByMemberId(memberId);
+        return memberDtoList;
     }
 
     @DeleteMapping("/{memberId}")
