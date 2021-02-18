@@ -10,15 +10,16 @@ export default {
     SET_MAIN_FEEDS: (state, feeds) => (state.mainFeeds = feeds),
     UPDATE_MAIN_FEEDS: (state, feeds) => state.mainFeeds.push(feeds),
     SET_PROFILE_FEEDS: (state, feeds) => (state.profileFeeds = feeds),
-    UPDATE_PROFIEL_FEEDS: (state, feed) => state.profileFeeds.push(feed)
+    UPDATE_PROFILE_FEEDS: (state, feed) => state.profileFeeds.push(feed),
+    DELETE_PROFILE_FEEDS: (state, idx) => state.profileFeeds.splice(idx, 1)
   },
   actions: {
-    getMainFeeds({ commit }, id) {
+    getMainFeeds({ commit }) {
       feed
-        .getMain(id)
+        .getMain()
         .then(res => {
-          console.log(res);
-          commit("SET_MAIN_FEEDS");
+          console.log("getMainFeeds", res);
+          commit("SET_MAIN_FEEDS", res.data);
           console.log("getMainFeeds success");
         })
         .catch(err => {
@@ -28,19 +29,44 @@ export default {
     getNextMainFeeds({ commit }) {
       commit("UPDATE_MAIN_FEEDS");
     },
-    getProfileFeeds({ commit }) {
-      console.log("getProfileFeedds");
-      commit("SET_PROFILE_FEEDS");
-    },
-    addProfileFeed({ commit }, data) {
+    getProfileFeeds({ commit }, memberId) {
+      console.log("가저오는중..");
       feed
-        .insert(data)
+        .getProfile(memberId)
         .then(res => {
-          commit("UPDATE_PROFIEL_FEEDS", res);
-          console.log("addFeed success", res);
+          console.log("getProfileFeedds", res);
+          commit("SET_PROFILE_FEEDS", res.data);
+          console.log("getProfileFeedds success");
         })
         .catch(err => {
-          console.log("addFeed", err);
+          console.log("getProfileFeedds", err);
+        });
+    },
+    addProfileFeed({ commit }, data) {
+      const formData = new FormData();
+      for (var i = 0; i < data.files.length; i++) {
+        formData.append("images", data.files[i].info);
+      }
+      formData.append("contents", data.contents);
+
+      console.log("전송중..");
+      return feed.insert(formData).then(res => {
+        console.log("addProfileFeed", res);
+        commit("UPDATE_PROFILE_FEEDS", res.data);
+        console.log("addProfileFeed success");
+      });
+    },
+    deleteProfileFeed({ commit }, data) {
+      console.log(data);
+      feed
+        .delFeed(data.feedId)
+        .then(res => {
+          console.log("deleteProfileFeed", res);
+          commit("DELETE_PROFILE_FEEDS", data.idx);
+          console.log("deleteProfileFeed success");
+        })
+        .catch(err => {
+          console.log("deleteProfileFeed", err);
         });
     }
   }

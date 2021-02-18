@@ -1,9 +1,7 @@
 <template>
   <div id="login" class="user">
     <div class="wrapC">
-      <div style="font-size:40px; margin-bottom:20px">
-        Instagram
-      </div>
+      <div style="font-size: 40px; margin-bottom: 20px">Instagram</div>
       <div class="input-with-label">
         <input
           id="email"
@@ -63,9 +61,7 @@
         </div>
         <div class="wrap">
           <p>아직 회원이 아니신가요?</p>
-          <button class="btn--text" @click="join()">
-            가입하기
-          </button>
+          <button class="btn--text" @click="join()">가입하기</button>
         </div>
       </div>
     </div>

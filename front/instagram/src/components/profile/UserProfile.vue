@@ -10,7 +10,7 @@
       />
     </div>
     <div id="user-profile-info">
-      <a href="" class="nick-name"
+      <a href="" class="nick-name" @click.prevent
         ><h2 style="font-size: 28px;display:inline;margin-right: 20px;">
           koinchan_7___fan
         </h2></a
@@ -25,7 +25,7 @@
       </div>
       <div id="user-info">
         <h2 id="name" style="font-size: inherit;">Emily Mei</h2>
-        <span>
+        <span @click="moveToTest">
           😽 Scottish straight (♀)
           <br />
           🍰 2019.09.04
@@ -38,5 +38,16 @@
 </template>
 
 <script>
-export default {};
+import { mapState } from "vuex";
+export default {
+  props: ["id"],
+  computed: {
+    ...mapState("feed", ["profileFeeds"])
+  },
+  methods: {
+    moveToTest() {
+      this.$router.push("/test");
+    }
+  }
+};
 </script>

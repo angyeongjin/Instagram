@@ -3,7 +3,7 @@ import Home from "../views/Home.vue";
 import Login from "@/views/login";
 import Main from "@/views/main";
 import Test from "@/views/test";
-import Profile from "../views/profile";
+import Profile from "@/views/profile";
 import store from "@/store";
 
 // 인증 없이 다른 페이지 못넘어가게
@@ -27,9 +27,10 @@ const routes = [
     beforeEnter: requireAuth()
   },
   {
-    path: "/profile",
+    path: "/:id",
     name: "Profile",
-    component: Profile
+    component: Profile,
+    props: true
   },
   {
     path: "/test",
