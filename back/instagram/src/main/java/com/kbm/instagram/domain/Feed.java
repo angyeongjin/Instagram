@@ -25,6 +25,8 @@ public class Feed extends BaseEntity {
 
     @ManyToOne
     private Member writer;
+    @OneToMany()
+    private List<Comment> commentList;
 
     // todo
     // Member
