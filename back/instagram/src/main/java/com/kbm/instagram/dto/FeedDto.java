@@ -15,4 +15,5 @@ public class FeedDto {
     private String contents;
     private List<String> images;
     private MemberDto writer;
+    private List<MemberDto> likeList;
 }
