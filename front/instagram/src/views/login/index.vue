@@ -73,6 +73,8 @@ import PV from "password-validator";
 import * as EmailValidator from "email-validator";
 import "../../assets/css/style.scss";
 import "../../assets/css/user.scss";
+import joinCompo from "@/views/login/join.vue";
+
 export default {
   gapi,
   data: () => {
@@ -155,7 +157,7 @@ export default {
       alert("아직 미정");
     },
     join() {
-      alert("아직 미정");
+      this.$store.commit("showPopup", { component: joinCompo });
     }
   }
 };

@@ -1,7 +1,7 @@
 <template>
   <header>
     <div id="header-wrap">
-      <a href="#"
+      <a href="#" style="display:inline-block;"
         ><h1>
           <img
             src="https://www.instagram.com/static/images/web/mobile_nav_type_logo.png/735145cfe0a4.png"
@@ -26,7 +26,7 @@
             ></path></svg
           ><span class="none">go to instagram</span></a
         >
-        <button type="button" class="no__btn gnb__menu" @click="test()">
+        <button type="button" class="no__btn gnb__menu" @click="goRouterAbout">
           <svg
             aria-label="활동 피드"
             class="_8-yf5 "
@@ -55,6 +55,7 @@
 
 <script>
 import { gapi } from "gapi-script";
+
 export default {
   created() {
     gapi.load("auth2", () => gapi.auth2.init());
@@ -89,7 +90,8 @@ export default {
     },
     goMain() {
       this.$router.push("/main");
-    }
+    },
+    goRouterAbout() {}
   }
 };
 </script>
