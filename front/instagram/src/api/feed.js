@@ -7,6 +7,12 @@ export const getMain = () =>
   });
 
 // export const getNextMain
+export const getNextMain = () =>
+  request({
+    url: `feed/main`,
+    method: "get"
+  });
+
 export const insert = data =>
   request({
     url: "feed",
