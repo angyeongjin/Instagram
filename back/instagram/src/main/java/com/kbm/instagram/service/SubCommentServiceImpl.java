@@ -37,7 +37,7 @@ public class SubCommentServiceImpl implements SubCommentService{
                 .build();
 
         subCommentRepository.save(subComment);
-
+        subCommentDto.setId(subComment.getId());
         return subCommentDto;
     }
 
