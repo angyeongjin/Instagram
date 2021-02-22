@@ -18,11 +18,11 @@
             ><b>{{ feed.writer.memberId }}</b></a
           >
           <input
-            :id="`feed-option-0${idx}`"
+            :id="`feed-option-${idx}`"
             type="checkbox"
             style="display:none;"
           />
-          <label class="feed-option" :for="`feed-option-0${idx}`">
+          <label class="feed-option" :for="`feed-option-${idx}`">
             <svg
               aria-label="옵션 더 보기"
               class="_8-yf5 "
@@ -56,7 +56,7 @@
           </label>
           <div>
             <div class="modal__box" @click="deleteFeed()"></div>
-            <label :for="`feed-option-0${idx}`"></label>
+            <label :for="`feed-option-${idx}`"></label>
           </div>
         </div>
 
