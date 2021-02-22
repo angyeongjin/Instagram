@@ -2,8 +2,10 @@ package com.kbm.instagram.controller;
 
 import com.kbm.instagram.domain.Comment;
 import com.kbm.instagram.dto.CommentDto;
+import com.kbm.instagram.dto.MemberDto;
 import com.kbm.instagram.dto.SubCommentDto;
 import com.kbm.instagram.service.CommentService;
+import com.kbm.instagram.service.MemberService;
 import com.kbm.instagram.service.SubCommentService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +19,7 @@ public class SubCommentController {
 
     private final SubCommentService subCommentService;
     private final CommentService commentService;
+    private final MemberService memberService;
 
     @GetMapping
     @ResponseBody
@@ -29,8 +32,14 @@ public class SubCommentController {
     @ResponseBody
     @ApiOperation(value = "대댓글 입력" , notes = "대댓글을 입력하고 있습니다.")
     public SubCommentDto insertSubComment(@PathVariable Long id, @RequestBody SubCommentDto subCommentDto){
+        MemberDto memberDto = memberService.getAuthMember();
+
+        subCommentDto.setWriter(memberDto);
+
         CommentDto commentDto = commentService.findById(id);
+
         subCommentDto.setCommentDto(commentDto);
+
         subCommentService.create(subCommentDto);
 
         return subCommentDto;

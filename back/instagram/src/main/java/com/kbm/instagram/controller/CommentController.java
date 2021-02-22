@@ -23,19 +23,17 @@ public class CommentController {
     @GetMapping
     @ResponseBody
     @ApiOperation(value = "댓글 테스트", notes = "댓글 테스트 중입니다.")
-    public String CommnetTest(){
+    public String CommentTest(){
         return "Test";
     }
 
     @PostMapping
     @ResponseBody
     @ApiOperation(value="댓글 입력", notes = "댓글을 입력하고 있습니다.")
-    public ResponseEntity<?> InsertCommnet(@RequestBody CommentDto commentDto){
+    public ResponseEntity<?> InsertComment(@RequestBody CommentDto commentDto){
         MemberDto memberDto = memberService.getAuthMember();
         commentDto.setWriter(memberDto);
         commentService.create(commentDto);
-
-        System.out.println(commentDto);
 
         return ResponseEntity.ok().body(commentDto);
     }

@@ -34,5 +34,13 @@ public class Comment extends BaseEntity {
         this.content = content;
     }
 
-
+    @Override
+    public String toString() {
+        return "Comment{" +
+                "id=" + id +
+                ", writer=" + writer +
+                ", content='" + content + '\'' +
+                ", subComment=" + subComment +
+                '}';
+    }
 }

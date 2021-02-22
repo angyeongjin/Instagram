@@ -14,4 +14,14 @@ public class SubCommentDto {
     private CommentDto commentDto;
     private MemberDto writer;
 
+
+    @Override
+    public String toString() {
+        return "SubCommentDto{" +
+                "id=" + id +
+                ", content='" + content + '\'' +
+                ", commentDto=" + commentDto +
+                ", writer=" + writer +
+                '}';
+    }
 }

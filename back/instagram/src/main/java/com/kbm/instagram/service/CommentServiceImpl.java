@@ -22,12 +22,14 @@ public class CommentServiceImpl implements CommentService{
     @Transactional
     public CommentDto create(CommentDto commentDto) {
         Member member = Member.builder()
-                .memberId(commentDto.getWriter().getMemberId())
+                .id(commentDto.getWriter().getId())
                 .build();
         Comment comment = Comment.builder()
                 .content(commentDto.getContent())
                 .writer(member).build();
+
         commentRepository.save(comment);
+        commentDto.setId(comment.getId());
         return commentDto;
     }
 
