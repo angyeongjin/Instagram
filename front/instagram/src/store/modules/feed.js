@@ -1,5 +1,4 @@
 import * as feed from "@/api/feed";
-
 export default {
   namespaced: true,
   state: {
@@ -14,6 +13,28 @@ export default {
     DELETE_PROFILE_FEEDS: (state, idx) => state.profileFeeds.splice(idx, 1)
   },
   actions: {
+    commenttest({ commit }, data) {
+      feed
+        .commenttest(data)
+        .then(res => {
+          console.log(res);
+          commit;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    subCommentTest({ commit }, data) {
+      feed
+        .subCommentTest(data.commentId, data)
+        .then(res => {
+          console.log(res);
+          commit;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
     getMainFeeds({ commit }) {
       feed
         .getMain()

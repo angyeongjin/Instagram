@@ -61,7 +61,7 @@ export default {
   },
   methods: {
     goProfile() {
-      this.$router.push(`/mjprojectid`);
+      this.$router.push(`/osb4226`);
     },
     async logout() {
       var auth2 = await gapi.auth2.getAuthInstance();
