@@ -36,7 +36,7 @@ export default {
           feed: this.feed,
           idx: this.idx
         },
-        windowSize: { w: "808px", h: "614px" }
+        options: { windowSize: { w: "808px", h: "614px" } }
       });
     }
   }
