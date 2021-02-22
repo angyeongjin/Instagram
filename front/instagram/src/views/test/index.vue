@@ -1,6 +1,7 @@
 <template>
   <image-test />
   <h1 @click="moveToProfile()">{{ mainFeeds }}</h1>
+  <label for="chkBox" />
 </template>
 <script>
 import ImageTest from "@/components/ImageTest.vue";

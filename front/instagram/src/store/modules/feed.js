@@ -8,7 +8,7 @@ export default {
   },
   mutations: {
     SET_MAIN_FEEDS: (state, feeds) => (state.mainFeeds = feeds),
-    UPDATE_MAIN_FEEDS: (state, feeds) => state.mainFeeds.push(feeds),
+    UPDATE_MAIN_FEEDS: (state, feeds) => state.mainFeeds.push(...feeds),
     SET_PROFILE_FEEDS: (state, feeds) => (state.profileFeeds = feeds),
     UPDATE_PROFILE_FEEDS: (state, feed) => state.profileFeeds.push(feed),
     DELETE_PROFILE_FEEDS: (state, idx) => state.profileFeeds.splice(idx, 1)
@@ -27,7 +27,18 @@ export default {
         });
     },
     getNextMainFeeds({ commit }) {
-      commit("UPDATE_MAIN_FEEDS");
+      feed
+        .getNextMain()
+        .then(res => {
+          // console.log("getNextMainFeeds", res);
+          console.log("current", document.scrollingElement.scrollTop);
+          commit("UPDATE_MAIN_FEEDS", res.data);
+          console.log("height", document.scrollingElement.scrollHeight);
+          // console.log("getNextMainFeeds success");
+        })
+        .catch(err => {
+          console.log("getMainFeeds", err);
+        });
     },
     getProfileFeeds({ commit }, memberId) {
       console.log("가저오는중..");
