@@ -1,7 +1,7 @@
 package com.kbm.instagram.service;
 
 import com.kbm.instagram.domain.Feed;
-import com.kbm.instagram.domain.Like;
+import com.kbm.instagram.domain.Likes;
 import com.kbm.instagram.domain.Member;
 import com.kbm.instagram.dto.FeedDto;
 import com.kbm.instagram.dto.MemberDto;
@@ -40,7 +40,7 @@ public class LikeServiceImpl implements LikeService {
     public List<MemberDto> like(FeedDto feedDto, MemberDto memberDto) {
         Optional<Member> member = likeRepository.findOneByMemberId(feedDto.getId(), memberDto.getMemberId());
         if (member == null) { // 좋아요
-            Like like = Like.builder()
+            Likes like = Likes.builder()
                     .member(Member.builder().id(memberDto.getId()).build())
                     .feed(Feed.builder().id(feedDto.getId()).build())
                     .build();
