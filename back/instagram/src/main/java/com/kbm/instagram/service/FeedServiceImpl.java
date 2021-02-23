@@ -61,6 +61,7 @@ public class FeedServiceImpl implements FeedService {
                     .name(member.getName())
                     .picture(member.getPicture()).build();
             for (Feed feed : feedList) {
+                System.out.println("=========================================="+feed.getCommentList().size());
                 feedDtoList.add(FeedDto.builder()
                         .id(feed.getId())
                         .writer(memberDto)

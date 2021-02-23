@@ -3,8 +3,10 @@ package com.kbm.instagram.controller;
 import com.kbm.instagram.domain.Comment;
 import com.kbm.instagram.domain.Member;
 import com.kbm.instagram.dto.CommentDto;
+import com.kbm.instagram.dto.FeedDto;
 import com.kbm.instagram.dto.MemberDto;
 import com.kbm.instagram.service.CommentService;
+import com.kbm.instagram.service.FeedService;
 import com.kbm.instagram.service.MemberService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +21,7 @@ public class CommentController {
 
     private final CommentService commentService;
     private final MemberService memberService;
+    private final FeedService feedService;
 
     @GetMapping
     @ResponseBody

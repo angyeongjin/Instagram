@@ -30,6 +30,9 @@ public class Comment extends BaseEntity {
     @OneToMany
     private List<SubComment> subComment;
 
+    @ManyToOne
+    private Feed feed;
+
     public void update(String content){
         this.content = content;
     }
@@ -41,6 +44,7 @@ public class Comment extends BaseEntity {
                 ", writer=" + writer +
                 ", content='" + content + '\'' +
                 ", subComment=" + subComment +
+                ", feed=" + feed +
                 '}';
     }
 }
