@@ -46,7 +46,8 @@ public class LikeServiceImpl implements LikeService {
                     .build();
             like = likeRepository.save(like);
         } else { // 좋아요 취소
-            likeRepository.deleteByFeedIdAndMemberId(feedDto.getId(), memberDto.getMemberId());
+            System.out.println("취소");
+            likeRepository.deleteByFeedIdAndMemberId(feedDto.getId(), memberDto.getId());
         }
         return findLikeList(feedDto.getId());
     }

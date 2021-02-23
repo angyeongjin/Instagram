@@ -65,7 +65,7 @@ public class FeedController {
         for (FeedDto feedDto : feedDtoList) {
             feedDto.setLikeList(likeService.findLikeList(feedDto.getId()));
         }
-        return feedService.findByMemberId(memberId);
+        return feedDtoList;
     }
 
     @GetMapping("/main")
@@ -76,7 +76,7 @@ public class FeedController {
         for (FeedDto feedDto : feedDtoList) {
             feedDto.setLikeList(likeService.findLikeList(feedDto.getId()));
         }
-        return feedService.findByMemberId(memberDto.getMemberId());
+        return feedDtoList;
     }
 
     @PutMapping
