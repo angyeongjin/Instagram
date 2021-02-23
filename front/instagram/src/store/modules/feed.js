@@ -1,5 +1,6 @@
 import * as feed from "@/api/feed";
-
+// const xor = (arr, item) =>
+//   arr.includes(item) ? arr.filter(i => i !== item) : [...arr, item];
 export default {
   namespaced: true,
   state: {
@@ -9,6 +10,8 @@ export default {
   mutations: {
     SET_MAIN_FEEDS: (state, feeds) => (state.mainFeeds = feeds),
     UPDATE_MAIN_FEEDS: (state, feeds) => state.mainFeeds.push(...feeds),
+    UPDATE_LIKE: (state, { idx, data }) =>
+      (state.mainFeeds[idx].likeList = data),
     SET_PROFILE_FEEDS: (state, feeds) => (state.profileFeeds = feeds),
     UPDATE_PROFILE_FEEDS: (state, feed) => state.profileFeeds.push(feed),
     DELETE_PROFILE_FEEDS: (state, idx) => state.profileFeeds.splice(idx, 1)
@@ -78,6 +81,18 @@ export default {
         })
         .catch(err => {
           console.log("deleteProfileFeed", err);
+        });
+    },
+    updateLike({ commit }, { feedId, idx }) {
+      feed
+        .like(feedId)
+        .then(res => {
+          console.log("updateLike", res);
+          commit("UPDATE_LIKE", { idx, data: res.data });
+          console.log("updateLike success");
+        })
+        .catch(err => {
+          console.log("updateLike", err);
         });
     }
   }

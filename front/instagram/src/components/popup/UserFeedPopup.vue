@@ -55,7 +55,7 @@
             </svg>
           </label>
           <div>
-            <div class="modal__box" @click="deleteFeed()"></div>
+            <div class="modal__box" @click="deleteFeed"></div>
             <label :for="`feed-option-${idx}`"></label>
           </div>
         </div>
@@ -107,7 +107,8 @@
               </svg>
             </button>
             <p style="margin-top: 8px;" class="font-blod">
-              좋아요 <span>26,492</span>개
+              좋아요 <span>{{ LIKE_NUM }}</span
+              >개
             </p>
             <!-- actived -->
             <!-- <button class="no__btn">
@@ -145,13 +146,18 @@ export default {
       type: Number
     }
   },
+  computed: {
+    LIKE_NUM() {
+      return this.feed.likeList.length;
+    }
+  },
   methods: {
     ...mapActions("feed", ["deleteProfileFeed"]),
     async deleteFeed() {
       if (confirm("삭제하시겠습니까?")) {
         const data = {
           feedId: this.feed.id,
-          idx: this.idx - 1
+          idx: this.idx
         };
         await this.deleteProfileFeed(data);
         this.$store.commit("closePopup");

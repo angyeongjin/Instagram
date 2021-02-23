@@ -30,7 +30,7 @@ export default {
       this.$store.commit("closePopup");
       console.log(
         "[🐶 DDD] ~ file: FullPopup.vue ~ line 15 ~ onClickClose ~ this.$store.state.isPupop",
-        this.$store.state.isPupop
+        this.$store.state.isPopup
       );
     }
   }

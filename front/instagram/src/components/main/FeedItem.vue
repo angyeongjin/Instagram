@@ -52,7 +52,7 @@
     </div>
     <div class="feed-img">
       <img :src="feed.images[0]" alt="피드 이미지" height="614" width="614" />
-      <feed-util />
+      <feed-util :idx="idx" />
     </div>
     <feed-contents :content="feed.contents" />
     <div class="feed-comments">

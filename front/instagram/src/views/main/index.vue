@@ -40,11 +40,11 @@ export default {
   },
   created() {
     this.getMainFeeds();
+  },
+  mounted() {
     // setInterval(() => {
     //   this.handleScroll();
     // }, 1000);
-  },
-  mounted() {
     // console.log(this.$store.getters.token);
     // console.log(this.token);
   },

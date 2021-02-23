@@ -34,3 +34,12 @@ export const delFeed = feedId =>
     url: `feed/${feedId}`,
     method: "delete"
   });
+
+export const like = feedId =>
+  request({
+    url: `like`,
+    method: "post",
+    data: {
+      feedId
+    }
+  });
