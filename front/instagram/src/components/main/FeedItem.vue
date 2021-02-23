@@ -52,7 +52,7 @@
     </div>
     <div class="feed-img">
       <img :src="feed.images[0]" alt="피드 이미지" height="614" width="614" />
-      <feed-util :idx="idx" />
+      <feed-util :idx="idx" field="main" />
     </div>
     <feed-contents :content="feed.contents" />
     <div class="feed-comments">
@@ -66,7 +66,7 @@
 </template>
 
 <script>
-import FeedUtil from "@/components/main/FeedUtil.vue";
+import FeedUtil from "@/components/FeedUtil.vue";
 import FeedComment from "@/components/main/FeedComment.vue";
 import AddFeedComment from "@/components/main/AddFeedComment.vue";
 import FeedContents from "@/components/main/FeedContents";

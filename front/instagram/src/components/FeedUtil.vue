@@ -26,20 +26,34 @@
 </template>
 <script>
 import { mapActions, mapState } from "vuex";
-// import { mapState } from "vuex";
 export default {
-  props: ["idx"],
+  props: {
+    idx: {
+      require: true,
+      type: Number
+    },
+    field: {
+      require: true,
+      type: String
+    }
+  },
   computed: {
-    ...mapState("feed", ["mainFeeds"]),
+    ...mapState("feed", ["mainFeeds", "profileFeeds"]),
+    feed() {
+      return this.field === "main"
+        ? this.mainFeeds[this.idx]
+        : this.profileFeeds[this.idx];
+    },
     LIKE_NUM() {
-      return this.mainFeeds[this.idx].likeList.length;
+      return this.feed.likeList.length;
     }
   },
   methods: {
     ...mapActions("feed", ["updateLike"]),
     onClickLike() {
       const data = {
-        feedId: this.mainFeeds[this.idx].id,
+        field: this.field,
+        feedId: this.feed.id,
         idx: this.idx
       };
       this.updateLike(data);
