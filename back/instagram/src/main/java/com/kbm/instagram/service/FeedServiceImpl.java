@@ -46,7 +46,40 @@ public class FeedServiceImpl implements FeedService {
     @Override
     public List<FeedDto> findByMemberId(String memberId) {
         List<Feed> feedList = feedRepository.findByMemberId(memberId);
+<<<<<<< Updated upstream
         List<FeedDto> feedDtoList= new ArrayList<>();
+=======
+        List<FeedDto> feedDtoList = new ArrayList<>();
+        Optional<Member> memberOptional = memberRepository.findByMemberId(memberId);
+        if (memberOptional != null) {
+            Member member = memberOptional.get();
+            MemberDto memberDto = MemberDto.builder()
+                    .id(member.getId())
+                    .memberId(member.getMemberId())
+                    .email(member.getEmail())
+                    .name(member.getName())
+                    .picture(member.getPicture()).build();
+            for (Feed feed : feedList) {
+                System.out.println("=========================================="+feed.getCommentList().size());
+                feedDtoList.add(FeedDto.builder()
+                        .id(feed.getId())
+                        .writer(memberDto)
+                        .images(feed.getImages())
+                        .contents(feed.getContents()).build());
+            }
+        }
+        return feedDtoList;
+    }
+
+    @Override
+    public List<FeedDto> findFollowFeedByMemberId(String memberId) {
+        List<Member> followers = followRepository.findFollower(memberId);
+        Optional<Member> memberOptional = memberRepository.findByMemberId(memberId);
+        if (memberOptional != null) followers.add(memberOptional.get());
+
+        List<Feed> feedList = feedRepository.findByMultiMemberId(followers);
+        List<FeedDto> feedDtoList = new ArrayList<>();
+>>>>>>> Stashed changes
         for (Feed feed : feedList) {
             feedDtoList.add(FeedDto.builder()
                     .id(feed.getId())

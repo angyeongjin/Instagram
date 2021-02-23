@@ -13,6 +13,7 @@ public class CommentDto {
     private Long id;
     private MemberDto writer;
     private String content;
+    private Long feedId;
 
     @Override
     public String toString() {
@@ -20,6 +21,7 @@ public class CommentDto {
                 "id=" + id +
                 ", writer=" + writer +
                 ", content='" + content + '\'' +
+                ", feedId=" + feedId +
                 '}';
     }
 }
