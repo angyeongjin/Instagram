@@ -39,7 +39,7 @@ public class LikeServiceImpl implements LikeService {
     @Transactional
     public List<MemberDto> like(FeedDto feedDto, MemberDto memberDto) {
         Optional<Member> member = likeRepository.findOneByMemberId(feedDto.getId(), memberDto.getMemberId());
-        if (member == null) { // 좋아요
+        if (member.isEmpty()) { // 좋아요
             Likes like = Likes.builder()
                     .member(Member.builder().id(memberDto.getId()).build())
                     .feed(Feed.builder().id(feedDto.getId()).build())
