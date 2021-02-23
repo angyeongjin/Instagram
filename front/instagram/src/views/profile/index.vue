@@ -9,7 +9,7 @@
           v-for="(feed, index) in this.profileFeeds"
           :key="feed.id"
           :feed="feed"
-          :idx="index + 1"
+          :idx="index"
         />
       </ul>
     </div>
