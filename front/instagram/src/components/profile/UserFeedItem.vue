@@ -14,21 +14,10 @@
   </li>
 </template>
 <script>
-import { mapActions } from "vuex";
 import UserFeedPopup from "@/components/popup/UserFeedPopup";
 export default {
   props: ["feed", "idx"],
   methods: {
-    ...mapActions("feed", ["deleteProfileFeed"]),
-    deleteFeed() {
-      if (confirm("삭제하시겠습니까?")) {
-        const data = {
-          feedId: this.feed.id,
-          idx: this.idx - 1
-        };
-        this.deleteProfileFeed(data);
-      }
-    },
     onClickUserFeedPopup() {
       this.$store.commit("showPopup", {
         component: UserFeedPopup,

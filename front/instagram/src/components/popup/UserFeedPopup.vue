@@ -133,6 +133,7 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 export default {
   props: {
     feed: {
@@ -142,6 +143,19 @@ export default {
     idx: {
       require: true,
       type: Number
+    }
+  },
+  methods: {
+    ...mapActions("feed", ["deleteProfileFeed"]),
+    async deleteFeed() {
+      if (confirm("삭제하시겠습니까?")) {
+        const data = {
+          feedId: this.feed.id,
+          idx: this.idx - 1
+        };
+        await this.deleteProfileFeed(data);
+        this.$store.commit("closePopup");
+      }
     }
   }
 };
