@@ -4,12 +4,14 @@ import com.kbm.instagram.dto.GoogleTokenDto;
 import com.kbm.instagram.dto.MemberDto;
 import com.kbm.instagram.dto.RequestMemberDto;
 import com.kbm.instagram.service.MemberService;
+import com.kbm.instagram.service.S3UploadService;
 import com.kbm.instagram.service.ValidationService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
@@ -24,26 +26,50 @@ public class MemberController {
 
     private final MemberService memberService;
     private final ValidationService validationService;
+    private final S3UploadService s3UploadService;
 
     @GetMapping
     @ResponseBody
     @ApiOperation(value = "로그인된 회원 정보 조회", notes = "현재 로그인 되어 있는 회원의 정보를 조회합니다.")
-    public MemberDto getMemberInfo() {
+    public MemberDto getAuthMemberInfo() {
         MemberDto memberDto = memberService.getAuthMember();
+        return memberDto;
+    }
+
+    @GetMapping("/{memberId}")
+    @ResponseBody
+    @ApiOperation(value = "회원 아이디로 회원 조회 (단일)", notes = "회원 아이디로 회원 정보를 조회합니다.")
+    public MemberDto getMemberInfo(@PathVariable String memberId) {
+        MemberDto memberDto = memberService.getMemberInfoByMemberId(memberId);
         return memberDto;
     }
 
     @PutMapping
     @ResponseBody
     @ApiOperation(value = "회원 정보 수정", notes = "회원 정보를 수정합니다.")
-    public MemberDto updateMember(@RequestBody RequestMemberDto requestMemberDto) {
-        MemberDto memberDto = memberService.update(requestMemberDto);
+    public MemberDto updateMember(RequestMemberDto requestMemberDto) {
+        MemberDto loginMemberDto = memberService.getAuthMember();
+        MemberDto memberDto = MemberDto.builder()
+                .id(loginMemberDto.getId())
+                .memberId(requestMemberDto.getMemberId())
+                .name(requestMemberDto.getName())
+                .email(requestMemberDto.getEmail())
+                .picture(loginMemberDto.getPicture())
+                .build();
+        try {
+            if (requestMemberDto.getPictureFile() != null) {
+                String picture = s3UploadService.uploadFile(requestMemberDto.getPictureFile(), "picture/");
+            }
+        } catch (Exception e) {
+
+        }
+        memberDto = memberService.save(memberDto);
         return memberDto;
     }
 
     @GetMapping("/search/{memberId}")
     @ResponseBody
-    @ApiOperation(value = "회원 아이디로 회원 검색", notes = "앞글자부터 일치하는 회원 아이디로 회원 정보를 검색합니다")
+    @ApiOperation(value = "회원 아이디로 회원 검색 (여러개)", notes = "앞글자부터 일치하는 회원 아이디로 회원 정보를 검색합니다")
     public List<MemberDto> searchMemberList(@PathVariable String memberId) {
         List<MemberDto> memberDtoList = memberService.getMemberListByMemberId(memberId);
         return memberDtoList;
@@ -74,11 +100,11 @@ public class MemberController {
         } catch (NoSuchElementException e) {
             System.out.println("Not registered as a member.. signUp member. email : " + googleMemberDto.getEmail());
             memberService.googleSignUp(googleMemberDto);
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok().body(memberDto);
         } catch (IllegalArgumentException e) {
             System.out.println("token is not vailed");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body(memberDto);
     }
 }

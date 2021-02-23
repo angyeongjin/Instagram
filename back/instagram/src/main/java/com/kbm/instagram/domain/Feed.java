@@ -25,7 +25,8 @@ public class Feed extends BaseEntity {
 
     @ManyToOne
     private Member writer;
-    @OneToMany
+
+    @OneToMany(mappedBy = "feed", cascade = CascadeType.ALL)
     private List<Comment> commentList;
 
     // todo

@@ -9,9 +9,9 @@ import java.util.List;
 
 public interface FollowRepository extends JpaRepository<Follow, Long> {
 
-    @Query("SELECT f.follower FROM Follow f WHERE f.following = ?1")
+    @Query("SELECT f.follower FROM Follow f WHERE f.following.memberId = ?1")
     public List<Member> findFollower(String memberId);
 
-    @Query("SELECT f.following FROM Follow f WHERE f.follower = ?1")
+    @Query("SELECT f.following FROM Follow f WHERE f.follower.memberId = ?1")
     public List<Member> findFollowing(String memberId);
 }
