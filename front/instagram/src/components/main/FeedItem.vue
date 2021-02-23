@@ -61,7 +61,7 @@
         >2일전</span
       >
     </div>
-    <add-feed-comment />
+    <add-feed-comment :feedid="feed.id" />
   </div>
 </template>
 
