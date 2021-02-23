@@ -75,23 +75,14 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public MemberDto signUp(RequestMemberDto signUpMemberDto) {
-        // 프로필 업로드 코드 작성할 것
-        String picture = "";
-
+    public MemberDto save(MemberDto memberDto) {
         Member member = Member.builder()
-                .email(signUpMemberDto.getEmail())
-                .name(signUpMemberDto.getName())
-                .picture(picture).build();
+                .email(memberDto.getEmail())
+                .name(memberDto.getName())
+                .picture(memberDto.getPicture()).build();
 
         member = memberRepository.save(member);
-
-        signUpMemberDto.setId(member.getId());
-        MemberDto memberDto = MemberDto.builder()
-                .id(member.getId())
-                .email(member.getEmail())
-                .name(member.getName())
-                .picture(member.getPicture()).build();
+        memberDto.setId(member.getId());
         return memberDto;
     }
 
@@ -105,27 +96,6 @@ public class MemberServiceImpl implements MemberService {
                 .picture(googleMmberDto.getPicture()).build();
         member = memberRepository.save(member);
         return googleMmberDto;
-    }
-
-    @Override
-    public MemberDto update(RequestMemberDto signUpMemberDto) {
-        // 프로필 업로드 코드 작성할 것
-        String picture = "";
-
-        Member member = Member.builder()
-                .email(signUpMemberDto.getEmail())
-                .name(signUpMemberDto.getName())
-                .picture(picture).build();
-
-        member = memberRepository.save(member);
-
-        signUpMemberDto.setId(member.getId());
-        MemberDto memberDto = MemberDto.builder()
-                .id(member.getId())
-                .email(member.getEmail())
-                .name(member.getName())
-                .picture(member.getPicture()).build();
-        return memberDto;
     }
 
     @Override

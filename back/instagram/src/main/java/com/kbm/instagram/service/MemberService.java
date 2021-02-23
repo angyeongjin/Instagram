@@ -11,9 +11,8 @@ public interface MemberService {
     public MemberDto getMemberInfoByMemberId(String memberId);
     public List<MemberDto> getMemberListByMemberId(String memberId);
     public MemberDto getMemberInfoByEmail(String email);
-    public MemberDto signUp(RequestMemberDto signUpMemberDto);
+    public MemberDto save(MemberDto memberDto);
     public MemberDto googleSignUp(MemberDto memberDto);
-    public MemberDto update(RequestMemberDto signUpMemberDto);
     public void delete(String memberId);
     public MemberDto getAuthMember();
 }
