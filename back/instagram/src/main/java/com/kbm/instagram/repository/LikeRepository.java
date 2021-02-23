@@ -20,5 +20,5 @@ public interface LikeRepository extends JpaRepository<Likes, Long> {
     @Query("SELECT l.member FROM Likes l WHERE l.feed.id = ?1 AND l.member.memberId = ?2")
     public Optional<Member> findOneByMemberId(Long feedId, String memberId);
 
-    public void deleteByFeedIdAndMemberId(Long feedId, String memberId);
+    public void deleteByFeedIdAndMemberId(Long feedId, long memberId);
 }
