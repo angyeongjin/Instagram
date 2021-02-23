@@ -11,7 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Getter
 @Setter
 public class RequestMemberDto {
-    private Long id;
+    private String memberId;
     private String name;
     private String email;
     private MultipartFile pictureFile;

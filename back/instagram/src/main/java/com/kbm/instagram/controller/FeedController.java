@@ -4,6 +4,7 @@ import com.kbm.instagram.dto.FeedDto;
 import com.kbm.instagram.dto.MemberDto;
 import com.kbm.instagram.dto.RequestFeedDto;
 import com.kbm.instagram.service.FeedService;
+import com.kbm.instagram.service.LikeService;
 import com.kbm.instagram.service.MemberService;
 import com.kbm.instagram.service.S3UploadService;
 import io.swagger.annotations.ApiOperation;
@@ -21,6 +22,7 @@ import java.util.List;
 public class FeedController {
 
     private final FeedService feedService;
+    private final LikeService likeService;
     private final MemberService memberService;
     private final S3UploadService s3UploadService;
 
@@ -50,19 +52,31 @@ public class FeedController {
     @GetMapping("/{id}")
     @ApiOperation(value = "피드 조회 (단일)", notes = "피드 id를 받아 피드를 하나 조회합니다.")
     FeedDto getFeedInfo(@PathVariable Long id) {
-        return feedService.findByFeedId(id);
+        List<MemberDto> likeMemberList = likeService.findLikeList(id);
+        FeedDto feedDto = feedService.findByFeedId(id);
+        feedDto.setLikeList(likeMemberList);
+        return feedDto;
     }
 
     @GetMapping("/member/{memberId}")
     @ApiOperation(value = "특정 회원의 피드 전체 조회", notes = "회원의 memberId를 받아 해당 회원의 피드를 전부 조회합니다.")
     List<FeedDto> getMemberFeed(@PathVariable String memberId) {
-        return feedService.findByMemberId(memberId);
+        List<FeedDto> feedDtoList = feedService.findByMemberId(memberId);
+        for (FeedDto feedDto : feedDtoList) {
+            feedDto.setLikeList(likeService.findLikeList(feedDto.getId()));
+        }
+        return feedDtoList;
     }
 
     @GetMapping("/main")
-    @ApiOperation(value = "팔로우한 사람의 모든 피드 보기 (메인피드)", notes = "내가 팔로우한 사람의 피드를 조회합니다.")
-    List<FeedDto> getFollowerFeed(@PathVariable String memberId) {
-        return feedService.findByMemberId(memberId);
+    @ApiOperation(value = "팔로우한 사람의 모든 피드 보기 (메인피드)", notes = "내가 팔로우한 사람의 피드를 조회합니다. 나중에 페이징 처리 해야할듯?")
+    List<FeedDto> getFollowerFeed() {
+        MemberDto memberDto = memberService.getAuthMember();
+        List<FeedDto> feedDtoList = feedService.findByMemberId(memberDto.getMemberId());
+        for (FeedDto feedDto : feedDtoList) {
+            feedDto.setLikeList(likeService.findLikeList(feedDto.getId()));
+        }
+        return feedDtoList;
     }
 
     @PutMapping
