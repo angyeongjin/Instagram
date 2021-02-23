@@ -2,12 +2,12 @@
   <li class="user-profile-feed__item">
     <div class="user-profil-feed-img">
       <input
-        :id="`feed-detail__check-0${idx}`"
+        :id="`feed-detail__check-${idx}`"
         type="checkbox"
         style="display:none;"
         @click="onClickUserFeedPopup"
       />
-      <label :for="`feed-detail__check-0${idx}`" style="display: inline-block;">
+      <label :for="`feed-detail__check-${idx}`" style="display: inline-block;">
         <img :src="feed.images[0]" alt="empty" height="293" width="293" />
       </label>
     </div>
@@ -24,7 +24,8 @@ export default {
         prop: {
           feed: this.feed,
           idx: this.idx
-        }
+        },
+        options: { windowSize: { w: "808px", h: "614px" } }
       });
     }
   }

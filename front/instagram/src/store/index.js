@@ -18,18 +18,17 @@ const store = createStore({
   state: {
     popupCompo: null,
     popupProp: null,
-    isPopup: false
+    isPopup: false,
+    popupOptions: {
+      windowSize: null
+    }
   },
   mutations: {
-    showPopup(state, { component, prop }) {
-      console.log(
-        "[🐶 DDD] ~ file: index.js ~ line 25 ~ showPopup ~ component, prop",
-        component,
-        prop
-      );
+    showPopup(state, { component, prop, options }) {
       state.isPopup = true;
       state.popupCompo = component;
       state.popupProp = prop;
+      state.popupOptions = options;
     },
     closePopup(state) {
       state.isPopup = false;

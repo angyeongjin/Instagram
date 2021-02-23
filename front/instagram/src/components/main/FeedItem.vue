@@ -1,5 +1,5 @@
 <template>
-  <div class="feed__item">
+  <div class="feed__item feed__list__item">
     <div class="feed-header">
       <span class="instagram_profile32 feed-header_profile"
         ><img

@@ -4,6 +4,7 @@
       :is="POPUP_COMPONENT"
       v-bind="POPUP_PROP"
       class="popup__box"
+      :style="POPUP_WINDOW_SIZE"
     ></component>
     <div id="popup--bg" @click="onClickClose"></div>
   </div>
@@ -14,18 +15,14 @@ export default {
   name: "FullPopup",
   computed: {
     POPUP_COMPONENT() {
-      console.log(
-        "[🐶 DDD] ~ file: FullPopup.vue ~ line 19 ~ POPUP_COMPONENT ~ this.$store.state.popupcompo",
-        this.$store.state.popupCompo
-      );
       return this.$store.state.popupCompo;
     },
     POPUP_PROP() {
-      console.log(
-        "[🐶 DDD] ~ file: FullPopup.vue ~ line 26 ~ POPUP_PROP ~ this.$store.state.popupProp",
-        this.$store.state.popupProp
-      );
       return this.$store.state.popupProp;
+    },
+    POPUP_WINDOW_SIZE() {
+      const { height, h, width, w } = this.$store.state.popupOptions.windowSize;
+      return `width: ${width || w}; height: ${height || h}`;
     }
   },
   methods: {
