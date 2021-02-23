@@ -1,7 +1,9 @@
 package com.kbm.instagram.service;
 
+import com.kbm.instagram.domain.Comment;
 import com.kbm.instagram.domain.Feed;
 import com.kbm.instagram.domain.Member;
+import com.kbm.instagram.dto.CommentDto;
 import com.kbm.instagram.dto.FeedDto;
 import com.kbm.instagram.dto.MemberDto;
 import com.kbm.instagram.dto.RequestFeedDto;
@@ -76,10 +78,13 @@ public class FeedServiceImpl implements FeedService {
         List<Member> followers = followRepository.findFollower(memberId);
         Optional<Member> memberOptional = memberRepository.findByMemberId(memberId);
         if (memberOptional != null) followers.add(memberOptional.get());
-
         List<Feed> feedList = feedRepository.findByMultiMemberId(followers);
         List<FeedDto> feedDtoList = new ArrayList<>();
         for (Feed feed : feedList) {
+            List<CommentDto> commentDtoList = new ArrayList<>();
+            for (Comment comment : feed.getCommentList() ) {
+                commentDtoList.add(CommentToDto(comment));
+            }
             feedDtoList.add(FeedDto.builder()
                     .id(feed.getId())
                     .writer(MemberDto.builder()
@@ -89,7 +94,8 @@ public class FeedServiceImpl implements FeedService {
                             .name(feed.getWriter().getName())
                             .picture(feed.getWriter().getPicture()).build())
                     .images(feed.getImages())
-                    .contents(feed.getContents()).build());
+                    .contents(feed.getContents())
+                    .commentList(commentDtoList).build());
         }
         return feedDtoList;
     }
@@ -110,5 +116,19 @@ public class FeedServiceImpl implements FeedService {
     @Override
     public void deleteByFeedId(Long id) {
         feedRepository.deleteById(id);
+    }
+
+    // 나중에 dto mapper 따로 관리하는 서비스 만들던가 해야겠음...
+    public CommentDto CommentToDto(Comment comment){
+        return CommentDto.builder()
+                .id(comment.getId())
+                .content(comment.getContent())
+                .writer(MemberDto.builder()
+                        .id(comment.getWriter().getId())
+                        .memberId(comment.getWriter().getMemberId())
+                        .email(comment.getWriter().getEmail())
+                        .name(comment.getWriter().getName())
+                        .picture(comment.getWriter().getPicture()).build())
+                .build();
     }
 }

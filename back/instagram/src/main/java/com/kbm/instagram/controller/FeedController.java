@@ -72,7 +72,7 @@ public class FeedController {
     @ApiOperation(value = "팔로우한 사람의 모든 피드 보기 (메인피드)", notes = "내가 팔로우한 사람의 피드를 조회합니다. 나중에 페이징 처리 해야할듯?")
     List<FeedDto> getFollowerFeed() {
         MemberDto memberDto = memberService.getAuthMember();
-        List<FeedDto> feedDtoList = feedService.findByMemberId(memberDto.getMemberId());
+        List<FeedDto> feedDtoList = feedService.findFollowFeedByMemberId(memberDto.getMemberId());
         for (FeedDto feedDto : feedDtoList) {
             feedDto.setLikeList(likeService.findLikeList(feedDto.getId()));
         }
