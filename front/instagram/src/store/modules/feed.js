@@ -1,9 +1,6 @@
 import * as feed from "@/api/feed";
-<<<<<<< HEAD
-=======
 // const xor = (arr, item) =>
 //   arr.includes(item) ? arr.filter(i => i !== item) : [...arr, item];
->>>>>>> develop/front
 export default {
   namespaced: true,
   state: {
