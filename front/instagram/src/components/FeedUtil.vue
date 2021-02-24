@@ -48,7 +48,10 @@ export default {
     }
   },
   computed: {
-    ...mapState("feed", ["mainFeeds", "profileFeeds"]),
+    ...mapState("feed", {
+      mainFeeds: state => state.main.feeds,
+      profileFeeds: state => state.profile.feeds
+    }),
     feed() {
       return this.field === "main"
         ? this.mainFeeds[this.idx]

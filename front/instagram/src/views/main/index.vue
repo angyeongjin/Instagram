@@ -6,7 +6,7 @@
       <section id="main-left">
         <h2 class="none">feed list</h2>
         <feed-item
-          v-for="(feed, index) in mainFeeds"
+          v-for="(feed, index) in feeds"
           :key="feed.id"
           :feed="feed"
           :idx="index"
@@ -34,13 +34,16 @@ export default {
   }),
   computed: {
     ...mapGetters(["token"]),
-    ...mapState("feed", ["mainFeeds", "mainPageNum"]),
+    ...mapState("feed", {
+      feeds: state => state.main.feeds,
+      pageNum: state => state.main.pageNum
+    }),
     CALL_POINT() {
       return Math.ceil(this.SCROLL_MAX_H * 0.6);
     }
   },
   created() {
-    if (this.mainPageNum === 1) this.getMainFeeds();
+    if (this.pageNum === 1) this.getMainFeeds();
   },
   mounted() {
     this.intervalID = setInterval(() => {

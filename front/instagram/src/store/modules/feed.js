@@ -2,27 +2,30 @@ import * as feed from "@/api/feed";
 export default {
   namespaced: true,
   state: {
-    mainFeeds: [],
-    mainPageNum: 1,
-    profileFeeds: [],
-    profilePageNum: 1
+    main: {
+      feeds: [],
+      pageNum: 1
+    },
+    profile: {
+      feeds: [],
+      pageNum: 1
+    }
   },
   mutations: {
-    // SET_MAIN_FEEDS: (state, feeds) => (state.mainFeeds = feeds),
-    UPDATE_MAIN_FEEDS: (state, feeds) => state.mainFeeds.push(...feeds),
+    UPDATE_MAIN_FEEDS: (state, feeds) => state.main.feeds.push(...feeds),
     UPDATE_LIKE_MAIN: (state, { idx, data }) =>
-      (state.mainFeeds[idx].likeList = data),
-    UPDATE_PAGENUM_MAIN: state => state.mainPageNum++,
-    SET_PROFILE_FEEDS: (state, feeds) => (state.profileFeeds = feeds),
-    UPDATE_PROFILE_FEEDS: (state, feed) => state.profileFeeds.push(feed),
+      (state.main.feeds[idx].likeList = data),
+    UPDATE_PAGENUM_MAIN: state => state.main.pageNum++,
+    SET_PROFILE_FEEDS: (state, feeds) => (state.profile.feeds = feeds),
+    UPDATE_PROFILE_FEEDS: (state, feed) => state.profile.feeds.push(feed),
     UPDATE_LIKE_PROFILE: (state, { idx, data }) =>
-      (state.profileFeeds[idx].likeList = data),
-    DELETE_PROFILE_FEEDS: (state, idx) => state.profileFeeds.splice(idx, 1)
+      (state.profile.feeds[idx].likeList = data),
+    DELETE_PROFILE_FEEDS: (state, idx) => state.profile.feeds.splice(idx, 1)
   },
   actions: {
     getMainFeeds({ state, commit }) {
       return feed
-        .getMain(state.mainPageNum)
+        .getMain(state.main.pageNum)
         .then(res => {
           if (res.status === 204) return res.status;
           commit("UPDATE_MAIN_FEEDS", res.data);
@@ -56,7 +59,6 @@ export default {
       });
     },
     deleteProfileFeed({ commit }, data) {
-      console.log(data);
       feed
         .delFeed(data.feedId)
         .then(() => {
