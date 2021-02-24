@@ -1,7 +1,6 @@
 <template>
   <div id="wrap">
     <insta-header v-if="this.$store.getters.token" />
-
     <div id="container" role="main">
       <section id="main-left">
         <h2 class="none">feed list</h2>
@@ -43,7 +42,7 @@ export default {
     }
   },
   created() {
-    if (this.pageNum === 1) this.getMainFeeds();
+    this.getMainFeeds();
   },
   mounted() {
     this.intervalID = setInterval(() => {
@@ -59,7 +58,7 @@ export default {
       const scroll = document.scrollingElement.scrollTop;
       this.SCROLL_MAX_H = document.scrollingElement.scrollHeight;
       if (scroll > this.CALL_POINT) {
-        const status = await this.getMainFeeds();
+        const status = await this.getNextMainFeeds();
         if (status === 204) clearInterval(this.intervalID);
       }
     }

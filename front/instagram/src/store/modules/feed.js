@@ -12,10 +12,11 @@ export default {
     }
   },
   mutations: {
+    SET_MAIN_FEEDS: (state, feeds) => (state.main.feeds = feeds),
     UPDATE_MAIN_FEEDS: (state, feeds) => state.main.feeds.push(...feeds),
     UPDATE_LIKE_MAIN: (state, { idx, data }) =>
       (state.main.feeds[idx].likeList = data),
-    UPDATE_PAGENUM_MAIN: state => state.main.pageNum++,
+    UPDATE_PAGENUM_MAIN: (state, next) => (state.main.pageNum = next),
     SET_PROFILE_FEEDS: (state, feeds) => (state.profile.feeds = feeds),
     UPDATE_PROFILE_FEEDS: (state, feed) => state.profile.feeds.push(feed),
     UPDATE_LIKE_PROFILE: (state, { idx, data }) =>
@@ -23,13 +24,25 @@ export default {
     DELETE_PROFILE_FEEDS: (state, idx) => state.profile.feeds.splice(idx, 1)
   },
   actions: {
-    getMainFeeds({ state, commit }) {
+    getMainFeeds({ commit }, page = 1) {
+      feed
+        .getMain(page)
+        .then(res => {
+          commit("SET_MAIN_FEEDS", res.data);
+          commit("UPDATE_PAGENUM_MAIN", page + 1);
+        })
+        .catch(err => {
+          console.log("getMainFeeds", err);
+        });
+    },
+    getNextMainFeeds({ state, commit }) {
+      const page = state.main.pageNum;
       return feed
-        .getMain(state.main.pageNum)
+        .getMain(page)
         .then(res => {
           if (res.status === 204) return res.status;
           commit("UPDATE_MAIN_FEEDS", res.data);
-          commit("UPDATE_PAGENUM_MAIN");
+          commit("UPDATE_PAGENUM_MAIN", page + 1);
         })
         .catch(err => {
           console.log("getMainFeeds", err);
