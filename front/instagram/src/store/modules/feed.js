@@ -1,17 +1,18 @@
 import * as feed from "@/api/feed";
-// const xor = (arr, item) =>
-//   arr.includes(item) ? arr.filter(i => i !== item) : [...arr, item];
 export default {
   namespaced: true,
   state: {
     mainFeeds: [],
-    profileFeeds: []
+    mainPageNum: 1,
+    profileFeeds: [],
+    profilePageNum: 1
   },
   mutations: {
-    SET_MAIN_FEEDS: (state, feeds) => (state.mainFeeds = feeds),
+    // SET_MAIN_FEEDS: (state, feeds) => (state.mainFeeds = feeds),
     UPDATE_MAIN_FEEDS: (state, feeds) => state.mainFeeds.push(...feeds),
     UPDATE_LIKE_MAIN: (state, { idx, data }) =>
       (state.mainFeeds[idx].likeList = data),
+    UPDATE_PAGENUM_MAIN: state => state.mainPageNum++,
     SET_PROFILE_FEEDS: (state, feeds) => (state.profileFeeds = feeds),
     UPDATE_PROFILE_FEEDS: (state, feed) => state.profileFeeds.push(feed),
     UPDATE_LIKE_PROFILE: (state, { idx, data }) =>
@@ -19,40 +20,23 @@ export default {
     DELETE_PROFILE_FEEDS: (state, idx) => state.profileFeeds.splice(idx, 1)
   },
   actions: {
-    getMainFeeds({ commit }) {
-      feed
-        .getMain()
+    getMainFeeds({ state, commit }) {
+      return feed
+        .getMain(state.mainPageNum)
         .then(res => {
-          console.log("getMainFeeds", res);
-          commit("SET_MAIN_FEEDS", res.data);
-          console.log("getMainFeeds success");
-        })
-        .catch(err => {
-          console.log("getMainFeeds", err);
-        });
-    },
-    getNextMainFeeds({ commit }) {
-      feed
-        .getNextMain()
-        .then(res => {
-          // console.log("getNextMainFeeds", res);
-          console.log("current", document.scrollingElement.scrollTop);
+          if (res.status === 204) return res.status;
           commit("UPDATE_MAIN_FEEDS", res.data);
-          console.log("height", document.scrollingElement.scrollHeight);
-          // console.log("getNextMainFeeds success");
+          commit("UPDATE_PAGENUM_MAIN");
         })
         .catch(err => {
           console.log("getMainFeeds", err);
         });
     },
     getProfileFeeds({ commit }, memberId) {
-      console.log("가저오는중..");
       feed
         .getProfile(memberId)
         .then(res => {
-          console.log("getProfileFeedds", res);
           commit("SET_PROFILE_FEEDS", res.data);
-          console.log("getProfileFeedds success");
         })
         .catch(err => {
           console.log("getProfileFeedds", err);
@@ -67,7 +51,6 @@ export default {
 
       console.log("전송중..");
       return feed.insert(formData).then(res => {
-        console.log("addProfileFeed", res);
         commit("UPDATE_PROFILE_FEEDS", res.data);
         console.log("addProfileFeed success");
       });
@@ -76,26 +59,20 @@ export default {
       console.log(data);
       feed
         .delFeed(data.feedId)
-        .then(res => {
-          console.log("deleteProfileFeed", res);
+        .then(() => {
           commit("DELETE_PROFILE_FEEDS", data.idx);
-          console.log("deleteProfileFeed success");
         })
         .catch(err => {
           console.log("deleteProfileFeed", err);
         });
     },
     updateLike({ commit }, { field, feedId, idx }) {
-      console.log(field, feedId, idx);
       feed
         .like(feedId)
         .then(res => {
-          console.log("updateLike", res);
-          console.log(field);
           field === "main"
             ? commit("UPDATE_LIKE_MAIN", { idx, data: res.data })
             : commit("UPDATE_LIKE_PROFILE", { idx, data: res.data });
-          console.log("updateLike success");
         })
         .catch(err => {
           console.log("updateLike", err);
