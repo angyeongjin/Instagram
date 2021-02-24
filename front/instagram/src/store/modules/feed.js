@@ -1,4 +1,9 @@
 import * as feed from "@/api/feed";
+<<<<<<< HEAD
+=======
+// const xor = (arr, item) =>
+//   arr.includes(item) ? arr.filter(i => i !== item) : [...arr, item];
+>>>>>>> develop/front
 export default {
   namespaced: true,
   state: {
@@ -7,9 +12,13 @@ export default {
   },
   mutations: {
     SET_MAIN_FEEDS: (state, feeds) => (state.mainFeeds = feeds),
-    UPDATE_MAIN_FEEDS: (state, feeds) => state.mainFeeds.push(feeds),
+    UPDATE_MAIN_FEEDS: (state, feeds) => state.mainFeeds.push(...feeds),
+    UPDATE_LIKE_MAIN: (state, { idx, data }) =>
+      (state.mainFeeds[idx].likeList = data),
     SET_PROFILE_FEEDS: (state, feeds) => (state.profileFeeds = feeds),
     UPDATE_PROFILE_FEEDS: (state, feed) => state.profileFeeds.push(feed),
+    UPDATE_LIKE_PROFILE: (state, { idx, data }) =>
+      (state.profileFeeds[idx].likeList = data),
     DELETE_PROFILE_FEEDS: (state, idx) => state.profileFeeds.splice(idx, 1)
   },
   actions: {
@@ -48,7 +57,18 @@ export default {
         });
     },
     getNextMainFeeds({ commit }) {
-      commit("UPDATE_MAIN_FEEDS");
+      feed
+        .getNextMain()
+        .then(res => {
+          // console.log("getNextMainFeeds", res);
+          console.log("current", document.scrollingElement.scrollTop);
+          commit("UPDATE_MAIN_FEEDS", res.data);
+          console.log("height", document.scrollingElement.scrollHeight);
+          // console.log("getNextMainFeeds success");
+        })
+        .catch(err => {
+          console.log("getMainFeeds", err);
+        });
     },
     getProfileFeeds({ commit }, memberId) {
       console.log("가저오는중..");
@@ -88,6 +108,22 @@ export default {
         })
         .catch(err => {
           console.log("deleteProfileFeed", err);
+        });
+    },
+    updateLike({ commit }, { field, feedId, idx }) {
+      console.log(field, feedId, idx);
+      feed
+        .like(feedId)
+        .then(res => {
+          console.log("updateLike", res);
+          console.log(field);
+          field === "main"
+            ? commit("UPDATE_LIKE_MAIN", { idx, data: res.data })
+            : commit("UPDATE_LIKE_PROFILE", { idx, data: res.data });
+          console.log("updateLike success");
+        })
+        .catch(err => {
+          console.log("updateLike", err);
         });
     }
   }

@@ -1,6 +1,6 @@
 <template>
   <div class="feed-util">
-    <button class="no__btn">
+    <button class="no__btn" @click="onClickLike">
       <svg
         aria-label="좋아요"
         class="_8-yf5 "
@@ -15,7 +15,8 @@
       </svg>
     </button>
     <p style="margin-top: 8px;" class="font-blod">
-      좋아요 <span>26,492</span>개
+      좋아요 <span>{{ LIKE_NUM }}</span
+      >개
     </p>
     <!-- actived -->
     <!-- <button class="no__btn">
@@ -24,5 +25,39 @@
   </div>
 </template>
 <script>
-export default {};
+import { mapActions, mapState } from "vuex";
+export default {
+  props: {
+    idx: {
+      require: true,
+      type: Number
+    },
+    field: {
+      require: true,
+      type: String
+    }
+  },
+  computed: {
+    ...mapState("feed", ["mainFeeds", "profileFeeds"]),
+    feed() {
+      return this.field === "main"
+        ? this.mainFeeds[this.idx]
+        : this.profileFeeds[this.idx];
+    },
+    LIKE_NUM() {
+      return this.feed.likeList.length;
+    }
+  },
+  methods: {
+    ...mapActions("feed", ["updateLike"]),
+    onClickLike() {
+      const data = {
+        field: this.field,
+        feedId: this.feed.id,
+        idx: this.idx
+      };
+      this.updateLike(data);
+    }
+  }
+};
 </script>

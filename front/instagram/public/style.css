@@ -16,6 +16,10 @@
 	cursor: pointer;
 }
 
+.no__input:hover {
+	border: 0;
+}
+
 .btn-off {
 	opacity: .3;
 }
@@ -160,15 +164,15 @@ header {
 /* footer */
 
 /* feed-item */
-.feed__list {
-	margin-bottom: 100px;
-}
-.feed__item {
-	box-sizing: border-box;
+.feed__list__item {
+	margin: 30px 0 60px;
 	border: 1px solid #ddd;
 	border-radius: 3px;
 	background: #fff;
-	margin: 30px 0 60px;
+}
+.feed__item {
+	box-sizing: border-box;
+	min-width: 614px;
 }
 
 .feed-header {

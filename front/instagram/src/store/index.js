@@ -14,7 +14,26 @@ const modules = modulesFiles.keys().reduce((modules, modulePath) => {
 
 const store = createStore({
   modules,
-  getters
+  getters,
+  state: {
+    popupCompo: null,
+    popupProp: null,
+    isPopup: false,
+    popupOptions: {
+      windowSize: null
+    }
+  },
+  mutations: {
+    showPopup(state, { component, prop, options }) {
+      state.isPopup = true;
+      state.popupCompo = component;
+      state.popupProp = prop;
+      state.popupOptions = options;
+    },
+    closePopup(state) {
+      state.isPopup = false;
+    }
+  }
 });
 
 export default store;

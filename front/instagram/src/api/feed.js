@@ -7,6 +7,12 @@ export const getMain = () =>
   });
 
 // export const getNextMain
+export const getNextMain = () =>
+  request({
+    url: `feed/main`,
+    method: "get"
+  });
+
 export const insert = data =>
   request({
     url: "feed",
@@ -41,4 +47,13 @@ export const subCommentTest = (id, data) =>
     url: `subComment/${id}`,
     method: "post",
     data
+  });
+
+export const like = feedId =>
+  request({
+    url: `like`,
+    method: "post",
+    data: {
+      feedId
+    }
   });
