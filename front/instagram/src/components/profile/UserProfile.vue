@@ -42,7 +42,7 @@ import { mapState } from "vuex";
 export default {
   props: ["id"],
   computed: {
-    ...mapState("feed", ["profileFeeds"])
+    ...mapState("feed", { feeds: state => state.profile.feeds })
   },
   methods: {
     moveToTest() {

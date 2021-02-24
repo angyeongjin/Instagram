@@ -8,9 +8,9 @@ import { mapState } from "vuex";
 export default {
   components: { ImageTest },
   computed: {
-    ...mapState({
-      mainFeeds: state => state.feed.mainFeeds,
-      profileFeeds: state => state.feed.profileFeeds
+    ...mapState("feed", {
+      mainFeeds: state => state.main.feeds,
+      profileFeeds: state => state.profile.feeds
     })
   },
   methods: {

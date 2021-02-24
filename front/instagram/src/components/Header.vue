@@ -6,14 +6,14 @@
           <img
             src="https://www.instagram.com/static/images/web/mobile_nav_type_logo.png/735145cfe0a4.png"
             alt="Instagram"
-            @click="goMain()"
+            @click="goMain"
           /><span class="none">Instagram</span>
         </h1></a
       >
       <nav id="gnb">
         <a href="#" class="gnb__menu"
           ><svg
-            @click="logout()"
+            @click="logout"
             aria-label="홈"
             class="_8-yf5 "
             fill="#262626"
@@ -40,7 +40,7 @@
             ></path></svg
           ><span class="none">alert popup</span>
         </button>
-        <span class="instagram_profile22 gnb__menu" @click="goProfile()"
+        <span class="instagram_profile22 gnb__menu" @click="goProfile"
           ><img
             src="http://placehold.it/22x22"
             height="22"

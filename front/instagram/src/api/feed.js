@@ -1,15 +1,8 @@
 import request from "@/utils/request";
 
-export const getMain = () =>
+export const getMain = pageNum =>
   request({
-    url: `feed/main`,
-    method: "get"
-  });
-
-// export const getNextMain
-export const getNextMain = () =>
-  request({
-    url: `feed/main`,
+    url: `feed/main/${pageNum}`,
     method: "get"
   });
 
