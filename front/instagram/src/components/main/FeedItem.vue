@@ -56,12 +56,12 @@
     </div>
     <feed-contents :content="feed.contents" />
     <div class="feed-comments">
-      <feed-comment />
+      <feed-comment :commentList="feed.commentList" />
       <span style="font-size: 10px;letter-spacing: .2px;color: #8e8e8e;"
         >2일전</span
       >
     </div>
-    <add-feed-comment />
+    <add-feed-comment :feedid="feed.id" :idx="idx" />
   </div>
 </template>
 
@@ -70,7 +70,6 @@ import FeedUtil from "@/components/FeedUtil.vue";
 import FeedComment from "@/components/main/FeedComment.vue";
 import AddFeedComment from "@/components/main/AddFeedComment.vue";
 import FeedContents from "@/components/main/FeedContents";
-
 export default {
   props: ["feed", "idx"],
   components: { FeedComment, FeedUtil, AddFeedComment, FeedContents }
