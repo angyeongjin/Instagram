@@ -12,7 +12,7 @@
 <script>
 import { mapActions } from "vuex";
 export default {
-  props: ["feedid"],
+  props: ["feedid", "idx"],
   data: () => {
     return {
       comment: {
@@ -28,16 +28,19 @@ export default {
     };
   },
   methods: {
-    ...mapActions("feed", ["commenttest", "subCommentTest"]),
+    ...mapActions("feed", ["insertComment", "insertSubComment"]),
 
     ctest() {
       this.comment.feedId = this.feedid;
-      console.log(this.comment);
-      this.commenttest(this.comment);
-      this.comment = "";
+      const data = {
+        comment: this.comment,
+        idx: this.idx
+      };
+      this.insertComment(data);
+      this.comment.content = "";
     },
     subctest() {
-      this.subCommentTest(this.subcomment);
+      this.insertSubComment(this.subcomment);
     }
   }
 };

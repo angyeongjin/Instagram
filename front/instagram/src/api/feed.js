@@ -28,14 +28,14 @@ export const delFeed = feedId =>
     method: "delete"
   });
 
-export const commenttest = data =>
+export const insertComment = data =>
   request({
     url: "comment",
     method: "post",
     data
   });
 
-export const subCommentTest = (id, data) =>
+export const insertSubComment = (id, data) =>
   request({
     url: `subComment/${id}`,
     method: "post",

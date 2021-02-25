@@ -12,6 +12,8 @@ export default {
     }
   },
   mutations: {
+    UPDATE_MAIN_COMMENT: (state, { comment, idx }) =>
+      state.main.feeds[idx].commentList.push(comment),
     SET_MAIN_FEEDS: (state, feeds) => (state.main.feeds = feeds),
     UPDATE_MAIN_FEEDS: (state, feeds) => state.main.feeds.push(...feeds),
     UPDATE_LIKE_MAIN: (state, { idx, data }) =>
@@ -24,20 +26,19 @@ export default {
     DELETE_PROFILE_FEEDS: (state, idx) => state.profile.feeds.splice(idx, 1)
   },
   actions: {
-    commenttest({ commit }, data) {
+    insertComment({ commit }, { comment, idx }) {
       feed
-        .commenttest(data)
+        .insertComment(comment)
         .then(res => {
-          console.log(res);
-          commit;
+          commit("UPDATE_MAIN_COMMENT", { comment: res.data, idx });
         })
         .catch(err => {
           console.log(err);
         });
     },
-    subCommentTest({ commit }, data) {
+    insertSubComment({ commit }, data) {
       feed
-        .subCommentTest(data.commentId, data)
+        .insertSubComment(data.commentId, data)
         .then(res => {
           console.log(res);
           commit;
@@ -50,6 +51,7 @@ export default {
       feed
         .getMain(page)
         .then(res => {
+          console.log(res);
           commit("SET_MAIN_FEEDS", res.data);
           commit("UPDATE_PAGENUM_MAIN", page + 1);
         })
