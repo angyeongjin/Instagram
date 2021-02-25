@@ -2,11 +2,11 @@
   <div id="wrap">
     <insta-header v-if="this.$store.getters.token" />
     <div id="container" role="main">
-      <user-profile :info="this.profileFeeds.writer" />
+      <user-profile :info="this.feeds.writer" />
       <hr style="opacity: .3;" />
       <ul id="user-profile-feed__list">
         <user-feed-item
-          v-for="(feed, index) in this.profileFeeds"
+          v-for="(feed, index) in this.feeds"
           :key="feed.id"
           :feed="feed"
           :idx="index"
@@ -24,7 +24,7 @@ export default {
   props: ["id"],
   components: { InstaHeader, UserProfile, UserFeedItem },
   computed: {
-    ...mapState("feed", ["profileFeeds"])
+    ...mapState("feed", { feeds: state => state.profile.feeds })
   },
   created() {
     this.getProfileFeeds(this.id);
