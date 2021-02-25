@@ -52,6 +52,7 @@ export default {
       mainFeeds: state => state.main.feeds,
       profileFeeds: state => state.profile.feeds
     }),
+    ...mapState("member", ["memberId"]),
     feed() {
       return this.field === "main"
         ? this.mainFeeds[this.idx]
@@ -61,7 +62,7 @@ export default {
       return this.feed.likeList.length;
     },
     IS_LIKE() {
-      return this.feed.likeList.find(x => x.memberId === "mjprojectid");
+      return this.feed.likeList.find(x => x.memberId === this.memberId);
     }
   },
   methods: {

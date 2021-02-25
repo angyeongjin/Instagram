@@ -51,7 +51,6 @@ export default {
       feed
         .getMain(page)
         .then(res => {
-          console.log(res);
           commit("SET_MAIN_FEEDS", res.data);
           commit("UPDATE_PAGENUM_MAIN", page + 1);
         })

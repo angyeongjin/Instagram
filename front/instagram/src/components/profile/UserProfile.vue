@@ -2,7 +2,7 @@
   <div id="user-profile">
     <div id="user-profile-img">
       <img
-        src="http://placehold.it/150x150"
+        :src="profile.picture"
         alt="empty"
         class="instagram_profile"
         height="150"
@@ -12,7 +12,7 @@
     <div id="user-profile-info">
       <a href="" class="nick-name" @click.prevent
         ><h2 style="font-size: 28px;display:inline;margin-right: 20px;">
-          koinchan_7___fan
+          {{ profile.memberId }}
         </h2></a
       >
       <button type="button" class="follow__btn">팔로우</button>
@@ -24,7 +24,7 @@
         <span id="follow-num">팔로우 <span class="font-blod"> 39</span></span>
       </div>
       <div id="user-info">
-        <h2 id="name" style="font-size: inherit;">Emily Mei</h2>
+        <h2 id="name" style="font-size: inherit;">{{ profile.name }}</h2>
         <span @click="moveToTest">
           😽 Scottish straight (♀)
           <br />
@@ -39,8 +39,19 @@
 
 <script>
 import { mapState } from "vuex";
+import { userInfo } from "@/api/member";
 export default {
   props: ["id"],
+  data: () => ({
+    profile: {}
+  }),
+  created() {
+    userInfo(this.id)
+      .then(res => {
+        this.profile = res.data;
+      })
+      .catch(err => console.log(err));
+  },
   computed: {
     ...mapState("feed", { feeds: state => state.profile.feeds })
   },
