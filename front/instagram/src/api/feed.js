@@ -28,6 +28,20 @@ export const delFeed = feedId =>
     method: "delete"
   });
 
+export const insertComment = data =>
+  request({
+    url: "comment",
+    method: "post",
+    data
+  });
+
+export const insertSubComment = (id, data) =>
+  request({
+    url: `subComment/${id}`,
+    method: "post",
+    data
+  });
+
 export const like = feedId =>
   request({
     url: `like`,
