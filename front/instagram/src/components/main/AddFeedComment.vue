@@ -34,6 +34,7 @@ export default {
       this.comment.feedId = this.feedid;
       console.log(this.comment);
       this.commenttest(this.comment);
+      this.comment = "";
     },
     subctest() {
       this.subCommentTest(this.subcomment);
