@@ -21,3 +21,10 @@ export const googlelogin = data => {
     data
   });
 };
+
+export const userInfo = memberId => {
+  return request({
+    url: `member/${memberId}`,
+    method: "get"
+  });
+};

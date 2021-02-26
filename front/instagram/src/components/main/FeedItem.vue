@@ -70,7 +70,6 @@ import FeedUtil from "@/components/FeedUtil.vue";
 import FeedComment from "@/components/main/FeedComment.vue";
 import AddFeedComment from "@/components/main/AddFeedComment.vue";
 import FeedContents from "@/components/main/FeedContents";
-
 export default {
   props: ["feed", "idx"],
   components: { FeedComment, FeedUtil, AddFeedComment, FeedContents }

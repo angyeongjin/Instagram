@@ -42,7 +42,7 @@
         </button>
         <span class="instagram_profile22 gnb__menu" @click="goProfile"
           ><img
-            src="http://placehold.it/22x22"
+            :src="picture"
             height="22"
             width="22"
             alt="profile image"
@@ -55,10 +55,14 @@
 
 <script>
 import { gapi } from "gapi-script";
+import { mapState } from "vuex";
 
 export default {
   created() {
     gapi.load("auth2", () => gapi.auth2.init());
+  },
+  computed: {
+    ...mapState("member", ["picture"])
   },
   methods: {
     goProfile() {

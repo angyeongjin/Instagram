@@ -5,26 +5,20 @@ const state = {
   token: getToken(),
   name: "",
   email: "",
+  memberId: "",
+  picture: "",
   address: "",
   phone: ""
 };
 
 const mutations = {
-  SET_TOKEN: (state, token) => {
-    state.token = token;
-  },
-  SET_NAME: (state, name) => {
-    state.name = name;
-  },
-  SET_EMAIL: (state, email) => {
-    state.email = email;
-  },
-  SET_PHONE: (state, phone) => {
-    state.phone = phone;
-  },
-  SET_PROFILEFILE: (state, profileFile) => {
-    state.profileFile = profileFile;
-  }
+  SET_TOKEN: (state, token) => (state.token = token),
+  SET_NAME: (state, name) => (state.name = name),
+  SET_EMAIL: (state, email) => (state.email = email),
+  SET_MEMBER_ID: (state, id) => (state.memberId = id),
+  SET_PICTURE: (state, picture) => (state.picture = picture),
+  SET_PHONE: (state, phone) => (state.phone = phone),
+  SET_PROFILEFILE: (state, profileFile) => (state.profileFile = profileFile)
 };
 
 const actions = {
@@ -51,6 +45,9 @@ const actions = {
         .then(res => {
           setToken(data);
           commit("SET_TOKEN", data);
+          commit("SET_NAME", res.data.name);
+          commit("SET_MEMBER_ID", res.data.memberId);
+          commit("SET_PICTURE", res.data.picture);
           resoleve(res);
         })
         .catch(err => {
