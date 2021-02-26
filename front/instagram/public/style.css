@@ -75,6 +75,30 @@ header {
 	clear: both;
 }
 
+#header-search-wrap {
+	display: inline-block;
+    min-width: 551px;
+}
+
+#search--input {
+	float: right;
+	height: 22px;
+	background: #f2f2f2;
+	padding: 0 25px;
+    width: 167px;
+	background-position: 2px;
+}
+#search--input::-webkit-input-placeholder {
+	text-align: center;
+}
+#search--input:hover {
+	border: 1px solid #cccccc;
+	background-image : url('https://w7.pngwing.com/pngs/242/281/png-transparent-computer-icons-magnifier-symbol-magnifying-glass-magnifying-miscellaneous-logo-zooming-user-interface.png'); 
+	background-size: 18px auto;
+	background-position: 2px; 
+	background-repeat:no-repeat;
+}
+
 #header-wrap h1 {
 	float: left;
 }
