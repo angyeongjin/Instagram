@@ -28,7 +28,7 @@ public class Comment extends BaseEntity {
     private String content; //글
 
     @OneToMany
-    private List<SubComment> subComment;
+    private List<SubComment> subCommentList;
 
     @ManyToOne
     private Feed feed;
@@ -43,7 +43,7 @@ public class Comment extends BaseEntity {
                 "id=" + id +
                 ", writer=" + writer +
                 ", content='" + content + '\'' +
-                ", subComment=" + subComment +
+                ", subCommentList=" + subCommentList +
                 ", feed=" + feed +
                 '}';
     }
