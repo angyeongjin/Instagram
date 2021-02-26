@@ -4,6 +4,7 @@ import com.kbm.instagram.domain.Comment;
 import com.kbm.instagram.domain.Member;
 import com.kbm.instagram.domain.SubComment;
 import com.kbm.instagram.dto.SubCommentDto;
+import com.kbm.instagram.mapper.SubCommentMapper;
 import com.kbm.instagram.repository.SubCommentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,23 +20,7 @@ public class SubCommentServiceImpl implements SubCommentService{
     @Override
     @Transactional
     public SubCommentDto create(SubCommentDto subCommentDto) {
-        //comment 생성
-        Comment comment = Comment.builder()
-                .id(subCommentDto.getCommentDto().getId())
-                .content(subCommentDto.getCommentDto().getContent())
-                .build();
-        //member 생성
-        Member member = Member.builder()
-                .id(subCommentDto.getWriter().getId())
-                .build();
-        //subComment 생성
-        SubComment subComment = SubComment.builder()
-                .id(subCommentDto.getId())
-                .comment(comment)
-                .content(subCommentDto.getContent())
-                .writer(member)
-                .build();
-
+        SubComment subComment = SubCommentMapper.INSTANCE.dtoToEntity(subCommentDto);
         subCommentRepository.save(subComment);
         subCommentDto.setId(subComment.getId());
         return subCommentDto;

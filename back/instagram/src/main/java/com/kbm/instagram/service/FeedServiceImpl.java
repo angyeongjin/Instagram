@@ -8,6 +8,7 @@ import com.kbm.instagram.dto.FeedDto;
 import com.kbm.instagram.dto.MemberDto;
 import com.kbm.instagram.dto.RequestFeedDto;
 import com.kbm.instagram.exception.FeedNotFoundException;
+import com.kbm.instagram.mapper.CommentMapper;
 import com.kbm.instagram.repository.FeedRepository;
 import com.kbm.instagram.repository.FollowRepository;
 import com.kbm.instagram.repository.MemberRepository;
@@ -63,12 +64,17 @@ public class FeedServiceImpl implements FeedService {
                     .name(member.getName())
                     .picture(member.getPicture()).build();
             for (Feed feed : feedList) {
-                System.out.println("=========================================="+feed.getCommentList().size());
+                List<CommentDto> commentDtoList = new ArrayList<>();
+                for(Comment comment : feed.getCommentList()){
+                    commentDtoList.add(CommentMapper.INSTANCE.entityToDto(comment));
+                }
                 feedDtoList.add(FeedDto.builder()
                         .id(feed.getId())
                         .writer(memberDto)
                         .images(feed.getImages())
-                        .contents(feed.getContents()).build());
+                        .contents(feed.getContents())
+                        .commentList(commentDtoList)
+                        .build());
             }
         }
         return feedDtoList;
