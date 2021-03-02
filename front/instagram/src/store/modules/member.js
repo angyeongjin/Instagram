@@ -45,7 +45,6 @@ const actions = {
       })
         .then(res => {
           setToken(data);
-          console.log(res.data);
           commit("SET_TOKEN", data);
           commit("SET_NAME", res.data.name);
           commit("SET_MEMBER_ID", res.data.memberId);
