@@ -28,3 +28,10 @@ export const userInfo = memberId => {
     method: "get"
   });
 };
+
+export const userList = input => {
+  return request({
+    url: `member/search/${input}`,
+    method: "get"
+  });
+};
