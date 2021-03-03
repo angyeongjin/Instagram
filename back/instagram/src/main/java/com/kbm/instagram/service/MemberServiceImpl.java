@@ -27,6 +27,7 @@ public class MemberServiceImpl implements MemberService {
         Optional<Member> member = memberRepository.findById(id);
         MemberDto memberDto = null;
         if (member != null) {
+
             memberDto = MemberMapper.INSTANCE.entityToDto(member.get());
         }
         return memberDto;
@@ -48,6 +49,7 @@ public class MemberServiceImpl implements MemberService {
         List<MemberDto> memberDtoList = new ArrayList<>();
         for (Member member : members) {
             memberDtoList.add(MemberMapper.INSTANCE.entityToDto(member));
+
         }
         return memberDtoList;
     }

@@ -2,6 +2,7 @@ package com.kbm.instagram.dto;
 
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @NoArgsConstructor
@@ -14,6 +15,7 @@ public class FeedDto {
     private Long id;
     private String contents;
     private List<String> images;
+    private LocalDateTime createdDate;
     private MemberDto writer;
     private List<MemberDto> likeList;
     private List<CommentDto> commentList;
