@@ -86,7 +86,7 @@ export default {
     gapi.load("auth2", () => gapi.auth2.init());
   },
   computed: {
-    ...mapState("member", ["picture"])
+    ...mapState("member", ["memberId", "picture"])
   },
   mounted() {
     let timeoutID = null;
@@ -106,7 +106,7 @@ export default {
   },
   methods: {
     goProfile() {
-      this.$router.push(`/osb4226`);
+      this.$router.push(this.memberId);
     },
     async logout() {
       var auth2 = await gapi.auth2.getAuthInstance();
