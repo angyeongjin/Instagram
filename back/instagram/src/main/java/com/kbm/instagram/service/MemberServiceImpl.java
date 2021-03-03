@@ -27,16 +27,8 @@ public class MemberServiceImpl implements MemberService {
         Optional<Member> member = memberRepository.findById(id);
         MemberDto memberDto = null;
         if (member != null) {
-<<<<<<< HEAD
+
             memberDto = MemberMapper.INSTANCE.entityToDto(member.get());
-=======
-            memberDto = MemberDto.builder()
-                    .id(member.get().getId())
-                    .memberId(member.get().getMemberId())
-                    .email(member.get().getEmail())
-                    .name(member.get().getName())
-                    .picture(member.get().getPicture()).build();
->>>>>>> develop/back
         }
         return memberDto;
     }
@@ -46,16 +38,7 @@ public class MemberServiceImpl implements MemberService {
         Optional<Member> member = memberRepository.findByMemberId(memberId);
         MemberDto memberDto = null;
         if (member != null) {
-<<<<<<< HEAD
             memberDto = MemberMapper.INSTANCE.entityToDto(member.get());
-=======
-            memberDto = MemberDto.builder()
-                    .id(member.get().getId())
-                    .memberId(memberId)
-                    .email(member.get().getEmail())
-                    .name(member.get().getName())
-                    .picture(member.get().getPicture()).build();
->>>>>>> develop/back
         }
         return memberDto;
     }
@@ -65,16 +48,8 @@ public class MemberServiceImpl implements MemberService {
         List<Member> members = memberRepository.findListByMemberId(memberId);
         List<MemberDto> memberDtoList = new ArrayList<>();
         for (Member member : members) {
-<<<<<<< HEAD
             memberDtoList.add(MemberMapper.INSTANCE.entityToDto(member));
-=======
-            memberDtoList.add(MemberDto.builder()
-                    .id(member.getId())
-                    .memberId(memberId)
-                    .email(member.getEmail())
-                    .name(member.getName())
-                    .picture(member.getPicture()).build());
->>>>>>> develop/back
+
         }
         return memberDtoList;
     }
