@@ -79,6 +79,7 @@
 <script>
 import { gapi } from "gapi-script";
 import { mapState } from "vuex";
+import { userList } from "@/api/member.js";
 
 export default {
   created() {
@@ -86,6 +87,22 @@ export default {
   },
   computed: {
     ...mapState("member", ["picture"])
+  },
+  mounted() {
+    let timeoutID = null;
+    const search = document.querySelector("#search--input");
+    search.addEventListener("input", e => {
+      if (timeoutID) {
+        clearTimeout(timeoutID);
+      }
+      timeoutID = setTimeout(() => {
+        if (e.target.value.length) {
+          userList(e.target.value)
+            .then(res => console.log(res.data))
+            .catch(err => console.log(err));
+        }
+      }, 800);
+    });
   },
   methods: {
     goProfile() {
@@ -117,8 +134,7 @@ export default {
     },
     goMain() {
       this.$router.push("/main");
-    },
-    goRouterAbout() {}
+    }
   }
 };
 </script>
