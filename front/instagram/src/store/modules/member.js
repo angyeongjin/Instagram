@@ -1,12 +1,12 @@
-import { getToken, setToken, removeToken } from "@/utils/auth";
+import { getToken, setToken, removeToken, userInfo } from "@/utils/auth";
 import { login, googlelogin, headerTest } from "@/api/member";
 
 const state = {
   token: getToken(),
-  name: "",
-  email: "",
-  memberId: "",
-  picture: "",
+  name: userInfo?.name,
+  email: userInfo?.email,
+  memberId: userInfo?.memberId,
+  picture: userInfo?.picture,
   address: "",
   phone: ""
 };
@@ -24,6 +24,7 @@ const mutations = {
 const actions = {
   logout() {
     removeToken();
+    sessionStorage.removeItem("member");
     location.reload();
   },
   headerTest() {
@@ -48,6 +49,12 @@ const actions = {
           commit("SET_NAME", res.data.name);
           commit("SET_MEMBER_ID", res.data.memberId);
           commit("SET_PICTURE", res.data.picture);
+          const member = {
+            name: res.data.name,
+            memberId: res.data.memberId,
+            picture: res.data.picture
+          };
+          sessionStorage.setItem("member", JSON.stringify(member));
           resoleve(res);
         })
         .catch(err => {

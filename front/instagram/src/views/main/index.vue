@@ -29,7 +29,8 @@ export default {
   components: { FeedItem, ProfileBox, InstaHeader },
   data: () => ({
     SCROLL_MAX_H: 0,
-    intervalID: 0
+    intervalID: 0,
+    isLoading: false
   }),
   computed: {
     ...mapGetters(["token"]),
@@ -46,7 +47,7 @@ export default {
   },
   mounted() {
     this.intervalID = setInterval(() => {
-      this.handleScroll();
+      if (!this.isLoading) this.handleScroll();
     }, 1000);
   },
   unmounted() {
@@ -58,8 +59,10 @@ export default {
       const scroll = document.scrollingElement.scrollTop;
       this.SCROLL_MAX_H = document.scrollingElement.scrollHeight;
       if (scroll > this.CALL_POINT) {
+        this.isLoading = true;
         const status = await this.getNextMainFeeds();
         if (status === 204) clearInterval(this.intervalID);
+        this.isLoading = false;
       }
     }
   }

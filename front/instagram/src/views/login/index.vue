@@ -134,8 +134,7 @@ export default {
     onSignIn(googleUser) {
       this.$store
         .dispatch("member/googlelogin", googleUser.getAuthResponse().id_token)
-        .then(res => {
-          console.log(res);
+        .then(() => {
           this.$router.push({ path: "/main" });
         })
         .catch(err => {
