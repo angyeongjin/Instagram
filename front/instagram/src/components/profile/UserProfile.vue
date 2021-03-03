@@ -39,14 +39,14 @@
 
 <script>
 import { mapState } from "vuex";
-import { userInfo } from "@/api/member";
+import { getUser } from "@/api/member";
 export default {
   props: ["id"],
   data: () => ({
     profile: {}
   }),
   created() {
-    userInfo(this.id)
+    getUser(this.id)
       .then(res => {
         this.profile = res.data;
       })

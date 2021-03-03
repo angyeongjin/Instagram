@@ -79,7 +79,7 @@
 <script>
 import { gapi } from "gapi-script";
 import { mapState } from "vuex";
-import { userList } from "@/api/member.js";
+import { getUsers } from "@/api/member.js";
 
 export default {
   created() {
@@ -97,7 +97,7 @@ export default {
       }
       timeoutID = setTimeout(() => {
         if (e.target.value.length) {
-          userList(e.target.value)
+          getUsers(e.target.value)
             .then(res => console.log(res.data))
             .catch(err => console.log(err));
         }

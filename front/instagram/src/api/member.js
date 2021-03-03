@@ -22,14 +22,14 @@ export const googlelogin = data => {
   });
 };
 
-export const userInfo = memberId => {
+export const getUser = memberId => {
   return request({
     url: `member/${memberId}`,
     method: "get"
   });
 };
 
-export const userList = input => {
+export const getUsers = input => {
   return request({
     url: `member/search/${input}`,
     method: "get"
