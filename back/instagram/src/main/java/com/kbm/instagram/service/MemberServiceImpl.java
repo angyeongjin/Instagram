@@ -28,6 +28,7 @@ public class MemberServiceImpl implements MemberService {
         if (member != null) {
             memberDto = MemberDto.builder()
                     .id(member.get().getId())
+                    .memberId(member.get().getMemberId())
                     .email(member.get().getEmail())
                     .name(member.get().getName())
                     .picture(member.get().getPicture()).build();
@@ -42,6 +43,7 @@ public class MemberServiceImpl implements MemberService {
         if (member != null) {
             memberDto = MemberDto.builder()
                     .id(member.get().getId())
+                    .memberId(memberId)
                     .email(member.get().getEmail())
                     .name(member.get().getName())
                     .picture(member.get().getPicture()).build();
@@ -56,6 +58,7 @@ public class MemberServiceImpl implements MemberService {
         for (Member member : members) {
             memberDtoList.add(MemberDto.builder()
                     .id(member.getId())
+                    .memberId(memberId)
                     .email(member.getEmail())
                     .name(member.getName())
                     .picture(member.getPicture()).build());
@@ -68,6 +71,7 @@ public class MemberServiceImpl implements MemberService {
         Member member = memberRepository.findByEmail(email).get();
         MemberDto memberDto = MemberDto.builder()
                 .id(member.getId())
+                .memberId(member.getMemberId())
                 .email(member.getEmail())
                 .name(member.getName())
                 .picture(member.getPicture()).build();
@@ -77,6 +81,8 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public MemberDto save(MemberDto memberDto) {
         Member member = Member.builder()
+                .id(memberDto.getId())
+                .memberId(memberDto.getMemberId())
                 .email(memberDto.getEmail())
                 .name(memberDto.getName())
                 .picture(memberDto.getPicture()).build();

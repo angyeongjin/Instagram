@@ -12,6 +12,8 @@ import com.kbm.instagram.repository.FeedRepository;
 import com.kbm.instagram.repository.FollowRepository;
 import com.kbm.instagram.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -46,6 +48,14 @@ public class FeedServiceImpl implements FeedService {
 
         return FeedDto.builder()
                 .id(feed.getId())
+                .writer(MemberDto.builder()
+                        .id(feed.getWriter().getId())
+                        .memberId(feed.getWriter().getMemberId())
+                        .email(feed.getWriter().getEmail())
+                        .name(feed.getWriter().getName())
+                        .picture(feed.getWriter().getPicture()).build())
+                .images(feed.getImages())
+                .createdDate(feed.getCreatedDate())
                 .contents(feed.getContents()).build();
     }
 
@@ -67,6 +77,7 @@ public class FeedServiceImpl implements FeedService {
                         .id(feed.getId())
                         .writer(memberDto)
                         .images(feed.getImages())
+                        .createdDate(feed.getCreatedDate())
                         .contents(feed.getContents()).build());
             }
         }
@@ -95,6 +106,35 @@ public class FeedServiceImpl implements FeedService {
                             .picture(feed.getWriter().getPicture()).build())
                     .images(feed.getImages())
                     .contents(feed.getContents())
+                    .createdDate(feed.getCreatedDate())
+                    .commentList(commentDtoList).build());
+        }
+        return feedDtoList;
+    }
+
+    @Override
+    public List<FeedDto> findFollowFeedByMemberId(String memberId, Pageable pageable) {
+        List<Member> followers = followRepository.findFollower(memberId);
+        Optional<Member> memberOptional = memberRepository.findByMemberId(memberId);
+        if (memberOptional != null) followers.add(memberOptional.get());
+        List<Feed> feedList = feedRepository.findByMultiMemberId(followers, pageable);
+        List<FeedDto> feedDtoList = new ArrayList<>();
+        for (Feed feed : feedList) {
+            List<CommentDto> commentDtoList = new ArrayList<>();
+            for (Comment comment : feed.getCommentList() ) {
+                commentDtoList.add(CommentToDto(comment));
+            }
+            feedDtoList.add(FeedDto.builder()
+                    .id(feed.getId())
+                    .writer(MemberDto.builder()
+                            .id(feed.getWriter().getId())
+                            .memberId(feed.getWriter().getMemberId())
+                            .email(feed.getWriter().getEmail())
+                            .name(feed.getWriter().getName())
+                            .picture(feed.getWriter().getPicture()).build())
+                    .images(feed.getImages())
+                    .contents(feed.getContents())
+                    .createdDate(feed.getCreatedDate())
                     .commentList(commentDtoList).build());
         }
         return feedDtoList;
