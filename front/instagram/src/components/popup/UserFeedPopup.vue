@@ -84,6 +84,16 @@
                 말았네요~~♥
               </p>
             </div>
+            <!-- <div
+              class="feed-comment"
+              v-for="(comment, idx) in feed.commentList"
+              :key="idx"
+            >
+              <a href="#" class="nick-name">{{ comment.writer.name }}</a>
+              <p style="display: inline;">
+                {{ comment.content }}
+              </p>
+            </div> -->
             <span style="font-size: 10px;letter-spacing: .2px;color: #8e8e8e;"
               >2일전</span
             >
