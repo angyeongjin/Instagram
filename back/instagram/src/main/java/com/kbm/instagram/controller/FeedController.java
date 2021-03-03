@@ -9,6 +9,9 @@ import com.kbm.instagram.service.MemberService;
 import com.kbm.instagram.service.S3UploadService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -69,7 +72,7 @@ public class FeedController {
     }
 
     @GetMapping("/main")
-    @ApiOperation(value = "팔로우한 사람의 모든 피드 보기 (메인피드)", notes = "내가 팔로우한 사람의 피드를 조회합니다. 나중에 페이징 처리 해야할듯?")
+    @ApiOperation(value = "팔로우한 사람의 모든 피드 보기 (메인피드)", notes = "내가 팔로우한 사람의 피드를 조회합니다.")
     List<FeedDto> getFollowerFeed() {
         MemberDto memberDto = memberService.getAuthMember();
         List<FeedDto> feedDtoList = feedService.findFollowFeedByMemberId(memberDto.getMemberId());
@@ -79,8 +82,22 @@ public class FeedController {
         return feedDtoList;
     }
 
+    @GetMapping("/main/{pageNum}")
+    @ApiOperation(value = "메인피드, 페이징 처리한거", notes = "내가 팔로우한 사람의 피드를 조회합니다.")
+    ResponseEntity<?> getFollowerFeed(@PathVariable int pageNum) {
+        MemberDto memberDto = memberService.getAuthMember();
+        List<FeedDto> feedDtoList = feedService.findFollowFeedByMemberId(
+                memberDto.getMemberId(), PageRequest.of(pageNum-1, 10, Sort.by("id").descending()));
+        for (FeedDto feedDto : feedDtoList) {
+            feedDto.setLikeList(likeService.findLikeList(feedDto.getId()));
+        }
+        if (feedDtoList.size() == 0)
+            return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().body(feedDtoList);
+    }
+
     @PutMapping
-    @ApiOperation(value = "피드 정보 수정", notes = "피드 정보를 받으 수정합니다.")
+    @ApiOperation(value = "피드 정보 수정", notes = "피드 정보를 받아 수정합니다.")
     FeedDto updateFeed(@RequestBody RequestFeedDto feedDto) {
         return feedService.update(feedDto);
     }
