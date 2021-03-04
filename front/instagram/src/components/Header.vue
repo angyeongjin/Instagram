@@ -49,7 +49,7 @@
             ></path>
           </svg>
         </button>
-        <button type="button" class="no__btn gnb__menu" @click="goRouterAbout">
+        <button type="button" class="no__btn gnb__menu">
           <svg
             aria-label="활동 피드"
             class="_8-yf5 "
@@ -63,7 +63,7 @@
             ></path></svg
           ><span class="none">alert popup</span>
         </button>
-        <span class="instagram_profile22 gnb__menu" @click="goProfile"
+        <span class="instagram_profile22 gnb__menu"
           ><img
             :src="picture"
             height="22"
@@ -105,9 +105,6 @@ export default {
     });
   },
   methods: {
-    goProfile() {
-      this.$router.push(this.memberId);
-    },
     async logout() {
       var auth2 = await gapi.auth2.getAuthInstance();
       auth2.signOut().then(this.removeToken());
@@ -115,16 +112,6 @@ export default {
     removeToken() {
       this.$store
         .dispatch("member/logout")
-        .then(res => {
-          console.log(res);
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    },
-    test() {
-      this.$store
-        .dispatch("member/headerTest")
         .then(res => {
           console.log(res);
         })

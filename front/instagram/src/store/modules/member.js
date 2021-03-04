@@ -1,5 +1,5 @@
 import { getToken, setToken, removeToken, userInfo } from "@/utils/auth";
-import { login, googlelogin, headerTest } from "@/api/member";
+import { login, googlelogin } from "@/api/member";
 
 const state = {
   token: getToken(),
@@ -26,17 +26,6 @@ const actions = {
     removeToken();
     sessionStorage.removeItem("member");
     location.reload();
-  },
-  headerTest() {
-    return new Promise((resolve, reject) => {
-      headerTest()
-        .then(res => {
-          resolve(res);
-        })
-        .catch(err => {
-          reject(err);
-        });
-    });
   },
   googlelogin({ commit }, data) {
     return new Promise((resoleve, reject) => {
