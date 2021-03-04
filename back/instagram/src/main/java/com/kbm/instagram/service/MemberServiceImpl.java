@@ -3,6 +3,7 @@ package com.kbm.instagram.service;
 import com.kbm.instagram.domain.Member;
 import com.kbm.instagram.dto.MemberDto;
 import com.kbm.instagram.dto.RequestMemberDto;
+import com.kbm.instagram.mapper.MemberMapper;
 import com.kbm.instagram.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -26,12 +27,8 @@ public class MemberServiceImpl implements MemberService {
         Optional<Member> member = memberRepository.findById(id);
         MemberDto memberDto = null;
         if (member != null) {
-            memberDto = MemberDto.builder()
-                    .id(member.get().getId())
-                    .memberId(member.get().getMemberId())
-                    .email(member.get().getEmail())
-                    .name(member.get().getName())
-                    .picture(member.get().getPicture()).build();
+
+            memberDto = MemberMapper.INSTANCE.entityToDto(member.get());
         }
         return memberDto;
     }
@@ -41,12 +38,7 @@ public class MemberServiceImpl implements MemberService {
         Optional<Member> member = memberRepository.findByMemberId(memberId);
         MemberDto memberDto = null;
         if (member != null) {
-            memberDto = MemberDto.builder()
-                    .id(member.get().getId())
-                    .memberId(memberId)
-                    .email(member.get().getEmail())
-                    .name(member.get().getName())
-                    .picture(member.get().getPicture()).build();
+            memberDto = MemberMapper.INSTANCE.entityToDto(member.get());
         }
         return memberDto;
     }
@@ -56,12 +48,8 @@ public class MemberServiceImpl implements MemberService {
         List<Member> members = memberRepository.findListByMemberId(memberId);
         List<MemberDto> memberDtoList = new ArrayList<>();
         for (Member member : members) {
-            memberDtoList.add(MemberDto.builder()
-                    .id(member.getId())
-                    .memberId(memberId)
-                    .email(member.getEmail())
-                    .name(member.getName())
-                    .picture(member.getPicture()).build());
+            memberDtoList.add(MemberMapper.INSTANCE.entityToDto(member));
+
         }
         return memberDtoList;
     }
@@ -69,24 +57,13 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public MemberDto getMemberInfoByEmail(String email) throws NoSuchElementException {
         Member member = memberRepository.findByEmail(email).get();
-        MemberDto memberDto = MemberDto.builder()
-                .id(member.getId())
-                .memberId(member.getMemberId())
-                .email(member.getEmail())
-                .name(member.getName())
-                .picture(member.getPicture()).build();
+        MemberDto memberDto = MemberMapper.INSTANCE.entityToDto(member);
         return memberDto;
     }
 
     @Override
     public MemberDto save(MemberDto memberDto) {
-        Member member = Member.builder()
-                .id(memberDto.getId())
-                .memberId(memberDto.getMemberId())
-                .email(memberDto.getEmail())
-                .name(memberDto.getName())
-                .picture(memberDto.getPicture()).build();
-
+        Member member = MemberMapper.INSTANCE.dtoToEntity(memberDto);
         member = memberRepository.save(member);
         memberDto.setId(member.getId());
         return memberDto;
@@ -94,12 +71,8 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public MemberDto googleSignUp(MemberDto googleMmberDto) {
-        String memberId = googleMmberDto.getEmail().split("@")[0];
-        Member member = Member.builder()
-                .memberId(memberId)
-                .email(googleMmberDto.getEmail())
-                .name(googleMmberDto.getName())
-                .picture(googleMmberDto.getPicture()).build();
+        googleMmberDto.setMemberId(googleMmberDto.getEmail().split("@")[0]);
+        Member member = MemberMapper.INSTANCE.dtoToEntity(googleMmberDto);
         member = memberRepository.save(member);
         return googleMmberDto;
     }
@@ -114,12 +87,7 @@ public class MemberServiceImpl implements MemberService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Member authMember = (Member) authentication.getPrincipal();
         Member member = memberRepository.findByEmail(authMember.getEmail()).get();
-        MemberDto memberDto = MemberDto.builder()
-                .id(member.getId())
-                .memberId(member.getMemberId())
-                .email(member.getEmail())
-                .name(member.getName())
-                .picture(member.getPicture()).build();
+        MemberDto memberDto = MemberMapper.INSTANCE.entityToDto(member);
         return memberDto;
     }
 

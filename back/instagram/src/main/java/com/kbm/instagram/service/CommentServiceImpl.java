@@ -6,6 +6,7 @@ import com.kbm.instagram.domain.Member;
 import com.kbm.instagram.dto.CommentDto;
 import com.kbm.instagram.dto.FeedDto;
 import com.kbm.instagram.dto.MemberDto;
+import com.kbm.instagram.mapper.CommentMapper;
 import com.kbm.instagram.repository.CommentRepository;
 import com.kbm.instagram.repository.FeedRepository;
 import lombok.RequiredArgsConstructor;
@@ -62,11 +63,7 @@ public class CommentServiceImpl implements CommentService{
     public CommentDto findById(Long id) {
         Comment comment = commentRepository.findById(id).orElseThrow(()->
                 new IllegalArgumentException("해당 글이 없습니다."));
-        CommentDto commentDto = CommentDto.builder()
-                .id(comment.getId())
-                .content(comment.getContent())
-                .writer(MemberDto.builder().id(comment.getWriter().getId()).build())
-                .build();
+        CommentDto commentDto = CommentMapper.INSTANCE.entityToDto(comment);
         return commentDto;
     }
 
