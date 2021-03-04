@@ -17,7 +17,9 @@
       >
       <button type="button" class="follow__btn">팔로우</button>
       <div id="user-profile-side-info">
-        <span id="feed-num">게시글 <span class="font-blod">182</span></span>
+        <span id="feed-num"
+          >게시글 <span class="font-blod">{{ feedNum }}</span></span
+        >
         <span id="follower-num"
           >팔로워 <span class="font-blod">1,290</span></span
         >
@@ -41,7 +43,7 @@
 import { mapState } from "vuex";
 import { getUser } from "@/api/member";
 export default {
-  props: ["id"],
+  props: ["id", "feedNum"],
   data: () => ({
     profile: {}
   }),

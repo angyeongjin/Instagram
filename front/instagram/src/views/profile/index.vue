@@ -2,7 +2,7 @@
   <div id="wrap">
     <insta-header v-if="this.$store.getters.token" />
     <div id="container" role="main">
-      <user-profile :id="this.id" />
+      <user-profile :id="this.id" :feedNum="this.feeds.length" />
       <hr style="opacity: .3;" />
       <ul id="user-profile-feed__list">
         <user-feed-item
