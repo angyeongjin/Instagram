@@ -37,6 +37,13 @@ class JwtTokenProvider{
         return userPk;
     }
 
+    public Authentication getTestAuthentication() throws IOException, GeneralSecurityException, NullPointerException {
+        String testEmail = "test@test.com";
+        Optional<Member> member = memberRepository.findByEmail(testEmail);
+        UserDetails userDetails = (UserDetails) member.get();
+        return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
+    }
+
     //request의 Header에서 token 파싱
     public String resolveToken(HttpServletRequest request) {
         return request.getHeader("id_token");
