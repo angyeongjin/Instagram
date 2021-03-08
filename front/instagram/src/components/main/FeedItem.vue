@@ -9,8 +9,8 @@
           alt="profile image"
           draggable="false"
       /></span>
-      <a href="#" class="nick-name"
-        ><b>{{ feed.writer.memberId }}</b></a
+      <a href="#" class="nick-name" @click.prevent
+        ><b @click="goProfile">{{ feed.writer.memberId }}</b></a
       >
       <input id="feed-option-01" type="checkbox" style="display:none;" />
       <label class="feed-option" for="feed-option-01">
@@ -72,6 +72,11 @@ import AddFeedComment from "@/components/main/AddFeedComment.vue";
 import FeedContents from "@/components/main/FeedContents";
 export default {
   props: ["feed", "idx"],
-  components: { FeedComment, FeedUtil, AddFeedComment, FeedContents }
+  components: { FeedComment, FeedUtil, AddFeedComment, FeedContents },
+  methods: {
+    goProfile() {
+      this.$router.push(this.feed.writer.memberId);
+    }
+  }
 };
 </script>
