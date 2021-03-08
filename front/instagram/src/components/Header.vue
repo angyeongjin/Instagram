@@ -49,7 +49,7 @@
             ></path>
           </svg>
         </button>
-        <button type="button" class="no__btn gnb__menu" @click="goRouterAbout">
+        <button type="button" class="no__btn gnb__menu">
           <svg
             aria-label="활동 피드"
             class="_8-yf5 "
@@ -63,7 +63,7 @@
             ></path></svg
           ><span class="none">alert popup</span>
         </button>
-        <span class="instagram_profile22 gnb__menu" @click="goProfile"
+        <span class="instagram_profile22 gnb__menu"
           ><img
             :src="picture"
             height="22"
@@ -79,14 +79,14 @@
 <script>
 import { gapi } from "gapi-script";
 import { mapState } from "vuex";
-import { userList } from "@/api/member.js";
+import { getUsers } from "@/api/member.js";
 
 export default {
   created() {
     gapi.load("auth2", () => gapi.auth2.init());
   },
   computed: {
-    ...mapState("member", ["picture"])
+    ...mapState("member", ["memberId", "picture"])
   },
   mounted() {
     let timeoutID = null;
@@ -97,7 +97,7 @@ export default {
       }
       timeoutID = setTimeout(() => {
         if (e.target.value.length) {
-          userList(e.target.value)
+          getUsers(e.target.value)
             .then(res => console.log(res.data))
             .catch(err => console.log(err));
         }
@@ -105,9 +105,6 @@ export default {
     });
   },
   methods: {
-    goProfile() {
-      this.$router.push(`/osb4226`);
-    },
     async logout() {
       var auth2 = await gapi.auth2.getAuthInstance();
       auth2.signOut().then(this.removeToken());
@@ -115,16 +112,6 @@ export default {
     removeToken() {
       this.$store
         .dispatch("member/logout")
-        .then(res => {
-          console.log(res);
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    },
-    test() {
-      this.$store
-        .dispatch("member/headerTest")
         .then(res => {
           console.log(res);
         })

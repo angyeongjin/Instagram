@@ -1,5 +1,5 @@
 import * as feed from "@/api/feed";
-import { userInfo } from "@/api/member";
+import { getUser } from "@/api/member";
 export default {
   namespaced: true,
   state: {
@@ -34,7 +34,7 @@ export default {
   },
   actions: {
     getUser({ commit }, id) {
-      userInfo(id)
+      getUser(id)
         .then(res => {
           console.log(res.data);
           commit("SET_PROFILE_USER", res.data);
