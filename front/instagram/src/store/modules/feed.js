@@ -1,4 +1,5 @@
 import * as feed from "@/api/feed";
+import { userInfo } from "@/api/member";
 export default {
   namespaced: true,
   state: {
@@ -7,11 +8,17 @@ export default {
       pageNum: 1
     },
     profile: {
+      //팔로워 팔로우
+      user: {
+        followerList: [],
+        followingList: []
+      },
       feeds: [],
       pageNum: 1
     }
   },
   mutations: {
+    SET_PROFILE_USER: (state, user) => (state.profile.user = user),
     UPDATE_MAIN_COMMENT: (state, { comment, idx }) =>
       state.main.feeds[idx].commentList.push(comment),
     SET_MAIN_FEEDS: (state, feeds) => (state.main.feeds = feeds),
@@ -26,6 +33,16 @@ export default {
     DELETE_PROFILE_FEEDS: (state, idx) => state.profile.feeds.splice(idx, 1)
   },
   actions: {
+    getUser({ commit }, id) {
+      userInfo(id)
+        .then(res => {
+          console.log(res.data);
+          commit("SET_PROFILE_USER", res.data);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
     insertComment({ commit }, { comment, idx }) {
       feed
         .insertComment(comment)
