@@ -2,7 +2,7 @@
   <div id="user-profile">
     <div id="user-profile-img">
       <img
-        :src="profile.picture"
+        :src="this.profile.picture"
         alt="empty"
         class="instagram_profile"
         height="150"
@@ -15,15 +15,37 @@
           {{ profile.memberId }}
         </h2></a
       >
-      <button type="button" class="follow__btn">팔로우</button>
+      <button
+        @click="followstart(this.profile.memberId)"
+        v-if="this.profile.memberId != this.memberId && !this.followflag"
+        type="button"
+        class="follow__btn"
+      >
+        팔로우
+      </button>
+      <button
+        @click="followstart(this.profile.memberId)"
+        v-if="this.profile.memberId != this.memberId && this.followflag"
+        type="button"
+        class="follow__btn"
+      >
+        언팔로우
+      </button>
+
       <div id="user-profile-side-info">
         <span id="feed-num"
-          >게시글 <span class="font-blod">{{ feedNum }}</span></span
+          >게시글 <span class="font-blod">{{ feeds.length }}</span></span
         >
         <span id="follower-num"
-          >팔로워 <span class="font-blod">1,290</span></span
+          >팔로워
+          <span class="font-blod">{{ profile.followerList.length }}</span></span
         >
-        <span id="follow-num">팔로우 <span class="font-blod"> 39</span></span>
+        <span id="follow-num"
+          >팔로우
+          <span class="font-blod">
+            {{ profile.followingList.length }}</span
+          ></span
+        >
       </div>
       <div id="user-info">
         <h2 id="name" style="font-size: inherit;">{{ profile.name }}</h2>
@@ -40,26 +62,26 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-import { getUser } from "@/api/member";
+import { mapState, mapActions } from "vuex";
 export default {
-  props: ["id", "feedNum"],
-  data: () => ({
-    profile: {}
-  }),
-  created() {
-    getUser(this.id)
-      .then(res => {
-        this.profile = res.data;
-      })
-      .catch(err => console.log(err));
-  },
   computed: {
-    ...mapState("feed", { feeds: state => state.profile.feeds })
+    ...mapState("feed", {
+      feeds: state => state.profile.feeds,
+      profile: state => state.profile.user
+    }),
+    ...mapState("member", ["memberId"]),
+    followflag() {
+      return this.profile.followerList.find(x => x.memberId === this.memberId);
+    }
   },
   methods: {
+    ...mapActions("member", ["follow", "unfollow"]),
     moveToTest() {
       this.$router.push("/test");
+    },
+    followstart() {
+      console.log(this.followflag);
+      // this.follow(id);
     }
   }
 };
