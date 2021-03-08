@@ -63,4 +63,22 @@ public class FollowController {
         return followerList;
     }
 
+    @GetMapping("/following/{memberId}")
+    @ResponseBody
+    @ApiOperation(value = "특정사람이 팔로우한 사람 조회 (팔로잉 조회)", notes = "특정 사람이 팔로우한 사람을 조회합니다.")
+    public List<Member> following(@PathVariable String memberId) {
+        MemberDto memberDto = memberService.getMemberInfoByMemberId(memberId);
+        List<Member> followingList = followService.findFollowing(memberDto);
+        return followingList;
+    }
+
+    @GetMapping("/follower/{memberId}")
+    @ResponseBody
+    @ApiOperation(value = "특정사람을 팔로우한 사람 조회 (팔로워 조회)", notes = "특정 사람을 팔로우한 사람을 조회합니다.")
+    public List<Member> follower(@PathVariable String memberId) {
+        MemberDto memberDto = memberService.getMemberInfoByMemberId(memberId);
+        List<Member> followerList = followService.findFollower(memberDto);
+        return followerList;
+    }
+
 }
