@@ -35,3 +35,11 @@ export const userList = input => {
     method: "get"
   });
 };
+
+export const follow = data => {
+  return request({
+    url: "follow",
+    method: "post",
+    data
+  });
+};

@@ -2,7 +2,7 @@
   <div id="wrap">
     <insta-header v-if="this.$store.getters.token" />
     <div id="container" role="main">
-      <user-profile :id="this.id" />
+      <user-profile />
       <hr style="opacity: .3;" />
       <ul id="user-profile-feed__list">
         <user-feed-item
@@ -28,9 +28,10 @@ export default {
   },
   created() {
     this.getProfileFeeds(this.id);
+    this.getUser(this.id);
   },
   methods: {
-    ...mapActions("feed", ["getProfileFeeds"])
+    ...mapActions("feed", ["getProfileFeeds", "getUser"])
   }
 };
 </script>
