@@ -7,6 +7,7 @@ import com.kbm.instagram.repository.FollowRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -24,11 +25,8 @@ public class FollowServiceImpl implements FollowService {
     }
 
     @Override
-    public void unFollow(MemberDto followingDto, MemberDto followerDto) {
-        Member following = Member.builder().id(followingDto.getId()).build();
-        Member follower = Member.builder().id(followerDto.getId()).build();
-        Follow follow = Follow.builder().following(following).follower(follower).build();
-        followRepository.delete(follow);
+    public void unFollow(Long followerId, Long followingId) {
+        followRepository.deleteFollower(followerId,followingId);
     }
 
     @Override

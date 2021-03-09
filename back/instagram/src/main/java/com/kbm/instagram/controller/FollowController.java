@@ -35,11 +35,14 @@ public class FollowController {
     @PostMapping("/unfollow")
     @ApiOperation(value = "언팔로우(팔로우 삭제)하기", notes = "언팔로우 하고싶은 사람의 memberId를 받아 언팔로우합니다.")
     public ResponseEntity<?> unFollow(@RequestBody RequestFollowDto requestFollowDto) {
+        System.out.println("------------------------------------");
+        System.out.println(requestFollowDto.getMemberId());
         try {
             MemberDto followingDto = memberService.getMemberInfoByMemberId(requestFollowDto.getMemberId());
             MemberDto followerDto = memberService.getAuthMember();
-            followService.unFollow(followingDto, followerDto);
+            followService.unFollow(followerDto.getId(), followingDto.getId());
         } catch (Exception e) {
+            System.out.println(e);
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok().build();
