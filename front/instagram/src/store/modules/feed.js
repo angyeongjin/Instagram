@@ -19,6 +19,14 @@ export default {
   },
   mutations: {
     SET_PROFILE_USER: (state, user) => (state.profile.user = user),
+    UPDATE_PROFILE_USER_FOLLOW: (state, user) =>
+      state.profile.user.followerList.push({ memberId: user }),
+    DELETE_PROFILE_USER_FOLLOW: (state, user) => {
+      var idx = state.profile.user.followerList.findIndex(
+        x => x.memberId === user
+      );
+      state.profile.user.followerList.splice(idx, 1);
+    },
     UPDATE_MAIN_COMMENT: (state, { comment, idx }) =>
       state.main.feeds[idx].commentList.push(comment),
     SET_MAIN_FEEDS: (state, feeds) => (state.main.feeds = feeds),
@@ -132,6 +140,28 @@ export default {
         })
         .catch(err => {
           console.log("updateLike", err);
+        });
+    },
+    follow({ commit }, data) {
+      feed
+        .follow({ memberId: data.memberId })
+        .then(res => {
+          console.log(res);
+          commit("UPDATE_PROFILE_USER_FOLLOW", data.myId);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    unfollow({ commit }, data) {
+      feed
+        .unfollow({ memberId: data })
+        .then(res => {
+          console.log(res);
+          commit("DELETE_PROFILE_USER_FOLLOW", data);
+        })
+        .catch(err => {
+          console.log(err);
         });
     }
   }
