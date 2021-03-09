@@ -78,9 +78,11 @@ header {
 #header-search-wrap {
 	display: inline-block;
     min-width: 551px;
+	position: relative;
 }
 
 #search--input {
+	position: relative;
 	float: right;
 	height: 22px;
 	background: #f2f2f2;
@@ -165,7 +167,39 @@ header {
 	right: 0;
 	width: 293px;
 }
+.diamond-shape {
+	display: none;
+	right: 75px;
+    top: 30px;
+	background: #fff;
+    border: 1px solid rgba(var(--f23,255,255,255),1);
+    box-shadow: 0 0 5px 1px rgba(var(--jb7,0,0,0),.0975);
+    height: 14px;
+    position: absolute;
+    transform: rotate(45deg);
+    width: 14px;
+}
+#search-helper--box {
+	display: none;
+	padding-top: 10px;
+	position: absolute;
+	top: 38px;
+	right: -100px;
+	width: 375px;
+	min-height: 100px;
+	background: #fff;
+	border-radius: 6px;
+	box-shadow: 0 0 5px 1px rgba(var(--jb7,0,0,0),.0975);
+	max-height: 362px;
+    overflow: auto;
+	z-index: 100;
+}
+#search--input:focus ~ .diamond-shape ,#search--input:focus + #search-helper--box {
+	display: initial;
+}
 #profile__box {
+	padding-left: 12px;
+	padding-bottom: 10px;
 	height: 56px;
 	display: flex;
 }

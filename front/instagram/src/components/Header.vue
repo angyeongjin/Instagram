@@ -12,6 +12,16 @@
           </h1></a
         >
         <input type="text" id="search--input" placeholder="검색" />
+        <div id="search-helper--box">
+          <profile-box
+            v-for="{ id, name, memberId, picture } in searchHelperList"
+            :key="id"
+            :name="name"
+            :member-id="memberId"
+            :picture="picture"
+          ></profile-box>
+        </div>
+        <div class="diamond-shape"></div>
       </div>
       <nav id="gnb">
         <a href="#" class="gnb__menu"
@@ -80,8 +90,17 @@
 import { gapi } from "gapi-script";
 import { mapState } from "vuex";
 import { getUsers } from "@/api/member.js";
+import ProfileBox from "@/components/main/ProfileBox.vue";
 
 export default {
+  components: {
+    ProfileBox
+  },
+  data() {
+    return {
+      searchHelperList: []
+    };
+  },
   created() {
     gapi.load("auth2", () => gapi.auth2.init());
   },
@@ -89,22 +108,25 @@ export default {
     ...mapState("member", ["memberId", "picture"])
   },
   mounted() {
-    let timeoutID = null;
-    const search = document.querySelector("#search--input");
-    search.addEventListener("input", e => {
-      if (timeoutID) {
-        clearTimeout(timeoutID);
-      }
-      timeoutID = setTimeout(() => {
-        if (e.target.value.length) {
-          getUsers(e.target.value)
-            .then(res => console.log(res.data))
-            .catch(err => console.log(err));
-        }
-      }, 800);
-    });
+    this.searchHelperDebounce();
   },
   methods: {
+    searchHelperDebounce() {
+      let timeoutID = null;
+      const search = document.querySelector("#search--input");
+      search.addEventListener("input", e => {
+        if (timeoutID) {
+          clearTimeout(timeoutID);
+        }
+        timeoutID = setTimeout(() => {
+          if (e.target.value.length) {
+            getUsers(e.target.value)
+              .then(res => (this.searchHelperList = res.data))
+              .catch(err => console.log(err));
+          }
+        }, 800);
+      });
+    },
     async logout() {
       var auth2 = await gapi.auth2.getAuthInstance();
       auth2.signOut().then(this.removeToken());
