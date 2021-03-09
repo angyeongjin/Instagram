@@ -1,8 +1,10 @@
 package com.kbm.instagram.controller;
 
+import com.kbm.instagram.domain.Member;
 import com.kbm.instagram.dto.GoogleTokenDto;
 import com.kbm.instagram.dto.MemberDto;
 import com.kbm.instagram.dto.RequestMemberDto;
+import com.kbm.instagram.service.FollowService;
 import com.kbm.instagram.service.MemberService;
 import com.kbm.instagram.service.S3UploadService;
 import com.kbm.instagram.service.ValidationService;
@@ -15,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -27,6 +30,7 @@ public class MemberController {
     private final MemberService memberService;
     private final ValidationService validationService;
     private final S3UploadService s3UploadService;
+    private final FollowService followService;
 
     @GetMapping
     @ResponseBody
@@ -41,6 +45,10 @@ public class MemberController {
     @ApiOperation(value = "회원 아이디로 회원 조회 (단일)", notes = "회원 아이디로 회원 정보를 조회합니다.")
     public MemberDto getMemberInfo(@PathVariable String memberId) {
         MemberDto memberDto = memberService.getMemberInfoByMemberId(memberId);
+        List<Member> followingList = followService.findFollowing(memberDto);
+        List<Member> followerList = followService.findFollower(memberDto);
+        memberDto.setFollowingList(followingList);
+        memberDto.setFollowerList(followerList);
         return memberDto;
     }
 
@@ -93,6 +101,10 @@ public class MemberController {
         try {
             googleMemberDto = validationService.validationByIdToken(googleTokenDto.getIdToken());
             memberDto = memberService.getMemberInfoByEmail(googleMemberDto.getEmail());
+            List<Member> followingList = followService.findFollowing(memberDto);
+            List<Member> followerList = followService.findFollower(memberDto);
+            memberDto.setFollowingList(followingList);
+            memberDto.setFollowerList(followerList);
         } catch (GeneralSecurityException e) {
             System.out.println("token is not vailed");
         } catch (IOException e) {
