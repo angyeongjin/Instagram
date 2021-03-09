@@ -23,6 +23,13 @@ import { mapState, mapActions } from "vuex";
 export default {
   props: ["id"],
   components: { InstaHeader, UserProfile, UserFeedItem },
+  beforeRouteUpdate(to, from) {
+    if (to.params.id !== from.params.id) {
+      const memberId = to.params.id;
+      this.getProfileFeeds(memberId);
+      this.getUser(memberId);
+    }
+  },
   computed: {
     ...mapState("feed", { feeds: state => state.profile.feeds })
   },
