@@ -45,10 +45,8 @@ public class MemberController {
     @ApiOperation(value = "회원 아이디로 회원 조회 (단일)", notes = "회원 아이디로 회원 정보를 조회합니다.")
     public MemberDto getMemberInfo(@PathVariable String memberId) {
         MemberDto memberDto = memberService.getMemberInfoByMemberId(memberId);
-        List<Member> followingList = new ArrayList<>();
-        List<Member> followerList = new ArrayList<>();
-        followingList = followService.findFollowing(memberDto);
-        followerList = followService.findFollower(memberDto);
+        List<Member> followingList = followService.findFollowing(memberDto);
+        List<Member> followerList = followService.findFollower(memberDto);
         memberDto.setFollowingList(followingList);
         memberDto.setFollowerList(followerList);
         return memberDto;
@@ -103,10 +101,8 @@ public class MemberController {
         try {
             googleMemberDto = validationService.validationByIdToken(googleTokenDto.getIdToken());
             memberDto = memberService.getMemberInfoByEmail(googleMemberDto.getEmail());
-            List<Member> followingList = new ArrayList<>();
-            List<Member> followerList = new ArrayList<>();
-            followingList = followService.findFollowing(memberDto);
-            followerList = followService.findFollower(memberDto);
+            List<Member> followingList = followService.findFollowing(memberDto);
+            List<Member> followerList = followService.findFollower(memberDto);
             memberDto.setFollowingList(followingList);
             memberDto.setFollowerList(followerList);
         } catch (GeneralSecurityException e) {

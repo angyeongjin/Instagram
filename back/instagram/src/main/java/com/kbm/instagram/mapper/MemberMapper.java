@@ -12,6 +12,7 @@ public interface MemberMapper {
     MemberMapper INSTANCE = Mappers.getMapper(MemberMapper.class);
 
     @Mapping(target = "password", ignore = true)
+    @Mapping(target = "roles", ignore = true)
     Member dtoToEntity(MemberDto memberDto);
 
     MemberDto entityToDto(Member member);
