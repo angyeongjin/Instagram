@@ -38,7 +38,7 @@ public class FollowController {
         try {
             MemberDto followingDto = memberService.getMemberInfoByMemberId(requestFollowDto.getMemberId());
             MemberDto followerDto = memberService.getAuthMember();
-            followService.unFollow(followingDto, followerDto);
+            followService.unFollow(followerDto.getId(), followingDto.getId());
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
         }
