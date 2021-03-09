@@ -16,7 +16,7 @@
         </h2></a
       >
       <button
-        @click="followstart(this.profile.memberId)"
+        @click="followGo(this.profile.memberId)"
         v-if="this.profile.memberId != this.memberId && !this.followflag"
         type="button"
         class="follow__btn"
@@ -24,7 +24,7 @@
         팔로우
       </button>
       <button
-        @click="followstart(this.profile.memberId)"
+        @click="unfollowGo(this.profile.memberId)"
         v-if="this.profile.memberId != this.memberId && this.followflag"
         type="button"
         class="follow__btn"
@@ -75,13 +75,15 @@ export default {
     }
   },
   methods: {
-    ...mapActions("member", ["follow", "unfollow"]),
+    ...mapActions("feed", ["follow", "unfollow"]),
     moveToTest() {
       this.$router.push("/test");
     },
-    followstart() {
-      console.log(this.followflag);
-      // this.follow(id);
+    followGo(id) {
+      this.follow({ memberId: id, myId: this.memberId });
+    },
+    unfollowGo(id) {
+      this.unfollow(id);
     }
   }
 };

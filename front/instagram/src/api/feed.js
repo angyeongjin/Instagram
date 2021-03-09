@@ -50,3 +50,17 @@ export const like = feedId =>
       feedId
     }
   });
+
+export const follow = data =>
+  request({
+    url: `follow`,
+    method: "post",
+    data
+  });
+
+export const unfollow = data =>
+  request({
+    url: "unfollow",
+    method: "post",
+    data
+  });
