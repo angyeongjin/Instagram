@@ -168,7 +168,6 @@ header {
 	width: 293px;
 }
 .diamond-shape {
-	display: none;
 	right: 75px;
     top: 30px;
 	background: #fff;
@@ -178,9 +177,10 @@ header {
     position: absolute;
     transform: rotate(45deg);
     width: 14px;
+	opacity: 0;
+	visibility: hidden;
 }
 #search-helper--box {
-	display: none;
 	padding-top: 10px;
 	position: absolute;
 	top: 38px;
@@ -193,9 +193,13 @@ header {
 	max-height: 362px;
     overflow: auto;
 	z-index: 100;
+	opacity: 0; 
+	visibility: hidden;
+	transition: all .5s;
 }
 #search--input:focus ~ .diamond-shape ,#search--input:focus + #search-helper--box {
-	display: initial;
+	opacity: 1;
+	visibility: visible;
 }
 #profile__box {
 	padding-left: 12px;
