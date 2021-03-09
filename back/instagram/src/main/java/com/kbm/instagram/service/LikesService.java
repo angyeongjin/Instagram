@@ -5,7 +5,7 @@ import com.kbm.instagram.dto.MemberDto;
 
 import java.util.List;
 
-public interface LikeService {
+public interface LikesService {
 
     public List<MemberDto> findLikeList(long feedId);
     public List<MemberDto> like(FeedDto feedDto, MemberDto memberDto);

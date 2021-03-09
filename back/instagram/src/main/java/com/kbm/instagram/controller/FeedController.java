@@ -4,7 +4,7 @@ import com.kbm.instagram.dto.FeedDto;
 import com.kbm.instagram.dto.MemberDto;
 import com.kbm.instagram.dto.RequestFeedDto;
 import com.kbm.instagram.service.FeedService;
-import com.kbm.instagram.service.LikeService;
+import com.kbm.instagram.service.LikesService;
 import com.kbm.instagram.service.MemberService;
 import com.kbm.instagram.service.S3UploadService;
 import io.swagger.annotations.ApiOperation;
@@ -25,7 +25,7 @@ import java.util.List;
 public class FeedController {
 
     private final FeedService feedService;
-    private final LikeService likeService;
+    private final LikesService likesService;
     private final MemberService memberService;
     private final S3UploadService s3UploadService;
 
@@ -55,7 +55,7 @@ public class FeedController {
     @GetMapping("/{id}")
     @ApiOperation(value = "피드 조회 (단일)", notes = "피드 id를 받아 피드를 하나 조회합니다.")
     FeedDto getFeedInfo(@PathVariable Long id) {
-        List<MemberDto> likeMemberList = likeService.findLikeList(id);
+        List<MemberDto> likeMemberList = likesService.findLikeList(id);
         FeedDto feedDto = feedService.findByFeedId(id);
         feedDto.setLikeList(likeMemberList);
         return feedDto;
@@ -66,7 +66,7 @@ public class FeedController {
     List<FeedDto> getMemberFeed(@PathVariable String memberId) {
         List<FeedDto> feedDtoList = feedService.findByMemberId(memberId);
         for (FeedDto feedDto : feedDtoList) {
-            feedDto.setLikeList(likeService.findLikeList(feedDto.getId()));
+            feedDto.setLikeList(likesService.findLikeList(feedDto.getId()));
         }
         return feedDtoList;
     }
@@ -77,7 +77,7 @@ public class FeedController {
         MemberDto memberDto = memberService.getAuthMember();
         List<FeedDto> feedDtoList = feedService.findFollowFeedByMemberId(memberDto.getMemberId());
         for (FeedDto feedDto : feedDtoList) {
-            feedDto.setLikeList(likeService.findLikeList(feedDto.getId()));
+            feedDto.setLikeList(likesService.findLikeList(feedDto.getId()));
         }
         return feedDtoList;
     }
@@ -89,7 +89,7 @@ public class FeedController {
         List<FeedDto> feedDtoList = feedService.findFollowFeedByMemberId(
                 memberDto.getMemberId(), PageRequest.of(pageNum-1, 10, Sort.by("id").descending()));
         for (FeedDto feedDto : feedDtoList) {
-            feedDto.setLikeList(likeService.findLikeList(feedDto.getId()));
+            feedDto.setLikeList(likesService.findLikeList(feedDto.getId()));
         }
         if (feedDtoList.size() == 0)
             return ResponseEntity.noContent().build();
