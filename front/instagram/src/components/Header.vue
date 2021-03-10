@@ -147,7 +147,13 @@ export default {
     },
     onClickCreateFeedPopup() {
       this.$store.commit("showPopup", {
-        component: CreateFeed
+        component: CreateFeed,
+        options: {
+          windowSize: {
+            w: "550px",
+            h: "750px"
+          }
+        }
       });
     }
   }
