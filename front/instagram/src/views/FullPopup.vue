@@ -21,8 +21,11 @@ export default {
       return this.$store.state.popupProp;
     },
     POPUP_WINDOW_SIZE() {
-      const { height, h, width, w } = this.$store.state.popupOptions.windowSize;
-      return `width: ${width || w}; height: ${height || h}`;
+      const { height, h, width, w } =
+        this.$store.state.popupOptions?.windowSize || {};
+      return `width: ${width || w || "500px"}; height: ${height ||
+        h ||
+        "800px"}`;
     }
   },
   methods: {
