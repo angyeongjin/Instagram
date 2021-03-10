@@ -1,8 +1,14 @@
 <template>
   <div id="carousel--wrap">
     <div id="carousel--box">
-      <div @click="onClickLeft" class="dir-left-shape"></div>
-      <div @click="onClickRight" class="dir-right-shape"></div>
+      <div
+        @click="onClickLeft"
+        :class="{ 'dir-left-shape': isShowLeftDir }"
+      ></div>
+      <div
+        @click="onClickRight"
+        :class="{ 'dir-right-shape': isShowRightDir }"
+      ></div>
       <label
         id="carousel--bg"
         :style="`background-image: url(${selectedImgUrl});`"
@@ -18,16 +24,11 @@
       <div class="carousel-image-idx--wrap">
         <ul class="carousel-image-idx--list">
           <li
-            class="carousel-image-idx--item carousel-image-idx-active--item"
-            @click="onClickImagePosition(1)"
-          ></li>
-          <li
+            v-for="(item, idx) in imageFiles"
+            :key="idx"
             class="carousel-image-idx--item"
-            @click="onClickImagePosition(2)"
-          ></li>
-          <li
-            class="carousel-image-idx--item"
-            @click="onClickImagePosition(3)"
+            :class="{ 'carousel-image-idx-active--item': idx === selectedIdx }"
+            @click="onClickImagePosition(idx)"
           ></li>
         </ul>
       </div>
@@ -36,34 +37,59 @@
 </template>
 
 <script>
+import { mapActions, mapMutations, mapState } from "vuex";
 export default {
   name: "Carousel",
-  data() {
-    return {
-      selectedImgUrl: null
-    };
+  computed: {
+    ...mapState("createFeed", ["imageFiles", "selectedImgUrl", "selectedIdx"]),
+    isShowLeftDir() {
+      return this.selectedIdx !== 0;
+    },
+    isShowRightDir() {
+      return this.selectedIdx !== this.imageFiles?.length - 1;
+    }
   },
   methods: {
+    ...mapMutations("createFeed", [
+      "UPDATE_IMAGE_FILES",
+      "UPDATE_SELECTED_IMG_URL"
+    ]),
     onClickLeft() {
-      console.log(
-        "[🐶 DDD] ~ file: Carousel.vue ~ line 32 ~ onClickLeft ~ onClickLeft"
-      );
+      this.UPDATE_SELECTED_IMG_URL(this.selectedIdx - 1);
     },
     onClickRight() {
-      console.log(
-        "[🐶 DDD] ~ file: Carousel.vue ~ line 32 ~ onClickRight ~ onClickRight"
-      );
+      this.UPDATE_SELECTED_IMG_URL(this.selectedIdx + 1);
     },
     onClickImagePosition(position) {
-      console.log(
-        "[🐶 DDD] ~ file: Carousel.vue ~ line 49 ~ onClickImagePosition ~ position",
-        position
-      );
+      this.UPDATE_SELECTED_IMG_URL(position);
     },
-    onClickRegiImg() {
-      console.log(
-        "[🐶 DDD] ~ file: Carousel.vue ~ line 32 ~ onClickRegiImg ~ onClickRegiImg"
-      );
+    onClickRegiImg(e) {
+      const files = e.target.files;
+      this.UPDATE_IMAGE_FILES(files);
+      e.target.value = null;
+    },
+    ...mapActions("feed", ["addProfileFeed"]),
+    async uploadImage() {
+      const data = {
+        files: this.imageFiles,
+        contents: this.contents
+      };
+
+      try {
+        await this.addProfileFeed(data);
+        this.imageFiles = [];
+        // this.contents = ""; // contents reset
+        /* 
+          모달 on/off 하는 거
+        */
+      } catch (err) {
+        console.log("uploadImage Error", err);
+      }
+    },
+    deleteImage(idx) {
+      if (confirm("삭제하시겠습니까?")) {
+        this.imageFiles.splice(idx, 1);
+      }
     }
   }
 };
