@@ -12,10 +12,12 @@
   </div>
 </template>
 <script>
-import { mapState } from "vuex";
 export default {
-  computed: {
-    ...mapState("member", ["name", "memberId", "picture"])
+  name: "profileBox",
+  props: {
+    name: String,
+    memberId: String,
+    picture: String
   },
   methods: {
     goProfile() {

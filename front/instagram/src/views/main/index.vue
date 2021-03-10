@@ -12,7 +12,7 @@
         />
       </section>
       <aside id="main-right">
-        <profile-box />
+        <profile-box :name="name" :member-id="memberId" :picture="picture" />
       </aside>
     </div>
     <footer role="contentinfo"></footer>
@@ -33,6 +33,7 @@ export default {
     isLoading: false
   }),
   computed: {
+    ...mapState("member", ["name", "memberId", "picture"]),
     ...mapGetters(["token"]),
     ...mapState("feed", {
       feeds: state => state.main.feeds,
