@@ -1,7 +1,16 @@
 <template>
   <div id="create-feed--wrap">
     <h2>Feed Registe</h2>
-    <carousel />
+    <carousel
+      @moveImgLeft="moveImgLeft"
+      @moveImgRight="moveImgRight"
+      @onClickImagePosition="onClickImagePosition"
+      @onClickRegiImg="onClickRegiImg"
+      :filter="filter"
+      :selected-img-url="selectedImgUrl"
+      :selected-idx="selectedIdx"
+      :total-img-number="imageFiles.length"
+    />
     <image-filter
       v-show="page === 1"
       style="margin-bottom: 30px;"
@@ -55,15 +64,25 @@ import Carousel from "@/components/Carousel";
 import ImageFilter from "@/components/ImageFilter";
 import { mapActions, mapMutations, mapState } from "vuex";
 export default {
+  name: "CreateFeed",
   data: () => ({
     contents: "",
     page: 1
   }),
   components: { Carousel, ImageFilter },
   computed: {
-    ...mapState("createFeed", ["imageFiles", "selectedImgUrl", "filter"])
+    ...mapState("createFeed", [
+      "imageFiles",
+      "selectedImgUrl",
+      "selectedIdx",
+      "filter"
+    ])
   },
   methods: {
+    ...mapMutations("createFeed", [
+      "UPDATE_IMAGE_FILES",
+      "UPDATE_SELECTED_IMG_URL"
+    ]),
     ...mapMutations("createFeed", ["CLEAR_IMAGE_FILES", "SET_FILTER"]),
     ...mapActions("feed", ["addProfileFeed"]),
     defaultFilter() {
@@ -75,8 +94,20 @@ export default {
     goBack() {
       this.page = 1;
     },
+    moveImgLeft() {
+      this.UPDATE_SELECTED_IMG_URL(this.selectedIdx - 1);
+    },
+    moveImgRight() {
+      this.UPDATE_SELECTED_IMG_URL(this.selectedIdx + 1);
+    },
+    onClickImagePosition(position) {
+      this.UPDATE_SELECTED_IMG_URL(position);
+    },
     completed() {
       this.uploadImage();
+    },
+    onClickRegiImg(files) {
+      this.UPDATE_IMAGE_FILES(files);
     },
     async uploadImage() {
       const data = {

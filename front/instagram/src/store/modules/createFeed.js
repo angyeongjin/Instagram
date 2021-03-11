@@ -25,6 +25,7 @@ export default {
       state.selectedImgUrl = state.imageFiles[state.selectedIdx].url;
     },
     UPDATE_SELECTED_IMG_URL(state, idx) {
+      if (!(0 <= idx && idx <= state.imageFiles.length)) return;
       state.selectedIdx = idx;
       state.selectedImgUrl = state.imageFiles[idx].url;
     },

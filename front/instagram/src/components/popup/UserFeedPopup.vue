@@ -2,12 +2,15 @@
   <div>
     <div class="feed__item" style="overflow: hidden;">
       <div style="float: left;">
-        <img
-          :src="feed.images[0]"
-          alt="피드 이미지"
-          height="614"
-          width="480"
-          :class="feed.filter"
+        <carousel
+          :selectedImgUrl="selectedImgUrl"
+          :totalImgNumber="totalImgNumber"
+          :selectedIdx="imgIdx"
+          :filter="feed.filter"
+          @moveImgLeft="moveImgLeft"
+          @moveImgRight="moveImgRight"
+          @onClickImagePosition="onClickImagePosition"
+          :options="{ w: '480px', h: '614px' }"
         />
       </div>
       <div style="float: left; width: 320px; height: 614px;">
@@ -131,7 +134,14 @@
 <script>
 import { mapActions } from "vuex";
 import FeedUtil from "@/components/FeedUtil.vue";
+import Carousel from "@/components/Carousel.vue";
 export default {
+  data() {
+    return {
+      imgFiles: this.feed.images,
+      imgIdx: 0
+    };
+  },
   props: {
     feed: {
       require: true,
@@ -142,7 +152,15 @@ export default {
       type: Number
     }
   },
-  components: { FeedUtil },
+  components: { FeedUtil, Carousel },
+  computed: {
+    totalImgNumber() {
+      return this.imgFiles?.length || 0;
+    },
+    selectedImgUrl() {
+      return this.imgFiles[this.imgIdx];
+    }
+  },
   methods: {
     ...mapActions("feed", ["deleteProfileFeed"]),
     async deleteFeed() {
@@ -154,6 +172,15 @@ export default {
         await this.deleteProfileFeed(data);
         this.$store.commit("closePopup");
       }
+    },
+    moveImgLeft() {
+      this.imgIdx--;
+    },
+    moveImgRight() {
+      this.imgIdx++;
+    },
+    onClickImagePosition(position) {
+      this.imgIdx = position;
     }
   }
 };
