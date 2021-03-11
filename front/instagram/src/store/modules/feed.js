@@ -105,6 +105,7 @@ export default {
         formData.append("images", data.files[i].info);
       }
       formData.append("contents", data.contents);
+      formData.append("filter", data.filter);
 
       console.log("전송중..");
       return feed.insert(formData).then(res => {

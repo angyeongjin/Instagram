@@ -2,34 +2,15 @@
   <div id="filter--wrap">
     <div id="filter-list--wrap">
       <ul id="filter-list">
-        <li class="filter-item">
-          <strong>blur</strong>
+        <li class="filter-item" v-for="filter in filters" :key="filter">
+          <strong>{{ filter }}</strong>
           <img
             :width="width"
             :height="height"
-            class="filter-blur"
+            :class="`filter-${filter}`"
             :src="selectedImg"
-            alt="filter-blur"
-          />
-        </li>
-        <li class="filter-item">
-          <strong>grayscale</strong>
-          <img
-            :width="width"
-            :height="height"
-            class="filter-grayscale"
-            :src="selectedImg"
-            alt="filter-grayscale"
-          />
-        </li>
-        <li class="filter-item">
-          <strong>drop-shadow</strong>
-          <img
-            :width="width"
-            :height="height"
-            class="filter-drop-shadow"
-            :src="selectedImg"
-            alt="filter-drop-shadow"
+            :alt="`filter-${filter}`"
+            @click="changeFilter(filter)"
           />
         </li>
       </ul>
@@ -38,6 +19,7 @@
 </template>
 
 <script>
+import { mapMutations } from "vuex";
 export default {
   name: "ImageFilter",
   props: {
@@ -50,8 +32,15 @@ export default {
     return {
       height: 150,
       width: 150,
-      selectedFilterClass: null
+      selectedFilterClass: null,
+      filters: ["blur", "grayscale", "drop-shadow"]
     };
+  },
+  methods: {
+    ...mapMutations("createFeed", ["SET_FILTER"]),
+    changeFilter(filter) {
+      this.SET_FILTER(filter);
+    }
   }
 };
 </script>

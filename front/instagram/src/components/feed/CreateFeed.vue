@@ -5,6 +5,7 @@
     <image-filter
       v-show="page === 1"
       style="margin-bottom: 30px;"
+      :selectedImg="selectedImgUrl"
     ></image-filter>
     <div v-show="page === 2">
       <textarea
@@ -12,8 +13,17 @@
         cols="55"
         rows="5"
         placeholder="내용을 입력해주세요."
+        v-model="contents"
       ></textarea>
     </div>
+    <button
+      v-if="page === 1"
+      class="create-feed-next-btn"
+      @click="defaultFilter"
+      type="button"
+    >
+      복원
+    </button>
     <button
       v-if="page === 1"
       class="create-feed-next-btn"
@@ -43,14 +53,22 @@
 <script>
 import Carousel from "@/components/Carousel";
 import ImageFilter from "@/components/ImageFilter";
+import { mapActions, mapMutations, mapState } from "vuex";
 export default {
   data: () => ({
-    // imageFiles: [],
-    // contents: "",
+    contents: "",
     page: 1
   }),
   components: { Carousel, ImageFilter },
+  computed: {
+    ...mapState("createFeed", ["imageFiles", "selectedImgUrl", "filter"])
+  },
   methods: {
+    ...mapMutations("createFeed", ["CLEAR_IMAGE_FILES", "SET_FILTER"]),
+    ...mapActions("feed", ["addProfileFeed"]),
+    defaultFilter() {
+      this.SET_FILTER();
+    },
     goNext() {
       this.page = 2;
     },
@@ -58,10 +76,26 @@ export default {
       this.page = 1;
     },
     completed() {
-      console.log(
-        "[🐶 DDD] ~ file: CreateFeed.vue ~ line 105 ~ completed ~ completed"
-      );
+      this.uploadImage();
+    },
+    async uploadImage() {
+      const data = {
+        files: this.imageFiles,
+        contents: this.contents,
+        filter: this.filter
+      };
+
+      try {
+        await this.addProfileFeed(data);
+        this.CLEAR_IMAGE_FILES();
+        this.$store.commit("closePopup");
+      } catch (err) {
+        console.log("uploadImage Error", err);
+      }
     }
+  },
+  unmounted() {
+    this.CLEAR_IMAGE_FILES();
   }
 };
 </script>

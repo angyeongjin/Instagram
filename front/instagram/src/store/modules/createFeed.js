@@ -2,9 +2,9 @@ export default {
   namespaced: true,
   state: {
     imageFiles: [],
-    contents: "",
-    selectedImgUrl: "",
-    selectedIdx: 0
+    selectedImgUrl: undefined,
+    selectedIdx: 0,
+    filter: ""
   },
   mutations: {
     UPDATE_IMAGE_FILES(state, files) {
@@ -27,6 +27,15 @@ export default {
     UPDATE_SELECTED_IMG_URL(state, idx) {
       state.selectedIdx = idx;
       state.selectedImgUrl = state.imageFiles[idx].url;
+    },
+    CLEAR_IMAGE_FILES(state) {
+      state.imageFiles = [];
+      state.selectedImgUrl = undefined;
+      state.selectedIdx = 0;
+      state.filter = "";
+    },
+    SET_FILTER(state, filter = "") {
+      state.filter = `filter-${filter}`;
     }
   }
 };

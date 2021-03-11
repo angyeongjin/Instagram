@@ -12,6 +12,7 @@
       <label
         id="carousel--bg"
         :style="`background-image: url(${selectedImgUrl});`"
+        :class="filter"
       >
         <div v-if="!selectedImgUrl" class="plus-shape"></div>
         <input
@@ -37,16 +38,23 @@
 </template>
 
 <script>
-import { mapActions, mapMutations, mapState } from "vuex";
+import { mapMutations, mapState } from "vuex";
 export default {
   name: "Carousel",
   computed: {
-    ...mapState("createFeed", ["imageFiles", "selectedImgUrl", "selectedIdx"]),
+    ...mapState("createFeed", [
+      "imageFiles",
+      "selectedImgUrl",
+      "selectedIdx",
+      "filter"
+    ]),
     isShowLeftDir() {
       return this.selectedIdx !== 0;
     },
     isShowRightDir() {
-      return this.selectedIdx !== this.imageFiles?.length - 1;
+      return (
+        this.selectedImgUrl && this.selectedIdx !== this.imageFiles?.length - 1
+      );
     }
   },
   methods: {
@@ -67,29 +75,6 @@ export default {
       const files = e.target.files;
       this.UPDATE_IMAGE_FILES(files);
       e.target.value = null;
-    },
-    ...mapActions("feed", ["addProfileFeed"]),
-    async uploadImage() {
-      const data = {
-        files: this.imageFiles,
-        contents: this.contents
-      };
-
-      try {
-        await this.addProfileFeed(data);
-        this.imageFiles = [];
-        // this.contents = ""; // contents reset
-        /* 
-          모달 on/off 하는 거
-        */
-      } catch (err) {
-        console.log("uploadImage Error", err);
-      }
-    },
-    deleteImage(idx) {
-      if (confirm("삭제하시겠습니까?")) {
-        this.imageFiles.splice(idx, 1);
-      }
     }
   }
 };
