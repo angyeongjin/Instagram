@@ -6,7 +6,7 @@
       placeholder="댓글 달기..."
       v-model="this.comment.content"
     />
-    <button class="no__btn" @click="ctest()">게시</button>
+    <button class="no__btn" @click="addComment()">게시</button>
   </div>
 </template>
 <script>
@@ -29,9 +29,11 @@ export default {
   },
   methods: {
     ...mapActions("feed", ["insertComment", "insertSubComment"]),
-    ctest() {
+
+    addComment() {
       this.comment.feedId = this.feedid;
       const data = {
+        field: "main",
         comment: this.comment,
         idx: this.idx
       };
