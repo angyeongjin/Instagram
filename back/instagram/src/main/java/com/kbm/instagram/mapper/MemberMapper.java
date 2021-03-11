@@ -15,5 +15,7 @@ public interface MemberMapper {
     @Mapping(target = "roles", ignore = true)
     Member dtoToEntity(MemberDto memberDto);
 
+    @Mapping(target = "followerList", ignore = true)
+    @Mapping(target = "followingList", ignore = true)
     MemberDto entityToDto(Member member);
 }
