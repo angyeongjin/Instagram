@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="wrap">
     <router-view />
     <full-popup v-if="IS_POPUP" />
   </div>

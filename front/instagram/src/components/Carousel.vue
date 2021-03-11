@@ -11,7 +11,9 @@
       ></div>
       <label
         id="carousel--bg"
-        :style="`background-image: url(${selectedImgUrl});`"
+        :style="
+          `background-image: url(${selectedImgUrl});background-size:100%100%;`
+        "
         :class="filter"
       >
         <div v-if="!selectedImgUrl" class="plus-shape"></div>
