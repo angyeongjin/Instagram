@@ -2,7 +2,13 @@
   <div>
     <div class="feed__item" style="overflow: hidden;">
       <div style="float: left;">
-        <img :src="feed.images[0]" alt="피드 이미지" height="614" width="480" />
+        <img
+          :src="feed.images[0]"
+          alt="피드 이미지"
+          height="614"
+          width="480"
+          :class="feed.filter"
+        />
       </div>
       <div style="float: left; width: 320px; height: 614px;">
         <div class="feed-header">
@@ -62,7 +68,9 @@
 
         <div class="feed-main">
           <div class="feed-contents">
-            <a href="#" class="nick-name">Lorem Ipsum</a>
+            <a href="#" class="nick-name" @click.prevent>{{
+              feed.writer.memberId
+            }}</a>
             <p style="display: inline;">
               {{ feed.contents }}
               <br />

@@ -8,7 +8,13 @@
         @click="onClickUserFeedPopup"
       />
       <label :for="`feed-detail__check-${idx}`" style="display: inline-block;">
-        <img :src="feed.images[0]" alt="empty" height="293" width="293" />
+        <img
+          :src="feed.images[0]"
+          alt="empty"
+          height="293"
+          width="293"
+          :class="feed.filter"
+        />
       </label>
     </div>
   </li>

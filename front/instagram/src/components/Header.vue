@@ -39,7 +39,7 @@
             ></path></svg
           ><span class="none">go to instagram</span></a
         >
-        <button type="button" class="gnb__menu">
+        <button type="button" class="gnb__menu" @click="onClickCreateFeedPopup">
           <svg
             aria-label="새 게시물"
             class="_8-yf5 "
@@ -91,6 +91,7 @@ import { gapi } from "gapi-script";
 import { mapState } from "vuex";
 import { getUsers } from "@/api/member.js";
 import ProfileBox from "@/components/main/ProfileBox.vue";
+import CreateFeed from "@/components/feed/CreateFeed.vue";
 
 export default {
   components: {
@@ -143,6 +144,17 @@ export default {
     },
     goMain() {
       this.$router.push("/main");
+    },
+    onClickCreateFeedPopup() {
+      this.$store.commit("showPopup", {
+        component: CreateFeed,
+        options: {
+          windowSize: {
+            w: "550px",
+            h: "750px"
+          }
+        }
+      });
     }
   }
 };
