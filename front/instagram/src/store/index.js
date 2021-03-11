@@ -31,6 +31,12 @@ const store = createStore({
       state.popupOptions = options;
     },
     closePopup(state) {
+      (state.popupCompo = null),
+        (state.popupProp = null),
+        (state.isPopup = false),
+        (state.popupOptions = {
+          windowSize: null
+        });
       state.isPopup = false;
     }
   }

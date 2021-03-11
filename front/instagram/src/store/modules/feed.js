@@ -8,7 +8,6 @@ export default {
       pageNum: 1
     },
     profile: {
-      //팔로워 팔로우
       user: {
         followerList: [],
         followingList: []
@@ -29,6 +28,10 @@ export default {
     },
     UPDATE_MAIN_COMMENT: (state, { comment, idx }) =>
       state.main.feeds[idx].commentList.push(comment),
+    UPDATE_PROFILE_COMMENT: (state, { comment, idx }) =>
+      state.profile.feeds[idx].commentList.push(comment),
+    DELETE_MAIN_COMMENT: (state, { feedIdx, commentIdx }) =>
+      state.main.feeds[feedIdx].commentList.splice(commentIdx, 1),
     SET_MAIN_FEEDS: (state, feeds) => (state.main.feeds = feeds),
     UPDATE_MAIN_FEEDS: (state, feeds) => state.main.feeds.push(...feeds),
     UPDATE_LIKE_MAIN: (state, { idx, data }) =>
@@ -51,11 +54,26 @@ export default {
           console.log(err);
         });
     },
-    insertComment({ commit }, { comment, idx }) {
+    deleteComment({ commit }, { field, comment, feedIdx, commentIdx }) {
+      feed
+        .deleteComment(comment.id)
+        .then(res => {
+          console.log(res);
+          field === "main"
+            ? commit("DELETE_MAIN_COMMENT", { feedIdx, commentIdx })
+            : commit("DELETE_PROFILE_COMMENT", { feedIdx, commentIdx });
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    insertComment({ commit }, { field, comment, idx }) {
       feed
         .insertComment(comment)
         .then(res => {
-          commit("UPDATE_MAIN_COMMENT", { comment: res.data, idx });
+          field === "main"
+            ? commit("UPDATE_MAIN_COMMENT", { comment: res.data, idx })
+            : commit("UPDATE_PROFILE_COMMENT", { comment: res.data, idx });
         })
         .catch(err => {
           console.log(err);
@@ -113,6 +131,7 @@ export default {
         formData.append("images", data.files[i].info);
       }
       formData.append("contents", data.contents);
+      formData.append("filter", data.filter);
 
       console.log("전송중..");
       return feed.insert(formData).then(res => {

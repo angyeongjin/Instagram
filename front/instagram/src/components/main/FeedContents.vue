@@ -1,6 +1,6 @@
 <template>
   <div class="feed-contents">
-    <a href="#" class="nick-name">Lorem Ipsum</a>
+    <a href="#" class="nick-name" @click.prevent>{{ writer.memberId }}</a>
     <p style="display: inline;">
       {{ content }}
       <br />
@@ -11,6 +11,6 @@
 </template>
 <script>
 export default {
-  props: ["content"]
+  props: ["content", "writer"]
 };
 </script>

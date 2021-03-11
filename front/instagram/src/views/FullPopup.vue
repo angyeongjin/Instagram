@@ -21,7 +21,8 @@ export default {
       return this.$store.state.popupProp;
     },
     POPUP_WINDOW_SIZE() {
-      const { height, h, width, w } = this.$store.state.popupOptions.windowSize;
+      const { height, h, width, w } =
+        this.$store.state.popupOptions?.windowSize || {};
       return `width: ${width || w}; height: ${height || h}`;
     }
   },
@@ -58,8 +59,8 @@ export default {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  min-width: 500px;
-  min-height: 300px;
+  min-width: 300px;
+  min-height: 150px;
   background: #fff;
   z-index: 1001;
 }

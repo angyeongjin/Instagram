@@ -42,6 +42,12 @@ export const insertSubComment = (id, data) =>
     data
   });
 
+export const deleteComment = id =>
+  request({
+    url: `comment/${id}`,
+    method: "delete"
+  });
+
 export const like = feedId =>
   request({
     url: `like`,
