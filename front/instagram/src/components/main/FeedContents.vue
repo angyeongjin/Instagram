@@ -1,6 +1,6 @@
 <template>
   <div class="feed-contents">
-    <a href="#" class="nick-name">{{ writer.memberId }}</a>
+    <a href="#" class="nick-name" @click.prevent>{{ writer.memberId }}</a>
     <p style="display: inline;">
       {{ content }}
       <br />
