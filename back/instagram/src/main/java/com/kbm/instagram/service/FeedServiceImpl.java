@@ -122,7 +122,7 @@ public class FeedServiceImpl implements FeedService {
 
     @Override
     public List<FeedDto> findFollowFeedByMemberId(String memberId, Pageable pageable) {
-        List<Member> followers = followRepository.findFollower(memberId);
+        List<Member> followers = followRepository.findFollowing(memberId);
         Optional<Member> memberOptional = memberRepository.findByMemberId(memberId);
         if (memberOptional != null) followers.add(memberOptional.get());
         List<Feed> feedList = feedRepository.findByMultiMemberId(followers, pageable);
