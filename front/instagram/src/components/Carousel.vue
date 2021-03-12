@@ -1,6 +1,6 @@
 <template>
   <div id="carousel--wrap">
-    <div id="carousel--box">
+    <div id="carousel--box" :style="`height:${options.h};width:${options.w}`">
       <div
         @click="onClickLeft"
         :class="{ 'dir-left-shape': isShowLeftDir }"
@@ -11,7 +11,9 @@
       ></div>
       <label
         id="carousel--bg"
-        :style="`background-image: url(${selectedImgUrl});`"
+        :style="
+          `background-image: url(${selectedImgUrl});background-size:100%100%;`
+        "
         :class="filter"
       >
         <div v-if="!selectedImgUrl" class="plus-shape"></div>
@@ -38,42 +40,53 @@
 </template>
 
 <script>
-import { mapMutations, mapState } from "vuex";
 export default {
   name: "Carousel",
+  props: {
+    selectedImgUrl: {
+      type: String
+    },
+    selectedIdx: {
+      type: Number,
+      default: 0
+    },
+    totalImgNumber: {
+      type: Number,
+      default: 0
+    },
+    filter: String,
+    options: {
+      default: function() {
+        return {
+          w: "350px",
+          h: "350px"
+        };
+      }
+    }
+  },
   computed: {
-    ...mapState("createFeed", [
-      "imageFiles",
-      "selectedImgUrl",
-      "selectedIdx",
-      "filter"
-    ]),
     isShowLeftDir() {
       return this.selectedIdx !== 0;
     },
     isShowRightDir() {
       return (
-        this.selectedImgUrl && this.selectedIdx !== this.imageFiles?.length - 1
+        this.selectedImgUrl && this.selectedIdx !== this.totalImgNumber - 1
       );
     }
   },
   methods: {
-    ...mapMutations("createFeed", [
-      "UPDATE_IMAGE_FILES",
-      "UPDATE_SELECTED_IMG_URL"
-    ]),
     onClickLeft() {
-      this.UPDATE_SELECTED_IMG_URL(this.selectedIdx - 1);
+      this.$emit("moveImgLeft");
     },
     onClickRight() {
-      this.UPDATE_SELECTED_IMG_URL(this.selectedIdx + 1);
+      this.$emit("moveImgRight");
     },
     onClickImagePosition(position) {
-      this.UPDATE_SELECTED_IMG_URL(position);
+      this.$emit("onClickImagePosition", position);
     },
     onClickRegiImg(e) {
       const files = e.target.files;
-      this.UPDATE_IMAGE_FILES(files);
+      this.$emit("onClickRegiImg", files);
       e.target.value = null;
     }
   }
@@ -144,8 +157,6 @@ export default {
 #carousel--box {
   display: inline-block;
   position: relative;
-  height: 350px;
-  width: 350px;
 }
 #carousel--bg {
   display: block;

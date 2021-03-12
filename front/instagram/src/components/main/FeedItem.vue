@@ -51,12 +51,15 @@
       </div>
     </div>
     <div class="feed-img">
-      <img
-        :src="feed.images[0]"
-        alt="피드 이미지"
-        height="614"
-        width="614"
-        :class="feed.filter"
+      <carousel
+        :selectedImgUrl="selectedImgUrl"
+        :totalImgNumber="totalImgNumber"
+        :selectedIdx="imgIdx"
+        :filter="feed.filter"
+        @moveImgLeft="moveImgLeft"
+        @moveImgRight="moveImgRight"
+        @onClickImagePosition="onClickImagePosition"
+        :options="{ w: '614px', h: '614px' }"
       />
       <feed-util :idx="idx" field="main" />
     </div>
@@ -76,16 +79,40 @@
 </template>
 
 <script>
+import Carousel from "@/components/Carousel.vue";
 import FeedUtil from "@/components/FeedUtil.vue";
 import FeedComment from "@/components/main/FeedComment.vue";
 import AddFeedComment from "@/components/main/AddFeedComment.vue";
 import FeedContents from "@/components/main/FeedContents";
 export default {
+  data() {
+    return {
+      imgFiles: this.feed.images,
+      imgIdx: 0
+    };
+  },
   props: ["feed", "idx"],
-  components: { FeedComment, FeedUtil, AddFeedComment, FeedContents },
+  components: { FeedComment, FeedUtil, AddFeedComment, FeedContents, Carousel },
+  computed: {
+    totalImgNumber() {
+      return this.imgFiles?.length || 0;
+    },
+    selectedImgUrl() {
+      return this.imgFiles[this.imgIdx];
+    }
+  },
   methods: {
     goProfile() {
       this.$router.push(this.feed.writer.memberId);
+    },
+    moveImgLeft() {
+      this.imgIdx--;
+    },
+    moveImgRight() {
+      this.imgIdx++;
+    },
+    onClickImagePosition(position) {
+      this.imgIdx = position;
     }
   }
 };

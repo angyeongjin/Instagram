@@ -1,22 +1,20 @@
 <template>
-  <div id="wrap">
-    <insta-header v-if="this.$store.getters.token" />
-    <div id="container" role="main">
-      <section id="main-left">
-        <h2 class="none">feed list</h2>
-        <feed-item
-          v-for="(feed, index) in feeds"
-          :key="feed.id"
-          :feed="feed"
-          :idx="index"
-        />
-      </section>
-      <aside id="main-right">
-        <profile-box :name="name" :member-id="memberId" :picture="picture" />
-      </aside>
-    </div>
-    <footer role="contentinfo"></footer>
+  <insta-header v-if="this.$store.getters.token" />
+  <div id="container" role="main">
+    <section id="main-left">
+      <h2 class="none">feed list</h2>
+      <feed-item
+        v-for="(feed, index) in feeds"
+        :key="feed.id"
+        :feed="feed"
+        :idx="index"
+      />
+    </section>
+    <aside id="main-right">
+      <profile-box :name="name" :member-id="memberId" :picture="picture" />
+    </aside>
   </div>
+  <footer role="contentinfo"></footer>
 </template>
 
 <script>
