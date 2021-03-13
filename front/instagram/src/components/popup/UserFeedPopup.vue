@@ -82,29 +82,16 @@
             </p>
           </div>
           <div class="feed-comments">
-            <div class="feed-comment">
-              <a href="#" class="nick-name">lee.ddd05</a>
-              <p style="display: inline;">
-                피드가 제 마음에 쏙 드네용~~^^
-              </p>
-            </div>
-            <div class="feed-comment">
-              <a href="#" class="nick-name">lee.ddd05</a>
-              <p style="display: inline;">
-                안녕하세요 반갑습니닷 사진보고 저도 모르게 하트를 누르고
-                말았네요~~♥
-              </p>
-            </div>
-            <!-- <div
+            <div
               class="feed-comment"
               v-for="(comment, idx) in feed.commentList"
               :key="idx"
             >
               <a href="#" class="nick-name">{{ comment.writer.name }}</a>
-              <p style="display: inline;">
+              <p style="display: inline; padding: 0 0 0 10px;">
                 {{ comment.content }}
               </p>
-            </div> -->
+            </div>
             <span style="font-size: 10px;letter-spacing: .2px;color: #8e8e8e;"
               >2일전</span
             >
@@ -121,8 +108,9 @@
             type="text"
             placeholder="댓글 달기..."
             style="width: 89%;"
+            v-model="comment.content"
           />
-          <button class="no__btn btn-off" style="color: #0095f6;" disabled>
+          <button class="no__btn" @click="addComment()" style="color: #0095f6;">
             게시
           </button>
         </div>
@@ -138,6 +126,10 @@ import Carousel from "@/components/Carousel.vue";
 export default {
   data() {
     return {
+      comment: {
+        content: "",
+        feedId: ""
+      },
       imgFiles: this.feed.images,
       imgIdx: 0
     };
@@ -162,7 +154,11 @@ export default {
     }
   },
   methods: {
-    ...mapActions("feed", ["deleteProfileFeed"]),
+    ...mapActions("feed", [
+      "deleteProfileFeed",
+      "insertComment",
+      "deleteComment"
+    ]),
     async deleteFeed() {
       if (confirm("삭제하시겠습니까?")) {
         const data = {
@@ -172,6 +168,16 @@ export default {
         await this.deleteProfileFeed(data);
         this.$store.commit("closePopup");
       }
+    },
+    addComment() {
+      this.comment.feedId = this.feed.id;
+      const data = {
+        field: "profile",
+        comment: this.comment,
+        idx: this.idx
+      };
+      this.insertComment(data);
+      this.comment.content = "";
     },
     moveImgLeft() {
       this.imgIdx--;

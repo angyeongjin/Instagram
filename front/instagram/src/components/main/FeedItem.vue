@@ -65,7 +65,11 @@
     </div>
     <feed-contents :content="feed.contents" :writer="feed.writer" />
     <div class="feed-comments">
-      <feed-comment :commentList="feed.commentList" />
+      <feed-comment
+        :commentList="feed.commentList"
+        :feedIdx="idx"
+        :feed="feed"
+      />
       <span style="font-size: 10px;letter-spacing: .2px;color: #8e8e8e;"
         >2일전</span
       >

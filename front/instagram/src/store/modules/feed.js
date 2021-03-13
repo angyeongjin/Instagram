@@ -8,7 +8,6 @@ export default {
       pageNum: 1
     },
     profile: {
-      //팔로워 팔로우
       user: {
         followerList: [],
         followingList: []
@@ -19,8 +18,20 @@ export default {
   },
   mutations: {
     SET_PROFILE_USER: (state, user) => (state.profile.user = user),
+    UPDATE_PROFILE_USER_FOLLOW: (state, user) =>
+      state.profile.user.followerList.push({ memberId: user }),
+    DELETE_PROFILE_USER_FOLLOW: (state, user) => {
+      var idx = state.profile.user.followerList.findIndex(
+        x => x.memberId === user
+      );
+      state.profile.user.followerList.splice(idx, 1);
+    },
     UPDATE_MAIN_COMMENT: (state, { comment, idx }) =>
       state.main.feeds[idx].commentList.push(comment),
+    UPDATE_PROFILE_COMMENT: (state, { comment, idx }) =>
+      state.profile.feeds[idx].commentList.push(comment),
+    DELETE_MAIN_COMMENT: (state, { feedIdx, commentIdx }) =>
+      state.main.feeds[feedIdx].commentList.splice(commentIdx, 1),
     SET_MAIN_FEEDS: (state, feeds) => (state.main.feeds = feeds),
     UPDATE_MAIN_FEEDS: (state, feeds) => state.main.feeds.push(...feeds),
     UPDATE_LIKE_MAIN: (state, { idx, data }) =>
@@ -43,11 +54,26 @@ export default {
           console.log(err);
         });
     },
-    insertComment({ commit }, { comment, idx }) {
+    deleteComment({ commit }, { field, comment, feedIdx, commentIdx }) {
+      feed
+        .deleteComment(comment.id)
+        .then(res => {
+          console.log(res);
+          field === "main"
+            ? commit("DELETE_MAIN_COMMENT", { feedIdx, commentIdx })
+            : commit("DELETE_PROFILE_COMMENT", { feedIdx, commentIdx });
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    insertComment({ commit }, { field, comment, idx }) {
       feed
         .insertComment(comment)
         .then(res => {
-          commit("UPDATE_MAIN_COMMENT", { comment: res.data, idx });
+          field === "main"
+            ? commit("UPDATE_MAIN_COMMENT", { comment: res.data, idx })
+            : commit("UPDATE_PROFILE_COMMENT", { comment: res.data, idx });
         })
         .catch(err => {
           console.log(err);
@@ -133,6 +159,28 @@ export default {
         })
         .catch(err => {
           console.log("updateLike", err);
+        });
+    },
+    follow({ commit }, data) {
+      feed
+        .follow({ memberId: data.memberId })
+        .then(res => {
+          console.log(res);
+          commit("UPDATE_PROFILE_USER_FOLLOW", data.myId);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    unfollow({ commit }, data) {
+      feed
+        .unfollow({ memberId: data })
+        .then(res => {
+          console.log(res);
+          commit("DELETE_PROFILE_USER_FOLLOW", data);
+        })
+        .catch(err => {
+          console.log(err);
         });
     }
   }

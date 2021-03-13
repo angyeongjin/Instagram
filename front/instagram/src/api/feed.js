@@ -42,6 +42,12 @@ export const insertSubComment = (id, data) =>
     data
   });
 
+export const deleteComment = id =>
+  request({
+    url: `comment/${id}`,
+    method: "delete"
+  });
+
 export const like = feedId =>
   request({
     url: `like`,
@@ -49,4 +55,18 @@ export const like = feedId =>
     data: {
       feedId
     }
+  });
+
+export const follow = data =>
+  request({
+    url: `follow`,
+    method: "post",
+    data
+  });
+
+export const unfollow = data =>
+  request({
+    url: "unfollow",
+    method: "post",
+    data
   });

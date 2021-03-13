@@ -1,6 +1,5 @@
 import { getToken, setToken, removeToken, userInfo } from "@/utils/auth";
 import { login, googlelogin } from "@/api/member";
-import * as member from "@/api/member";
 
 const state = {
   token: getToken(),
@@ -66,17 +65,6 @@ const actions = {
           reject(err);
         });
     });
-  },
-  follow({ commit }, data) {
-    member
-      .follow({ memberId: data })
-      .then(res => {
-        console.log(res);
-        commit;
-      })
-      .catch(err => {
-        console.log(err);
-      });
   }
 };
 
