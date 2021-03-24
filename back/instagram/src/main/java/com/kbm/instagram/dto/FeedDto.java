@@ -14,6 +14,7 @@ public class FeedDto {
 
     private Long id;
     private String contents;
+    private String filter;
     private List<String> images;
     private LocalDateTime createdDate;
     private MemberDto writer;

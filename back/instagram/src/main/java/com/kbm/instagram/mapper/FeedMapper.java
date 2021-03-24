@@ -23,6 +23,7 @@ public interface FeedMapper {
         return Feed.builder()
                 .id(feedDto.getId())
                 .contents(feedDto.getContents())
+                .filter(feedDto.getFilter())
                 .images(feedDto.getImages())
                 .writer(MemberMapper.INSTANCE.dtoToEntity(feedDto.getWriter()))
                 .commentList(commentList).build();
@@ -35,9 +36,11 @@ public interface FeedMapper {
         }
         return FeedDto.builder()
                 .id(feed.getId())
-                .writer(MemberMapper.INSTANCE.entityToDto(feed.getWriter()))
-                .images(feed.getImages())
                 .contents(feed.getContents())
-                .commentList(commentDtoList).build();
+                .filter(feed.getFilter())
+                .images(feed.getImages())
+                .writer(MemberMapper.INSTANCE.entityToDto(feed.getWriter()))
+                .commentList(commentDtoList)
+                .createdDate(feed.getCreatedDate()).build();
     }
 }

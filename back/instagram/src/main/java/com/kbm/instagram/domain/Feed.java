@@ -20,6 +20,9 @@ public class Feed extends BaseEntity {
     @Setter
     private String contents;
 
+    @Setter
+    private String filter;
+
     @ElementCollection
     private List<String> images;
 
