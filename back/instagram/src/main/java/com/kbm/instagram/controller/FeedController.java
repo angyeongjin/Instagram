@@ -34,13 +34,12 @@ public class FeedController {
     FeedDto newFeed(RequestFeedDto requestFeedDto) {
         FeedDto feedDto = FeedDto.builder()
                 .contents(requestFeedDto.getContents())
+                .filter(requestFeedDto.getFilter())
                 .images(new ArrayList<>())
                 .writer(memberService.getAuthMember())
                 .build();
-        System.out.println(requestFeedDto.getContents());
         try {
             if (requestFeedDto.getImages() != null) {
-                System.out.println(requestFeedDto.getImages().size());
                 for (MultipartFile file : requestFeedDto.getImages()) {
                     feedDto.getImages().add(s3UploadService.uploadFile(file, "feed/"));
                 }

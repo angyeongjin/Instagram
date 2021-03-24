@@ -14,5 +14,6 @@ public class RequestFeedDto {
 
     private Long id;
     private String contents;
+    private String filter;
     private List<MultipartFile> images;
 }

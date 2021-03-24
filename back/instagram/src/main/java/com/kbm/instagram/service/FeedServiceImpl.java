@@ -36,6 +36,7 @@ public class FeedServiceImpl implements FeedService {
         // todo : 중복 체크
         Feed feed = Feed.builder()
                 .contents(feedDto.getContents())
+                .filter(feedDto.getFilter())
                 .images(feedDto.getImages())
                 .writer(Member.builder().id(feedDto.getWriter().getId()).build())
                 .build();
@@ -95,11 +96,13 @@ public class FeedServiceImpl implements FeedService {
         Feed updateFeed = feedRepository.findById(feedDto.getId())
                 .map(feed -> {
                     feed.setContents(feedDto.getContents());
+                    feed.setFilter(feedDto.getFilter());
                     return feedRepository.save(feed);
                 })
                 .orElseThrow(() -> new FeedNotFoundException(feedDto.getId()));
         return FeedDto.builder()
                 .id(updateFeed.getId())
+                .filter(updateFeed.getFilter())
                 .contents(updateFeed.getContents()).build();
     }
 
