@@ -42,7 +42,9 @@ First you can access BE directory then run to spring project.
 
 ```bash
 cd back/instagram
-// TODO: 이부분 채워주세요. @안경진
+./gradle build
+cd build/libs
+java -jar instagram-0.0.1-SNAPSHOT.jar
 ```
 
 Next you can run FE Project. We recommand run to projects in regular order.
