@@ -68,7 +68,7 @@ cp dist $web_server_path
 <br>
 
 ## Design
-![design01](./instagram_img01.jpg)
-![design02](./instagram_img02.jpg)
-![design03](./instagram_img03.jpg)
-![design04](./instagram_img04.jpg)
+![design01](./design/instagram_img01.jpg)
+![design02](./design/instagram_img02.jpg)
+![design03](./design/instagram_img03.jpg)
+![design04](./design/instagram_img04.jpg)
